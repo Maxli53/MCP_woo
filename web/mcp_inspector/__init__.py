@@ -1,1 +1,0 @@
-# MCP Inspector Web Interface
