@@ -1,0 +1,713 @@
+{% extends "base/layout.html" %}
+
+{% block title %}Monitoring Dashboard - {{ title }}{% endblock %}
+
+{% block content %}
+<!-- System Overview Row -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">CPU Usage</h6>
+                        <h3 id="cpu-usage">{{ "%.1f"|format(system_metrics.cpu_percent) }}%</h3>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-cpu fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Memory Usage</h6>
+                        <h3 id="memory-usage">{{ "%.1f"|format(system_metrics.memory.percent) }}%</h3>
+                        <small id="memory-details">{{ "%.0f"|format(system_metrics.memory.used_mb) }} / {{ "%.0f"|format(system_metrics.memory.total_mb) }} MB</small>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-memory fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Active Servers</h6>
+                        <h3 id="active-servers">{{ active_servers_count }}</h3>
+                        <small>MCP Servers</small>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-server fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Uptime</h6>
+                        <h3 id="uptime">{{ uptime_info.uptime_string }}</h3>
+                        <small>Since {{ uptime_info.start_time[:16] }}</small>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-clock fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-graph-up"></i> System Performance</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="performance-chart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-activity"></i> Server Activity</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="activity-chart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Servers and Tools Row -->
+<div class="row mb-4">
+    <!-- Server Status -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="mb-0"><i class="bi bi-servers"></i> MCP Server Status</h5>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary" id="refresh-servers">
+                        <i class="bi bi-arrow-clockwise"></i> Refresh
+                    </button>
+                    <span class="badge bg-success" id="ws-status">
+                        <i class="bi bi-wifi"></i> Connected
+                    </span>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Server</th>
+                                <th>Status</th>
+                                <th>Uptime</th>
+                                <th>Requests</th>
+                                <th>Tools</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="servers-table">
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    <i class="bi bi-server fs-1"></i>
+                                    <p class="mt-2">No active servers detected</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Stats -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="bi bi-speedometer2"></i> Quick Stats</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Total Requests Today</span>
+                        <strong id="total-requests">0</strong>
+                    </div>
+                    <div class="progress mt-1" style="height: 4px;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Avg Response Time</span>
+                        <strong id="avg-response-time">0ms</strong>
+                    </div>
+                    <div class="progress mt-1" style="height: 4px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Error Rate</span>
+                        <strong id="error-rate" class="text-success">0%</strong>
+                    </div>
+                    <div class="progress mt-1" style="height: 4px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="mb-0">
+                    <div class="d-flex justify-content-between">
+                        <span>Active Tools</span>
+                        <strong id="active-tools">0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- System Resources -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="bi bi-hdd"></i> System Resources</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <small class="text-muted">Disk Usage</small>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar" id="disk-progress" role="progressbar" style="width: {{ system_metrics.disk.percent }}%"></div>
+                    </div>
+                    <small class="text-muted">{{ "%.1f"|format(system_metrics.disk.used_gb) }} / {{ "%.1f"|format(system_metrics.disk.total_gb) }} GB</small>
+                </div>
+                
+                <div class="mb-2">
+                    <small class="text-muted">Network I/O</small>
+                    <div class="d-flex justify-content-between">
+                        <span><i class="bi bi-arrow-up text-success"></i> <span id="network-sent">{{ "%.2f"|format(system_metrics.network.bytes_sent / 1024 / 1024) }} MB</span></span>
+                        <span><i class="bi bi-arrow-down text-primary"></i> <span id="network-recv">{{ "%.2f"|format(system_metrics.network.bytes_recv / 1024 / 1024) }} MB</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tool Usage Statistics -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="mb-0"><i class="bi bi-tools"></i> Tool Usage Statistics</h5>
+                <button class="btn btn-sm btn-outline-secondary" id="export-stats">
+                    <i class="bi bi-download"></i> Export Data
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tool Name</th>
+                                <th>Calls</th>
+                                <th>Avg Time</th>
+                                <th>Success Rate</th>
+                                <th>Last Used</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tools-stats-table">
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    <i class="bi bi-tools fs-1"></i>
+                                    <p class="mt-2">No tool usage data available</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity Log -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="mb-0"><i class="bi bi-list-ul"></i> Recent Activity Log</h5>
+                <div>
+                    <button class="btn btn-sm btn-outline-secondary" id="clear-logs">
+                        <i class="bi bi-trash"></i> Clear
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary" id="refresh-logs">
+                        <i class="bi bi-arrow-clockwise"></i> Refresh
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div id="activity-log" class="p-3" style="height: 300px; overflow-y: auto; background-color: #f8f9fa; font-family: monospace; font-size: 0.85em;">
+                    <div class="text-muted">Loading recent activity...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// WebSocket connection for real-time updates
+let dashboardWs = null;
+let performanceChart = null;
+let activityChart = null;
+
+// Chart data storage
+let performanceData = {
+    labels: [],
+    cpu: [],
+    memory: []
+};
+
+let activityData = {
+    labels: [],
+    requests: []
+};
+
+// Initialize Dashboard
+function initDashboard() {
+    initWebSocket();
+    initCharts();
+    loadServerData();
+    loadToolStats();
+    loadRecentLogs();
+}
+
+function initWebSocket() {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    dashboardWs = new WebSocket(`${protocol}//${window.location.host}/dashboard/ws`);
+    
+    dashboardWs.onopen = function() {
+        updateWSStatus(true);
+        logActivity('Dashboard connected to monitoring service', 'success');
+    };
+    
+    dashboardWs.onmessage = function(event) {
+        const message = JSON.parse(event.data);
+        handleDashboardMessage(message);
+    };
+    
+    dashboardWs.onclose = function() {
+        updateWSStatus(false);
+        logActivity('Dashboard disconnected from monitoring service', 'warning');
+        // Reconnect after 5 seconds
+        setTimeout(initWebSocket, 5000);
+    };
+    
+    dashboardWs.onerror = function(error) {
+        logActivity(`WebSocket error: ${error}`, 'error');
+    };
+}
+
+function handleDashboardMessage(message) {
+    switch (message.type) {
+        case 'system_metrics':
+            updateSystemMetrics(message.data);
+            break;
+        case 'metrics_update':
+            updateServerMetrics(message.data);
+            break;
+        case 'server_list':
+            updateServersList(message.data);
+            break;
+        case 'heartbeat':
+            // Keep connection alive
+            break;
+    }
+}
+
+function updateWSStatus(connected) {
+    const status = document.getElementById('ws-status');
+    if (connected) {
+        status.innerHTML = '<i class="bi bi-wifi"></i> Connected';
+        status.className = 'badge bg-success';
+    } else {
+        status.innerHTML = '<i class="bi bi-wifi-off"></i> Disconnected';
+        status.className = 'badge bg-danger';
+    }
+}
+
+function updateSystemMetrics(data) {
+    // Update overview cards
+    if (data.system) {
+        document.getElementById('cpu-usage').textContent = data.system.cpu_percent.toFixed(1) + '%';
+        document.getElementById('memory-usage').textContent = data.system.memory.percent.toFixed(1) + '%';
+        document.getElementById('memory-details').textContent = 
+            `${(data.system.memory.used_mb).toFixed(0)} / ${(data.system.memory.total_mb).toFixed(0)} MB`;
+        
+        // Update disk progress
+        document.getElementById('disk-progress').style.width = data.system.disk.percent + '%';
+        
+        // Update network stats
+        document.getElementById('network-sent').textContent = (data.system.network.bytes_sent / 1024 / 1024).toFixed(2) + ' MB';
+        document.getElementById('network-recv').textContent = (data.system.network.bytes_recv / 1024 / 1024).toFixed(2) + ' MB';
+        
+        // Update performance chart
+        updatePerformanceChart(data.system);
+    }
+    
+    if (data.uptime) {
+        document.getElementById('uptime').textContent = data.uptime.uptime_string;
+    }
+    
+    if (data.active_servers !== undefined) {
+        document.getElementById('active-servers').textContent = data.active_servers;
+    }
+}
+
+function initCharts() {
+    // Performance Chart
+    const performanceCtx = document.getElementById('performance-chart').getContext('2d');
+    performanceChart = new Chart(performanceCtx, {
+        type: 'line',
+        data: {
+            labels: performanceData.labels,
+            datasets: [
+                {
+                    label: 'CPU %',
+                    data: performanceData.cpu,
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                    tension: 0.1
+                },
+                {
+                    label: 'Memory %',
+                    data: performanceData.memory,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+    
+    // Activity Chart
+    const activityCtx = document.getElementById('activity-chart').getContext('2d');
+    activityChart = new Chart(activityCtx, {
+        type: 'bar',
+        data: {
+            labels: activityData.labels,
+            datasets: [{
+                label: 'Requests/Min',
+                data: activityData.requests,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function updatePerformanceChart(systemData) {
+    const now = new Date().toLocaleTimeString();
+    
+    // Add new data point
+    performanceData.labels.push(now);
+    performanceData.cpu.push(systemData.cpu_percent);
+    performanceData.memory.push(systemData.memory.percent);
+    
+    // Keep only last 20 data points
+    if (performanceData.labels.length > 20) {
+        performanceData.labels.shift();
+        performanceData.cpu.shift();
+        performanceData.memory.shift();
+    }
+    
+    performanceChart.update('none');
+}
+
+async function loadServerData() {
+    try {
+        const response = await fetch('/api/metrics/servers');
+        const data = await response.json();
+        updateServersTable(data.servers || []);
+    } catch (error) {
+        console.error('Failed to load server data:', error);
+    }
+}
+
+function updateServersTable(servers) {
+    const tbody = document.getElementById('servers-table');
+    
+    if (servers.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-muted py-4">
+                    <i class="bi bi-server fs-1"></i>
+                    <p class="mt-2">No active servers detected</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    tbody.innerHTML = servers.map(server => {
+        const statusBadge = getStatusBadge(server.status);
+        const uptimeFormatted = formatUptime(server.uptime_seconds);
+        
+        return `
+            <tr>
+                <td>
+                    <strong>${server.name}</strong><br>
+                    <small class="text-muted">${server.server_id}</small>
+                </td>
+                <td>${statusBadge}</td>
+                <td>${uptimeFormatted}</td>
+                <td>
+                    ${server.total_requests}
+                    ${server.error_count > 0 ? `<small class="text-danger">(${server.error_count} errors)</small>` : ''}
+                </td>
+                <td>
+                    <span class="badge bg-info">${server.tools_count} tools</span>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-primary" onclick="restartServer('${server.server_id}')" 
+                                ${server.status !== 'active' ? 'disabled' : ''}>
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="stopServer('${server.server_id}')"
+                                ${server.status !== 'active' ? 'disabled' : ''}>
+                            <i class="bi bi-stop"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function getStatusBadge(status) {
+    const badges = {
+        'active': '<span class="badge bg-success">Active</span>',
+        'connected': '<span class="badge bg-success">Connected</span>',
+        'disconnected': '<span class="badge bg-warning">Disconnected</span>',
+        'stopped': '<span class="badge bg-danger">Stopped</span>',
+        'error': '<span class="badge bg-danger">Error</span>'
+    };
+    return badges[status] || '<span class="badge bg-secondary">Unknown</span>';
+}
+
+function formatUptime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    return `${hours}h ${minutes}m`;
+}
+
+async function loadToolStats() {
+    try {
+        const response = await fetch('/api/metrics/tools');
+        const data = await response.json();
+        updateToolStatsTable(data.tool_stats || []);
+    } catch (error) {
+        console.error('Failed to load tool stats:', error);
+    }
+}
+
+function updateToolStatsTable(toolStats) {
+    const tbody = document.getElementById('tools-stats-table');
+    
+    if (toolStats.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-muted py-4">
+                    <i class="bi bi-tools fs-1"></i>
+                    <p class="mt-2">No tool usage data available</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    tbody.innerHTML = toolStats.map(tool => {
+        const successRateClass = tool.success_rate >= 95 ? 'text-success' : 
+                                tool.success_rate >= 80 ? 'text-warning' : 'text-danger';
+        const lastUsed = tool.last_used ? new Date(tool.last_used).toLocaleString() : 'Never';
+        
+        return `
+            <tr>
+                <td><strong>${tool.tool_name}</strong></td>
+                <td><span class="badge bg-primary">${tool.call_count}</span></td>
+                <td>${tool.avg_execution_time_ms.toFixed(1)}ms</td>
+                <td><span class="${successRateClass}">${tool.success_rate.toFixed(1)}%</span></td>
+                <td><small>${lastUsed}</small></td>
+                <td>
+                    <div class="progress" style="width: 50px; height: 4px;">
+                        <div class="progress-bar bg-success" style="width: ${tool.success_rate}%"></div>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+async function loadRecentLogs() {
+    try {
+        const response = await fetch('/api/logs/recent?limit=50');
+        const data = await response.json();
+        displayLogs(data.logs || []);
+    } catch (error) {
+        console.error('Failed to load logs:', error);
+        logActivity('Failed to load recent logs', 'error');
+    }
+}
+
+function displayLogs(logs) {
+    const logDiv = document.getElementById('activity-log');
+    
+    if (logs.length === 0) {
+        logDiv.innerHTML = '<div class="text-muted">No recent activity</div>';
+        return;
+    }
+    
+    logDiv.innerHTML = logs.map(log => {
+        const timestamp = new Date(log.timestamp).toLocaleTimeString();
+        const eventClass = getLogEventClass(log.event_type);
+        return `<div>[${timestamp}] <span class="${eventClass}">${log.event_type}</span>: ${log.server_id}</div>`;
+    }).join('');
+    
+    logDiv.scrollTop = logDiv.scrollHeight;
+}
+
+function getLogEventClass(eventType) {
+    const classes = {
+        'connection': 'text-success',
+        'tool_call': 'text-primary',
+        'error': 'text-danger',
+        'disconnect': 'text-warning',
+        'restart': 'text-info',
+        'stop': 'text-danger'
+    };
+    return classes[eventType] || 'text-muted';
+}
+
+function logActivity(message, type = 'info') {
+    const logDiv = document.getElementById('activity-log');
+    const timestamp = new Date().toLocaleTimeString();
+    const colorClass = {
+        'info': 'text-primary',
+        'success': 'text-success',
+        'warning': 'text-warning',
+        'error': 'text-danger'
+    }[type] || 'text-muted';
+    
+    const logEntry = document.createElement('div');
+    logEntry.innerHTML = `[${timestamp}] <span class="${colorClass}">${message}</span>`;
+    logDiv.appendChild(logEntry);
+    logDiv.scrollTop = logDiv.scrollHeight;
+}
+
+// Server management functions
+async function restartServer(serverId) {
+    try {
+        const response = await fetch('/api/admin/restart-server', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({server_id: serverId})
+        });
+        
+        const result = await response.json();
+        logActivity(`Server restart: ${result.message}`, result.status === 'success' ? 'success' : 'error');
+        
+        if (result.status === 'success') {
+            setTimeout(loadServerData, 2000); // Refresh after 2 seconds
+        }
+    } catch (error) {
+        logActivity(`Failed to restart server: ${error}`, 'error');
+    }
+}
+
+async function stopServer(serverId) {
+    if (!confirm('Are you sure you want to stop this server?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/admin/stop-server', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({server_id: serverId})
+        });
+        
+        const result = await response.json();
+        logActivity(`Server stop: ${result.message}`, result.status === 'success' ? 'success' : 'error');
+        
+        if (result.status === 'success') {
+            setTimeout(loadServerData, 1000); // Refresh after 1 second
+        }
+    } catch (error) {
+        logActivity(`Failed to stop server: ${error}`, 'error');
+    }
+}
+
+// Event handlers
+document.getElementById('refresh-servers').addEventListener('click', loadServerData);
+document.getElementById('refresh-logs').addEventListener('click', loadRecentLogs);
+document.getElementById('clear-logs').addEventListener('click', function() {
+    document.getElementById('activity-log').innerHTML = '<div class="text-muted">Activity log cleared...</div>';
+});
+
+document.getElementById('export-stats').addEventListener('click', function() {
+    // Export functionality would go here
+    logActivity('Export functionality not implemented yet', 'info');
+});
+
+// Auto-refresh data periodically
+setInterval(function() {
+    loadServerData();
+    loadToolStats();
+}, 30000); // Refresh every 30 seconds
+
+// Initialize dashboard on page load
+document.addEventListener('DOMContentLoaded', initDashboard);
+</script>
+{% endblock %}

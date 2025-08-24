@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip --version)",
+      "Bash(pip install:*)",
+      "Bash(python test:*)",
+      "Read(/C:\\Users\\maxli\\Downloads\\phpMyAdmin-5.2.2-all-languages\\phpMyAdmin-5.2.2-all-languages/**)",
+      "Bash(powershell:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(python:*)",
+      "Bash(curl:*)",
+      "Bash(rm:*)",
+      "Bash(python:*)",
+      "Bash(cp:*)",
+      "WebFetch(domain:www.databasemart.com)",
+      "Bash(git rm:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "C:\\",
+      "C:\\Users\\maxli\\PytharmProjects\\PythonProject"
+    ]
+  }
+}

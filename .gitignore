@@ -1,0 +1,40 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# IDE Files
+.idea/
+.vscode/
+*.pyc
+__pycache__/
+
+# Environment Files
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+
+# Dependencies
+node_modules/
+
+# Build Files
+dist/
+build/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary Files
+*.tmp
+*.temp

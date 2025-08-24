@@ -1,0 +1,436 @@
+{% extends "base/layout.html" %}
+
+{% block title %}MCP Inspector - {{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Connection Panel -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-plug"></i> Server Connection</h5>
+            </div>
+            <div class="card-body">
+                <form id="connection-form">
+                    <div class="mb-3">
+                        <label class="form-label">Server Name</label>
+                        <input type="text" class="form-control" id="server-name" value="Test Server" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Transport Type</label>
+                        <select class="form-select" id="transport-type" required>
+                            <option value="sse">SSE (Remote)</option>
+                            <option value="stdio">STDIO (Local)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- SSE Options -->
+                    <div id="sse-options">
+                        <div class="mb-3">
+                            <label class="form-label">Server URL</label>
+                            <input type="url" class="form-control" id="server-url" placeholder="http://localhost:8080/sse">
+                        </div>
+                    </div>
+                    
+                    <!-- STDIO Options -->
+                    <div id="stdio-options" style="display: none;">
+                        <div class="mb-3">
+                            <label class="form-label">Command</label>
+                            <input type="text" class="form-control" id="server-command" placeholder="python servers/production/my_server.py">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100" id="connect-btn">
+                        <i class="bi bi-plug"></i> Connect to Server
+                    </button>
+                </form>
+                
+                <!-- Connection Status -->
+                <div id="connection-status" class="mt-3"></div>
+                
+                <!-- Quick Test -->
+                <div class="mt-3">
+                    <button type="button" class="btn btn-outline-secondary btn-sm w-100" id="test-connection">
+                        <i class="bi bi-speedometer"></i> Test Connection
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Connection History -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="bi bi-clock-history"></i> Connection History</h6>
+            </div>
+            <div class="card-body p-0">
+                <div id="connection-history" class="list-group list-group-flush" style="max-height: 200px; overflow-y: auto;">
+                    <!-- History items will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tools Panel -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-tools"></i> Available Tools</h5>
+                <small>Connected tools will appear here</small>
+            </div>
+            <div class="card-body">
+                <div id="tools-list">
+                    <div class="text-muted text-center py-4">
+                        <i class="bi bi-plug-fill fs-1"></i>
+                        <p class="mt-2">Connect to an MCP server to see available tools</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Tool Execution Panel -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-play-circle"></i> Tool Execution</h5>
+            </div>
+            <div class="card-body">
+                <form id="tool-execution-form">
+                    <div class="mb-3">
+                        <label class="form-label">Select Tool</label>
+                        <select class="form-select" id="selected-tool" disabled>
+                            <option value="">Connect to server first</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Tool Arguments (JSON)</label>
+                        <textarea class="form-control" id="tool-arguments" rows="6" placeholder='{"key": "value"}'>{}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-info w-100" id="execute-btn" disabled>
+                        <i class="bi bi-play-fill"></i> Execute Tool
+                    </button>
+                </form>
+                
+                <!-- Tool Schema Display -->
+                <div id="tool-schema" class="mt-3" style="display: none;">
+                    <h6>Tool Schema:</h6>
+                    <pre class="bg-light p-2 rounded"><code id="schema-content"></code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Panel -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="bi bi-file-text"></i> Execution Results</h5>
+            </div>
+            <div class="card-body">
+                <div id="execution-results">
+                    <div class="text-muted text-center py-4">
+                        <i class="bi bi-play fs-1"></i>
+                        <p class="mt-2">Execute a tool to see results here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Real-time Activity Log -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white d-flex justify-content-between">
+                <h5 class="mb-0"><i class="bi bi-activity"></i> Real-time Activity Log</h5>
+                <div>
+                    <button type="button" class="btn btn-sm btn-outline-light" id="clear-log">
+                        <i class="bi bi-trash"></i> Clear
+                    </button>
+                    <span class="badge bg-success" id="connection-indicator">
+                        <i class="bi bi-wifi-off"></i> Disconnected
+                    </span>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div id="activity-log" class="p-3" style="height: 300px; overflow-y: auto; background-color: #f8f9fa; font-family: monospace; font-size: 0.9em;">
+                    <div class="text-muted">Activity log will appear here...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// WebSocket connection for real-time updates
+let ws = null;
+let currentTools = [];
+
+// Initialize WebSocket
+function initWebSocket() {
+    ws = new WebSocket(`ws://${window.location.host}/ws`);
+    
+    ws.onopen = function() {
+        updateConnectionIndicator(true);
+        logActivity('WebSocket connected', 'success');
+    };
+    
+    ws.onmessage = function(event) {
+        const message = JSON.parse(event.data);
+        handleWebSocketMessage(message);
+    };
+    
+    ws.onclose = function() {
+        updateConnectionIndicator(false);
+        logActivity('WebSocket disconnected', 'warning');
+        // Reconnect after 3 seconds
+        setTimeout(initWebSocket, 3000);
+    };
+    
+    ws.onerror = function(error) {
+        logActivity(`WebSocket error: ${error}`, 'error');
+    };
+}
+
+function handleWebSocketMessage(message) {
+    switch (message.type) {
+        case 'connection_update':
+            updateConnectionHistory(message.data);
+            logActivity(`Server connection: ${message.data.status}`, message.data.status === 'connected' ? 'success' : 'error');
+            break;
+        case 'tool_call_start':
+            logActivity(`Executing tool: ${message.data.tool_name}`, 'info');
+            break;
+        case 'tool_call_complete':
+            logActivity(`Tool completed: ${message.data.tool_name} (${message.data.execution_time_ms}ms)`, 'success');
+            updateExecutionResults(message.data);
+            break;
+        case 'tool_call_error':
+            logActivity(`Tool failed: ${message.data.tool_name} - ${message.data.error}`, 'error');
+            break;
+    }
+}
+
+function updateConnectionIndicator(connected) {
+    const indicator = document.getElementById('connection-indicator');
+    if (connected) {
+        indicator.innerHTML = '<i class="bi bi-wifi"></i> Connected';
+        indicator.className = 'badge bg-success';
+    } else {
+        indicator.innerHTML = '<i class="bi bi-wifi-off"></i> Disconnected';
+        indicator.className = 'badge bg-danger';
+    }
+}
+
+function logActivity(message, type = 'info') {
+    const log = document.getElementById('activity-log');
+    const timestamp = new Date().toLocaleTimeString();
+    const colorClass = {
+        'info': 'text-primary',
+        'success': 'text-success', 
+        'warning': 'text-warning',
+        'error': 'text-danger'
+    }[type] || 'text-muted';
+    
+    const logEntry = document.createElement('div');
+    logEntry.innerHTML = `<span class="text-muted">[${timestamp}]</span> <span class="${colorClass}">${message}</span>`;
+    log.appendChild(logEntry);
+    log.scrollTop = log.scrollHeight;
+}
+
+// Transport type change handler
+document.getElementById('transport-type').addEventListener('change', function() {
+    const sseOptions = document.getElementById('sse-options');
+    const stdioOptions = document.getElementById('stdio-options');
+    
+    if (this.value === 'sse') {
+        sseOptions.style.display = 'block';
+        stdioOptions.style.display = 'none';
+    } else {
+        sseOptions.style.display = 'none';
+        stdioOptions.style.display = 'block';
+    }
+});
+
+// Connection form handler
+document.getElementById('connection-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const serverName = document.getElementById('server-name').value;
+    const transportType = document.getElementById('transport-type').value;
+    const serverUrl = document.getElementById('server-url').value;
+    const serverCommand = document.getElementById('server-command').value;
+    
+    const config = {
+        name: serverName,
+        transport: transportType,
+        url: transportType === 'sse' ? serverUrl : null,
+        command: transportType === 'stdio' ? serverCommand : null
+    };
+    
+    try {
+        const response = await fetch('/api/servers/connect', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(config)
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            updateToolsList(result.tools);
+            showConnectionStatus(result.message, 'success');
+        } else {
+            showConnectionStatus(result.message, 'error');
+        }
+    } catch (error) {
+        showConnectionStatus(`Connection failed: ${error}`, 'error');
+    }
+});
+
+// Test connection handler
+document.getElementById('test-connection').addEventListener('click', async function() {
+    const transportType = document.getElementById('transport-type').value;
+    const serverUrl = document.getElementById('server-url').value;
+    const serverCommand = document.getElementById('server-command').value;
+    
+    const params = new URLSearchParams();
+    if (transportType === 'sse' && serverUrl) {
+        params.append('server_url', serverUrl);
+    } else if (transportType === 'stdio' && serverCommand) {
+        params.append('command', serverCommand);
+    } else {
+        showConnectionStatus('Please fill in connection details', 'error');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/servers/test?${params}`);
+        const result = await response.json();
+        showConnectionStatus(result.message, result.status);
+    } catch (error) {
+        showConnectionStatus(`Test failed: ${error}`, 'error');
+    }
+});
+
+function showConnectionStatus(message, type) {
+    const statusDiv = document.getElementById('connection-status');
+    const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+    statusDiv.innerHTML = `<div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>`;
+}
+
+function updateToolsList(tools) {
+    currentTools = tools;
+    const toolsList = document.getElementById('tools-list');
+    const selectedTool = document.getElementById('selected-tool');
+    
+    if (tools.length === 0) {
+        toolsList.innerHTML = '<div class="text-muted">No tools available</div>';
+        return;
+    }
+    
+    // Update tools display
+    toolsList.innerHTML = tools.map(tool => `
+        <div class="card mb-2">
+            <div class="card-body py-2">
+                <h6 class="card-title mb-1">${tool.name}</h6>
+                <p class="card-text text-muted small mb-0">${tool.description}</p>
+            </div>
+        </div>
+    `).join('');
+    
+    // Update tool selector
+    selectedTool.innerHTML = '<option value="">Select a tool</option>' + 
+        tools.map(tool => `<option value="${tool.name}">${tool.name}</option>`).join('');
+    selectedTool.disabled = false;
+    document.getElementById('execute-btn').disabled = false;
+}
+
+// Tool selection handler
+document.getElementById('selected-tool').addEventListener('change', function() {
+    const toolName = this.value;
+    const tool = currentTools.find(t => t.name === toolName);
+    
+    if (tool) {
+        document.getElementById('tool-schema').style.display = 'block';
+        document.getElementById('schema-content').textContent = JSON.stringify(tool.input_schema, null, 2);
+    } else {
+        document.getElementById('tool-schema').style.display = 'none';
+    }
+});
+
+// Tool execution handler
+document.getElementById('tool-execution-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const toolName = document.getElementById('selected-tool').value;
+    const argumentsText = document.getElementById('tool-arguments').value;
+    
+    if (!toolName) {
+        alert('Please select a tool');
+        return;
+    }
+    
+    try {
+        const arguments = JSON.parse(argumentsText);
+        
+        const response = await fetch('/api/tools/call', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                tool_name: toolName,
+                arguments: arguments
+            })
+        });
+        
+        const result = await response.json();
+        updateExecutionResults(result);
+        
+    } catch (error) {
+        showExecutionError(error.message);
+    }
+});
+
+function updateExecutionResults(result) {
+    const resultsDiv = document.getElementById('execution-results');
+    
+    resultsDiv.innerHTML = `
+        <div class="mb-2">
+            <strong>Tool:</strong> ${result.tool_name}<br>
+            <strong>Status:</strong> <span class="badge bg-${result.status === 'completed' ? 'success' : 'danger'}">${result.status}</span><br>
+            <strong>Execution Time:</strong> ${result.execution_time_ms || 'N/A'}ms
+        </div>
+        <div>
+            <strong>Result:</strong>
+            <pre class="bg-light p-2 rounded mt-1"><code>${JSON.stringify(result.result || result.error, null, 2)}</code></pre>
+        </div>
+    `;
+}
+
+// Clear activity log
+document.getElementById('clear-log').addEventListener('click', function() {
+    document.getElementById('activity-log').innerHTML = '<div class="text-muted">Activity log cleared...</div>';
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    initWebSocket();
+    
+    // Update time every second
+    setInterval(function() {
+        document.getElementById('current-time').textContent = new Date().toLocaleString();
+    }, 1000);
+});
+</script>
+{% endblock %}
