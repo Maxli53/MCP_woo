@@ -10,10 +10,12 @@ ENV/
 *.pyc
 __pycache__/
 
-# Environment Files
+# Environment Files - IMPORTANT: Keep .env files secure
 .env
 .env.local
 .env.production
+.env.development
+production/ai-content-system/.env
 
 # Logs
 logs/
@@ -38,3 +40,9 @@ Thumbs.db
 # Temporary Files
 *.tmp
 *.temp
+
+# Deployment Scripts (temporary)
+deploy_*.py
+upload_*.py
+fix_*.py
+cleanup_*.py

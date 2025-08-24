@@ -5,16 +5,19 @@
  * conventum.kg WordPress AI Content Management System
  */
 
-session_start();
+require_once 'config.php';
+require_once 'auth.php';
+requireAuth(); // Require authentication
 
-// Database configuration
-define('DB_HOST', 'mysql');
-define('DB_USER', 'user133859_mastconv');
-define('DB_PASS', 'dsavdsEv616515s');
-define('DB_NAME', 'user133859_conv');
+// Database configuration from environment
+$db_config = Config::getDatabase();
 
 try {
-    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS);
+    $pdo = new PDO(
+        "mysql:host={$db_config['host']};dbname={$db_config['name']};charset=utf8mb4", 
+        $db_config['user'], 
+        $db_config['password']
+    );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     die("Connection failed: " . $e->getMessage());
