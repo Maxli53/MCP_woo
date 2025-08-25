@@ -1,33 +1,33 @@
 @echo off
 echo ===============================================
-echo MCP WooCommerce Suite - Starting Application
+echo MCP WooCommerce Suite
 echo ===============================================
 echo.
 
-:: Check if virtual environment exists
+:: Activate virtual environment
 if not exist venv (
-    echo ERROR: Virtual environment not found
-    echo Please run install.bat first
+    echo ERROR: Virtual environment not found!
+    echo Please run setup.bat first.
     pause
     exit /b 1
 )
 
-:: Activate virtual environment
 call venv\Scripts\activate.bat
 
-:: Start the application
-echo Starting MCP WooCommerce Suite GUI...
-python main.py --mode gui
-
-:: If the GUI fails, offer to run in headless mode
-if %errorlevel% neq 0 (
-    echo.
-    echo GUI failed to start. Would you like to run in headless mode? (Y/N)
-    set /p choice=
-    if /i "%choice%"=="Y" (
-        echo Starting in headless mode...
-        python main.py --headless
-    )
+:: Clear port 8000 if in use
+for /f "tokens=5" %%a in ('netstat -aon ^| find ":8000"') do (
+    taskkill /F /PID %%a 2>nul
 )
+
+:: Open browser
+echo Opening browser at http://localhost:8000
+start http://localhost:8000
+
+:: Start web server
+echo.
+echo Starting web server...
+echo Press Ctrl+C to stop
+echo.
+python web_server.py
 
 pause

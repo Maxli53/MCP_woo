@@ -6,7 +6,8 @@ Production-ready settings with security and monitoring
 import os
 from pathlib import Path
 from typing import Dict, List, Optional
-from pydantic import BaseSettings, Field, SecretStr, validator
+from pydantic import Field, SecretStr, field_validator
+from pydantic_settings import BaseSettings
 from cryptography.fernet import Fernet
 import json
 
@@ -38,13 +39,15 @@ class SecuritySettings(BaseSettings):
     session_timeout_minutes: int = 60
     enable_2fa: bool = False
     
-    @validator('secret_key', pre=True, always=True)
+    @field_validator('secret_key', mode='before')
+    @classmethod
     def generate_secret_key(cls, v):
         if not v:
             return Fernet.generate_key().decode()
         return v
     
-    @validator('encryption_key', pre=True, always=True)
+    @field_validator('encryption_key', mode='before')
+    @classmethod
     def generate_encryption_key(cls, v):
         if not v:
             return Fernet.generate_key().decode()

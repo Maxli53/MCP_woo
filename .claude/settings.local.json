@@ -18,7 +18,11 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git config:*)",
-      "WebFetch(domain:conventum.kg)"
+      "WebFetch(domain:conventum.kg)",
+      "Bash(venvScriptspython.exe -c \"import PyQt6; import fastapi; import pandas; import cryptography; print(''Core packages OK'')\")",
+      "Bash(venv\\Scripts\\python.exe -c \"import PyQt6; import fastapi; import pandas; import cryptography; print(''Core packages OK'')\")",
+      "Bash(venvScripts:*)",
+      "Bash(py:*)"
     ],
     "deny": [],
     "ask": [],

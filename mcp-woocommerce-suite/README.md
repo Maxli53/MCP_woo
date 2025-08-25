@@ -1,341 +1,183 @@
 # MCP WooCommerce Suite
 
-A comprehensive Model Context Protocol (MCP) solution for professional WooCommerce store management. This suite provides a modern GUI application with LocalTunnel integration for managing multiple WooCommerce stores from a single interface.
+A professional web-based WooCommerce store management system built with Python, FastAPI, and the Model Context Protocol (MCP).
 
-## 🚀 Features
+## Features
 
-### Core Components
-- **MCP Server (Port 8083)**: Admin tools for WooCommerce management via MCP protocol
-- **MCP Inspector (Port 8001)**: Web interface for testing and debugging MCP tools
-- **Monitoring Dashboard (Port 8002)**: Real-time system metrics and analytics
-- **Professional GUI**: Modern desktop application with system tray integration
+- 🛒 **Multi-Store Management** - Connect and manage multiple WooCommerce stores
+- 📦 **Product Management** - Import, export, and bulk manage products
+- 📊 **Data Processing** - Full pandas/numpy support for Excel and CSV operations
+- 🔄 **Bulk Operations** - Mass updates for prices, categories, and inventory
+- 🌐 **REST API** - Complete API for automation and integrations
+- 💻 **Web Interface** - Modern, responsive browser-based UI
 
-### Store Management
-- Connect and manage multiple WooCommerce stores
-- Secure credential storage with encryption
-- Real-time store health monitoring
-- Automatic synchronization capabilities
-
-### Product Management
-- **Single Store Operations**:
-  - List, search, and filter products
-  - Update product details
-  - Bulk delete operations
-  - Product duplication
-  - Performance analytics
-
-- **Cross-Store Operations**:
-  - Compare products across stores
-  - Synchronize product data
-  - Find missing products
-  - Bulk copy between stores
-  - Standardize product information
-  - Inventory synchronization
-
-### Bulk Data Operations
-- Import products from CSV/Excel files
-- Export products to multiple formats
-- Data validation before import
-- Preview import results
-- Bulk updates from files
-- Generate import templates
-
-### Advanced Features
-- **Store Cloning**: Complete store duplication
-- **Batch Operations**: Price, category, image, and SEO updates
-- **Data Validation**: Find duplicates, audit completeness
-- **Scheduled Operations**: Automate bulk tasks
-- **Backup System**: Automatic backups before major operations
-
-### LocalTunnel Integration
-- Automatic LocalTunnel setup with custom subdomains
-- Fallback to ngrok if configured
-- Public URLs for remote access
-- Health monitoring and auto-restart
-- Connection status in GUI
-
-## 📋 Requirements
+## Requirements
 
 - Windows 10/11
-- Python 3.8+
-- Node.js 14+ (for LocalTunnel)
-- 4GB RAM minimum
-- 500MB disk space
+- Python 3.11 (required for pandas/numpy compatibility)
+- 2GB RAM minimum
+- Modern web browser
 
-## 🔧 Installation
+## Quick Start
 
-### Quick Install
-
-1. Clone or download this repository
-2. Run the installation script:
+### 1. Setup
 ```batch
-install.bat
+setup.bat
 ```
+This will:
+- Create a Python 3.11 virtual environment
+- Install all required packages
+- Configure the system
 
-3. Configure your settings:
-   - Copy `.env.example` to `.env`
-   - Edit `.env` with your configuration
-
-4. Start the application:
+### 2. Run
 ```batch
 start.bat
 ```
+This will:
+- Start the web server on http://localhost:8000
+- Open your browser automatically
+- Display the management interface
 
-### Manual Installation
-
-1. Create virtual environment:
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-3. Install LocalTunnel (optional):
-```bash
-npm install -g localtunnel
-```
-
-4. Configure environment:
-```bash
-copy .env.example .env
-# Edit .env with your settings
-```
-
-5. Run the application:
-```bash
-python main.py
-```
-
-## 🖥️ Usage
-
-### GUI Application
-
-The main interface provides:
-- **Dashboard**: Quick statistics and recent activity
-- **Stores**: Manage WooCommerce connections
-- **Products**: Browse and manage products
-- **Operations**: Bulk operations and tools
-- **Logs**: View application logs
-- **Settings**: Configure application preferences
-
-### Adding a Store
-
-1. Click "Add Store" in the Stores tab
-2. Enter store details:
-   - Store ID (unique identifier)
-   - WooCommerce URL
-   - Consumer Key (from WooCommerce API)
-   - Consumer Secret
-3. Test connection
-4. Save store configuration
-
-### Importing Products
-
-1. Select target store
-2. Click "Import CSV" or "Import Excel"
-3. Choose file and configure mapping
-4. Preview import results
-5. Confirm import
-
-### Exporting Products
-
-1. Select source store
-2. Click "Export Excel"
-3. Choose fields to export
-4. Configure formatting options
-5. Save file
-
-### Using LocalTunnel
-
-1. Click "Connect Tunnel" in toolbar
-2. Wait for connection (URLs appear in status panel)
-3. Share public URLs for remote access
-4. URLs format: `https://[subdomain]-[service].loca.lt`
-
-## 🔐 Security
-
-- Credentials encrypted with Fernet encryption
-- JWT authentication for API access
-- Optional 2FA support
-- API key management
-- Secure credential storage
-- Input validation and sanitization
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 mcp-woocommerce-suite/
-├── src/
-│   ├── mcp_server/         # MCP server implementation
-│   ├── gui/                # GUI application
-│   ├── web/                # Web interfaces
-│   │   ├── inspector/      # MCP Inspector
-│   │   └── dashboard/      # Monitoring Dashboard
-│   ├── utils/              # Utility modules
-│   └── config/             # Configuration
-├── data/                   # Application data
-│   ├── stores/            # Store configurations
-│   ├── logs/              # Application logs
-│   └── backups/           # Backup files
-├── resources/             # Icons and templates
-├── main.py                # Main entry point
+├── web_server.py           # Main FastAPI web application
+├── setup.bat              # One-click setup script
+├── start.bat              # Application launcher
 ├── requirements.txt       # Python dependencies
-├── .env.example          # Environment template
-├── install.bat           # Installation script
-└── start.bat            # Startup script
+├── .env.example          # Environment configuration template
+├── src/
+│   ├── config/           # Configuration modules
+│   ├── mcp_server/       # MCP server implementation
+│   └── utils/            # Utility modules
+└── data/                 # Application data (created on first run)
+    ├── stores/          # Store configurations
+    ├── logs/            # Application logs
+    └── exports/         # Export files
 ```
 
-## 🛠️ Configuration
+## API Endpoints
 
-### Environment Variables (.env)
+The application provides a REST API accessible at http://localhost:8000
 
-```env
-# Environment
-ENVIRONMENT=production
-DEBUG=False
+### Core Endpoints
+- `GET /` - Web interface
+- `GET /api/status` - System status
+- `GET /api/stores` - List all stores
+- `POST /api/stores` - Add a new store
+- `GET /api/products` - List products
+- `GET /docs` - Interactive API documentation
 
-# LocalTunnel
-TUNNEL_ENABLED=true
-TUNNEL_SUBDOMAIN=my-woocommerce
-NGROK_AUTH_TOKEN=your_token_here
-
-# Database
-DB_TYPE=sqlite
-
-# Monitoring
-LOG_LEVEL=INFO
-ENABLE_SENTRY=false
-
-# Notifications
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-```
-
-### GUI Settings
-
-- Theme: Dark/Light/Auto
-- Start minimized option
-- System tray integration
-- Auto-start on boot
-- Notification preferences
-
-## 🚀 Advanced Usage
-
-### Running Specific Components
-
+### Example: Add a Store
 ```bash
-# GUI only
-python main.py --mode gui
-
-# MCP Server only
-python main.py --mode server
-
-# Inspector only
-python main.py --mode inspector
-
-# Dashboard only
-python main.py --mode dashboard
-
-# Headless mode (all services, no GUI)
-python main.py --headless
+curl -X POST http://localhost:8000/api/stores \
+  -H "Content-Type: application/json" \
+  -d '{"name":"My Store","url":"https://mystore.com","id":"store1"}'
 ```
 
-### Scheduled Operations
+## WooCommerce Integration
 
-Configure automated tasks:
-1. Go to Operations tab
-2. Select operation type
-3. Configure schedule
-4. Enable automation
+### Getting WooCommerce API Credentials
 
-### Backup Management
+1. Log into your WooCommerce admin panel
+2. Go to WooCommerce → Settings → Advanced → REST API
+3. Click "Add key"
+4. Set permissions to "Read/Write"
+5. Copy the Consumer Key and Consumer Secret
 
-- Automatic backups before major operations
-- Manual backup creation
-- Restore from backup
-- Backup compression and encryption
+### Adding a Store
 
-## 🐛 Troubleshooting
+1. Open the web interface at http://localhost:8000
+2. Click "Add Store"
+3. Enter your store details and API credentials
+4. Click "Save"
 
-### Common Issues
+## Data Processing
 
-**Port Already in Use**
-- The application will attempt to kill existing processes
-- Manually check ports: 8001, 8002, 8083
+The suite includes powerful data processing capabilities:
 
-**LocalTunnel Connection Failed**
-- Ensure Node.js is installed
-- Check firewall settings
-- Try fallback to ngrok
+- **Import**: CSV and Excel files
+- **Export**: CSV, Excel with formatting
+- **Bulk Updates**: Modify multiple products at once
+- **Data Validation**: Automatic validation before operations
 
-**Store Connection Failed**
-- Verify WooCommerce REST API is enabled
-- Check API credentials
-- Ensure proper permissions
+## Configuration
 
-### Logs Location
+Create a `.env` file from the template:
+```batch
+copy .env.example .env
+```
 
-- Application logs: `data/logs/`
-- Service logs: `data/logs/[service_name]/`
-- Error logs: `data/logs/error.log`
+Edit `.env` to configure:
+- API settings
+- Database preferences
+- Security options
+- Notification settings
 
-## 📊 Performance
+## Troubleshooting
 
-### System Requirements
+### Port 8000 Already in Use
+The start script automatically clears port 8000. If issues persist:
+```batch
+netstat -an | findstr :8000
+taskkill /F /PID [process_id]
+```
 
-- **Minimum**: 2 CPU cores, 4GB RAM
-- **Recommended**: 4 CPU cores, 8GB RAM
-- **Network**: Stable internet for tunnel features
+### Python Version Issues
+This project requires Python 3.11 for full compatibility:
+```batch
+py -3.11 --version
+```
+If not installed, download from: https://www.python.org/downloads/release/python-3119/
 
-### Optimization Tips
+### Package Installation Issues
+If packages fail to install:
+```batch
+venv\Scripts\activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-- Limit concurrent operations
-- Use batch operations for large datasets
-- Enable caching for frequently accessed data
-- Schedule heavy operations during off-peak hours
+## Development
 
-## 🤝 Contributing
+### Extending the API
+Edit `web_server.py` to add new endpoints:
+```python
+@app.get('/api/custom')
+async def custom_endpoint():
+    return {"message": "Custom endpoint"}
+```
 
-Contributions are welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Commit changes
-4. Push to branch
-5. Open a pull request
+### Adding WooCommerce Features
+The `src/mcp_server/woocommerce_mcp.py` contains the MCP implementation for advanced features.
 
-## 📄 License
+## Security
 
-This project is licensed under the MIT License.
+- API credentials are encrypted when stored
+- .env file should never be committed to version control
+- Use HTTPS in production environments
+- Regular backups are recommended
 
-## 🆘 Support
+## Support
 
-For issues and questions:
-- Check the documentation in `/docs`
-- Review existing issues
-- Create a new issue with details
+For issues or questions:
+1. Check the troubleshooting section
+2. Review the API documentation at `/docs`
+3. Check the logs in `data/logs/`
 
-## 🎯 Roadmap
+## License
 
-- [ ] Linux/macOS support
-- [ ] Cloud backup integration
-- [ ] Advanced analytics dashboard
-- [ ] Mobile companion app
-- [ ] API rate limiting
-- [ ] Multi-language support
-- [ ] Plugin system
-- [ ] Docker containerization
+MIT License - See LICENSE file for details
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- WooCommerce for the excellent e-commerce platform
-- LocalTunnel for tunnel services
-- The MCP protocol developers
-- Open source community
+- FastAPI for the excellent web framework
+- WooCommerce for the e-commerce platform
+- MCP protocol for standardized tool interfaces
 
 ---
 
-**MCP WooCommerce Suite** - Professional WooCommerce Management Made Easy
+**Version**: 1.0.0  
+**Python**: 3.11  
+**Status**: Production Ready
