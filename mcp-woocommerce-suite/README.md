@@ -10,6 +10,7 @@ A professional web-based WooCommerce store management system built with Python, 
 - 🔄 **Bulk Operations** - Mass updates for prices, categories, and inventory
 - 🌐 **REST API** - Complete API for automation and integrations
 - 💻 **Web Interface** - Modern, responsive browser-based UI
+- 🤖 **Claude Desktop Integration** - Direct store management through MCP protocol
 
 ## Requirements
 
@@ -42,19 +43,27 @@ This will:
 
 ```
 mcp-woocommerce-suite/
-├── web_server.py           # Main FastAPI web application
+├── main.py                 # Main application entry point
+├── web_server.py           # FastAPI web server
 ├── setup.bat              # One-click setup script
 ├── start.bat              # Application launcher
 ├── requirements.txt       # Python dependencies
-├── .env.example          # Environment configuration template
 ├── src/
 │   ├── config/           # Configuration modules
 │   ├── mcp_server/       # MCP server implementation
-│   └── utils/            # Utility modules
-└── data/                 # Application data (created on first run)
-    ├── stores/          # Store configurations
-    ├── logs/            # Application logs
-    └── exports/         # Export files
+│   │   ├── claude_desktop_mcp.py  # Claude Desktop MCP server
+│   │   └── woocommerce_mcp.py     # Web MCP server
+│   ├── gui/              # Desktop GUI components
+│   ├── utils/            # Utility modules
+│   └── web/              # Web interface components
+├── data/                 # Application data (created on first run)
+│   ├── stores/          # Store configurations
+│   ├── logs/            # Application logs
+│   └── backups/         # Data backups
+├── resources/           # UI resources
+│   ├── icons/          # Application icons
+│   └── templates/      # HTML templates
+└── venv/               # Python virtual environment
 ```
 
 ## API Endpoints
@@ -138,6 +147,49 @@ venv\Scripts\activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
+
+## Claude Desktop Integration
+
+The suite includes a dedicated MCP (Model Context Protocol) server for Claude Desktop integration, allowing you to manage your WooCommerce store directly through Claude Desktop.
+
+### Setup Claude Desktop MCP
+
+1. **Configure Claude Desktop** with your store credentials in `claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "woocommerce-store-manager": {
+      "command": "C:\\path\\to\\your\\venv\\Scripts\\python.exe",
+      "args": ["C:\\path\\to\\your\\src\\mcp_server\\claude_desktop_mcp.py"],
+      "env": {
+        "STORE_URL": "https://your-store.com/",
+        "WOOCOMMERCE_KEY": "your_consumer_key",
+        "WOOCOMMERCE_SECRET": "your_consumer_secret"
+      }
+    }
+  }
+}
+```
+
+2. **Restart Claude Desktop** to load the MCP server
+
+3. **Available MCP Tools**:
+   - `list_products` - List store products with pagination/search
+   - `get_product` - Get detailed product information
+   - `search_products` - Advanced product search with filters
+   - `get_store_stats` - Store overview and statistics
+   - `get_orders` - List recent orders
+   - `update_product` - Update product information
+   - `create_product` - Create new products
+   - `get_categories` - List product categories
+
+### Usage Examples
+
+After setup, you can interact with your store through Claude Desktop:
+- "What products do I have in my store?"
+- "Show me my recent orders"
+- "Update product ID 123 price to $99.99"
+- "Search for products containing 'snowmobile'"
 
 ## Development
 
