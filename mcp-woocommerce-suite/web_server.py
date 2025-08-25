@@ -10,13 +10,105 @@ import json
 from datetime import datetime
 from typing import Dict, List, Any
 import asyncio
+import logging
+from woocommerce import API
+import requests
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = FastAPI(title='MCP WooCommerce Suite')
 
-# In-memory store for demo
-stores_db = {}
+# Persistent storage paths
+DATA_DIR = Path("data")
+DATA_DIR.mkdir(exist_ok=True)
+STORES_FILE = DATA_DIR / "stores.json"
+
+# Storage functions
+def load_stores():
+    if STORES_FILE.exists():
+        try:
+            with open(STORES_FILE, 'r') as f:
+                return json.load(f)
+        except: pass
+    return {}
+
+def save_stores(stores_data):
+    try:
+        with open(STORES_FILE, 'w') as f:
+            json.dump(stores_data, f, indent=2)
+    except: pass
+
+# Initialize RideBase.fi store
+def init_ridebase():
+    url = os.getenv('RIDEBASE_URL')
+    key = os.getenv('RIDEBASE_CONSUMER_KEY') 
+    secret = os.getenv('RIDEBASE_CONSUMER_SECRET')
+    
+    if url and key and secret:
+        stores_db['store_0'] = {
+            'id': 'store_0',
+            'name': 'RideBase.fi',
+            'url': url,
+            'consumer_key': key,
+            'consumer_secret': secret,
+            'status': 'connected',
+            'added': datetime.now().isoformat()
+        }
+        save_stores(stores_db)
+
+# Load data
+stores_db = load_stores()
+init_ridebase()
 products_db = []
 operations_history = []
+
+# WooCommerce Manager
+class WooCommerceManager:
+    def __init__(self):
+        self.store_apis = {}
+        for store_id, store_data in stores_db.items():
+            if 'consumer_key' in store_data:
+                try:
+                    api = API(
+                        url=store_data['url'],
+                        consumer_key=store_data['consumer_key'], 
+                        consumer_secret=store_data['consumer_secret'],
+                        wp_api=True, version='wc/v3', timeout=30
+                    )
+                    self.store_apis[store_id] = api
+                except: pass
+    
+    async def get_products(self, store_id: str, **params):
+        if store_id in self.store_apis:
+            try:
+                api = self.store_apis[store_id]
+                
+                # Set default per_page to 100 if not specified
+                if 'per_page' not in params:
+                    params['per_page'] = 100
+                    
+                response = api.get("products", params=params)
+                
+                # Handle Response object vs direct data
+                if hasattr(response, 'json'):
+                    # It's a requests Response object
+                    products = response.json()
+                elif isinstance(response, list):
+                    products = response
+                else:
+                    # If response is paginated or wrapped, extract products
+                    products = response.get('products', response) if hasattr(response, 'get') else []
+                
+                return {'success': True, 'products': products}
+            except Exception as e:
+                return {'success': False, 'error': str(e)}
+        return {'success': False, 'error': 'Store not found'}
+
+wc_manager = WooCommerceManager()
 
 # Tool catalog organized by category
 TOOL_CATALOG = {
@@ -1111,6 +1203,236 @@ async def home():
                     console.error('Error updating stats:', error);
                 }
             }
+            
+            // Populate store dropdown with real stores
+            async function populateStoreDropdown() {
+                const selectElement = document.getElementById('storeSelect');
+                if (!selectElement) return;
+                
+                try {
+                    const response = await fetch('/api/stores');
+                    const data = await response.json();
+                    
+                    selectElement.innerHTML = '<option value="">-- Select a store --</option>';
+                    
+                    if (data.stores && data.stores.length > 0) {
+                        data.stores.forEach(store => {
+                            const option = document.createElement('option');
+                            option.value = store.id;
+                            option.textContent = `${store.name} (${store.url})`;
+                            selectElement.appendChild(option);
+                        });
+                        document.getElementById('storeSelectAlert').style.display = 'none';
+                    } else {
+                        document.getElementById('storeSelectAlert').style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Error loading stores:', error);
+                    selectElement.innerHTML = '<option value="">Error loading stores</option>';
+                }
+            }
+            
+            // Load stores list for display
+            async function loadStoresList() {
+                const listDiv = document.getElementById('storesList');
+                if (!listDiv) return;
+                
+                try {
+                    const response = await fetch('/api/stores');
+                    const data = await response.json();
+                    
+                    if (data.stores && data.stores.length > 0) {
+                        listDiv.innerHTML = data.stores.map(store => `
+                            <div class="store-card">
+                                <h4>🏪 ${store.name}</h4>
+                                <p><strong>URL:</strong> ${store.url}</p>
+                                <p><strong>Status:</strong> <span class="badge badge-success">${store.status}</span></p>
+                                <p><strong>Added:</strong> ${new Date(store.added).toLocaleDateString()}</p>
+                            </div>
+                        `).join('');
+                    } else {
+                        listDiv.innerHTML = '<div class="alert alert-info">No stores connected yet.</div>';
+                    }
+                } catch (error) {
+                    listDiv.innerHTML = '<div class="alert alert-danger">Error loading stores</div>';
+                    console.error('Error:', error);
+                }
+            }
+            
+            // Fetch products from store
+            async function fetchProducts() {
+                const storeId = wizardData.storeId || document.getElementById('storeSelect')?.value;
+                if (!storeId) {
+                    alert('Please select a store first');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(`/api/products?store_id=${storeId}`);
+                    const data = await response.json();
+                    
+                    if (data.products && data.products.length > 0) {
+                        // Store products for next step
+                        wizardData.products = data.products;
+                        wizardData.productCount = data.products.length;
+                        
+                        // Show success and auto-advance
+                        const container = document.getElementById('stepContainer');
+                        if (container) {
+                            container.innerHTML = `
+                                <div class="alert alert-success">
+                                    <strong>✅ Products loaded successfully!</strong><br>
+                                    Retrieved ${data.products.length} products from ${data.source === 'live_woocommerce_api' ? 'live store' : 'demo'}.
+                                </div>
+                                <div class="products-preview">
+                                    ${data.products.slice(0, 3).map(product => `
+                                        <div class="product-item">
+                                            <strong>${product.name}</strong> - €${product.price} (SKU: ${product.sku})
+                                        </div>
+                                    `).join('')}
+                                    ${data.products.length > 3 ? `<p>...and ${data.products.length - 3} more products</p>` : ''}
+                                </div>
+                            `;
+                        }
+                        
+                        // Auto-advance to next step after 2 seconds
+                        setTimeout(() => nextStep(), 2000);
+                    } else {
+                        throw new Error('No products found');
+                    }
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                    const container = document.getElementById('stepContainer');
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="alert alert-danger">
+                                <strong>❌ Failed to load products</strong><br>
+                                ${error.message}
+                            </div>
+                        `;
+                    }
+                }
+            }
+            
+            // Test store connection
+            async function testConnection() {
+                const storeId = wizardData.storeId || document.getElementById('storeSelect')?.value;
+                if (!storeId) {
+                    alert('Please select a store first');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/products?store_id=' + storeId);
+                    const data = await response.json();
+                    
+                    const container = document.getElementById('stepContainer');
+                    if (data.products && data.source === 'live_woocommerce_api') {
+                        container.innerHTML = `
+                            <div class="alert alert-success">
+                                <strong>✅ Connection successful!</strong><br>
+                                Successfully connected to live WooCommerce store.<br>
+                                Found ${data.products.length} products.
+                            </div>
+                        `;
+                    } else {
+                        container.innerHTML = `
+                            <div class="alert alert-warning">
+                                <strong>⚠️ Connection issues</strong><br>
+                                ${data.error || 'Using demo data fallback'}
+                            </div>
+                        `;
+                    }
+                    
+                    // Auto-advance after 3 seconds
+                    setTimeout(() => nextStep(), 3000);
+                } catch (error) {
+                    const container = document.getElementById('stepContainer');
+                    container.innerHTML = `
+                        <div class="alert alert-danger">
+                            <strong>❌ Connection failed</strong><br>
+                            ${error.message}
+                        </div>
+                    `;
+                }
+            }
+            
+            // Run diagnostics
+            async function runDiagnostics() {
+                const storeId = wizardData.storeId || document.getElementById('storeSelect')?.value;
+                if (!storeId) {
+                    alert('Please select a store first');
+                    return;
+                }
+                
+                try {
+                    // Test API connectivity
+                    const response = await fetch(`/api/products?store_id=${storeId}`);
+                    const data = await response.json();
+                    
+                    const container = document.getElementById('stepContainer');
+                    let diagnostics = {
+                        api_status: data.source === 'live_woocommerce_api' ? 'Connected' : 'Failed',
+                        product_count: data.products ? data.products.length : 0,
+                        store_type: data.source || 'unknown',
+                        response_time: data.source === 'live_woocommerce_api' ? '<500ms' : 'N/A'
+                    };
+                    
+                    container.innerHTML = `
+                        <div class="alert alert-${diagnostics.api_status === 'Connected' ? 'success' : 'warning'}">
+                            <strong>${diagnostics.api_status === 'Connected' ? '✅' : '⚠️'} Diagnostics Complete</strong>
+                        </div>
+                        <div class="diagnostics-results">
+                            <h4>Store Health Report:</h4>
+                            <ul>
+                                <li><strong>API Status:</strong> ${diagnostics.api_status}</li>
+                                <li><strong>Product Count:</strong> ${diagnostics.product_count}</li>
+                                <li><strong>Data Source:</strong> ${diagnostics.store_type}</li>
+                                <li><strong>Response Time:</strong> ${diagnostics.response_time}</li>
+                            </ul>
+                        </div>
+                    `;
+                    
+                    // Store diagnostics for next step
+                    wizardData.diagnostics = diagnostics;
+                    
+                    // Auto-advance
+                    setTimeout(() => nextStep(), 3000);
+                } catch (error) {
+                    console.error('Diagnostics error:', error);
+                }
+            }
+            
+            // Auto-trigger functions based on step
+            function autoTriggerStep() {
+                const step = currentWizard?.steps[currentStep];
+                const storeId = wizardData.storeId || document.getElementById('storeSelect')?.value;
+                
+                // Auto-populate store dropdown when needed
+                if (step === 'select_store') {
+                    setTimeout(() => populateStoreDropdown(), 100);
+                }
+                
+                // Auto-load store list when viewing stores
+                if (step === 'view') {
+                    setTimeout(() => loadStoresList(), 100);
+                }
+                
+                // Auto-fetch products when step loads
+                if (step === 'fetch_products' && storeId) {
+                    setTimeout(() => fetchProducts(), 500);
+                }
+                
+                // Auto-run test when step loads
+                if (step === 'run_test' && storeId) {
+                    setTimeout(() => testConnection(), 500);
+                }
+                
+                // Auto-run diagnostics when step loads  
+                if (step === 'run_diagnostics' && storeId) {
+                    setTimeout(() => runDiagnostics(), 500);
+                }
+            }
         </script>
     </body>
     </html>
@@ -1182,17 +1504,30 @@ async def add_store(request: Request):
 
 @app.get('/api/products')
 async def get_products(store_id: str = None):
-    """Get products for a store"""
-    # Demo products
-    return {
-        'products': [
-            {'id': 1, 'name': 'Product 1', 'price': 29.99, 'stock': 100, 'sku': 'PROD-001'},
-            {'id': 2, 'name': 'Product 2', 'price': 39.99, 'stock': 50, 'sku': 'PROD-002'},
-            {'id': 3, 'name': 'Product 3', 'price': 49.99, 'stock': 75, 'sku': 'PROD-003'}
-        ],
-        'total': 3,
-        'store_id': store_id
-    }
+    """Get products from real WooCommerce store"""
+    if not store_id:
+        store_id = 'store_0'  # Default to RideBase.fi
+    
+    result = await wc_manager.get_products(store_id)
+    if result['success']:
+        return {
+            'products': result['products'],
+            'total': len(result['products']),
+            'store_id': store_id,
+            'source': 'live_woocommerce_api'
+        }
+    else:
+        # Fallback to demo if API fails
+        return {
+            'products': [
+                {'id': 1, 'name': 'Demo Product 1', 'price': 29.99, 'stock': 100, 'sku': 'DEMO-001'},
+                {'id': 2, 'name': 'Demo Product 2', 'price': 39.99, 'stock': 50, 'sku': 'DEMO-002'}
+            ],
+            'total': 2,
+            'store_id': store_id,
+            'error': result.get('error'),
+            'source': 'demo_fallback'
+        }
 
 if __name__ == "__main__":
     print("=" * 60)

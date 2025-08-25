@@ -1,0 +1,127 @@
+{
+  "store_info": {
+    "name": "RideBase.fi",
+    "url": "https://ridebase.fi",
+    "consumer_key": "ck_f6ad7b402ad502bcccd39616c94717f282954278",
+    "consumer_secret": "cs_9732d3b1cfe2db9fffd47316e99884efecac4b9c"
+  },
+  "test_summary": {
+    "total_tests": 6,
+    "passed_tests": 6,
+    "success_rate": 100.0,
+    "execution_time": 7.753190999999999
+  },
+  "detailed_results": [
+    {
+      "test_name": "API Connection",
+      "status": "PASSED",
+      "duration": 1.824744,
+      "result": {
+        "connected": true,
+        "store_info": {},
+        "response_time": "< 1s"
+      },
+      "error": null,
+      "timestamp": "2025-08-25T21:59:35.328879"
+    },
+    {
+      "test_name": "List Products",
+      "status": "PASSED",
+      "duration": 0.757208,
+      "result": {
+        "products_found": 10,
+        "sample_product": {
+          "name": "POLARIS 9R RMK KHAOS 155 SLASH (S24TFG9BE)",
+          "sku": "C-3-2-1",
+          "price": 16396
+        },
+        "total_products": 10
+      },
+      "error": null,
+      "timestamp": "2025-08-25T21:59:37.153623"
+    },
+    {
+      "test_name": "Search Products",
+      "status": "PASSED",
+      "duration": 2.227191,
+      "result": {
+        "lynx": {
+          "results_count": 5,
+          "products": [
+            "Lynx Brutal RE 400mm 3900 900 ACE Turbo R (SZSF)",
+            "Lynx Brutal RE 900 ACE Turbo R Powdermax II (SZSG)",
+            "Lynx Commander STD 900 ACE Turbo (LHSB)"
+          ]
+        },
+        "ski": {
+          "results_count": 5,
+          "products": [
+            "Lynx Brutal RE 400mm 3900 900 ACE Turbo R (SZSF)",
+            "Ski-Doo Expedition LE 20\u2033 900 ACE Turbo (ACSG) (TEST)",
+            "Lynx Brutal RE 900 ACE Turbo R Powdermax II (SZSG)"
+          ]
+        },
+        "commander": {
+          "results_count": 3,
+          "products": [
+            "Lynx Commander STD 900 ACE Turbo (LHSB)",
+            "Lynx Commander RE 900 ACE Turbo R (LFSA)",
+            "Lynx Commander LTD 900 ACE Turbo (LESB)"
+          ]
+        }
+      },
+      "error": null,
+      "timestamp": "2025-08-25T21:59:37.910831"
+    },
+    {
+      "test_name": "Product Categories",
+      "status": "PASSED",
+      "duration": 0.724584,
+      "result": {
+        "categories_found": 17,
+        "category_names": [
+          "ATV",
+          "Can-Am",
+          "Crossovers",
+          "Jet Skis",
+          "Lynx",
+          "Manufacturer",
+          "Mountain",
+          "Outlander",
+          "Performance",
+          "Rec Lite"
+        ]
+      },
+      "error": null,
+      "timestamp": "2025-08-25T21:59:40.138022"
+    },
+    {
+      "test_name": "Product Details",
+      "status": "PASSED",
+      "duration": 1.460507,
+      "result": {
+        "product_id": 1092,
+        "name": "POLARIS 9R RMK KHAOS 155 SLASH (S24TFG9BE)",
+        "description_length": 845,
+        "image_count": 1,
+        "category_count": 2,
+        "attributes": 0
+      },
+      "error": null,
+      "timestamp": "2025-08-25T21:59:40.862606"
+    },
+    {
+      "test_name": "Store Settings",
+      "status": "PASSED",
+      "duration": 0.758957,
+      "result": {
+        "wordpress_version": "unknown",
+        "woocommerce_version": "unknown",
+        "currency": "EUR",
+        "store_configured": true
+      },
+      "error": null,
+      "timestamp": "2025-08-25T21:59:42.323113"
+    }
+  ]
+}

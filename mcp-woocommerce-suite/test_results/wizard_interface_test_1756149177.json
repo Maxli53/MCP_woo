@@ -1,0 +1,157 @@
+{
+  "test_summary": {
+    "total_tests": 7,
+    "passed_tests": 7,
+    "success_rate": 100.0,
+    "execution_time": 0.285359
+  },
+  "detailed_results": [
+    {
+      "test_name": "Wizard Main Page",
+      "status": "PASSED",
+      "duration": 0.257436,
+      "result": {
+        "page_loaded": true,
+        "content_length": 51945,
+        "title": "MCP WooCommerce Suite - Tool Wizard",
+        "wizard_elements": {
+          "title_mentions_wizard": true,
+          "has_tool_categories": true,
+          "has_step_navigation": true,
+          "has_progress_indicators": true,
+          "interactive_elements": 3
+        },
+        "buttons_count": 3,
+        "response_time": 0.255869
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:12:57.245706"
+    },
+    {
+      "test_name": "Tool Categories",
+      "status": "PASSED",
+      "duration": 0.0,
+      "result": {
+        "expected_categories": 8,
+        "found_categories": 8,
+        "categories_found": [
+          "Store Management",
+          "Product Management",
+          "Cross-Store Operations",
+          "Bulk Operations",
+          "Import & Export",
+          "Store Deployment",
+          "Data Quality & Validation",
+          "Analytics & Reports"
+        ],
+        "category_elements_count": 0,
+        "coverage_percentage": 100.0
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:12:57.503142"
+    },
+    {
+      "test_name": "Tool Execution Interface",
+      "status": "PASSED",
+      "duration": 0.0,
+      "result": {
+        "tool_execution_works": true,
+        "response_time": 0.000868,
+        "result_has_data": true,
+        "result_preview": "{'success': True, 'message': 'Tool list_stores executed successfully', 'result': None}"
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:12:57.503142"
+    },
+    {
+      "test_name": "Wizard Navigation",
+      "status": "PASSED",
+      "duration": 0.013083,
+      "result": {
+        "total_buttons": 3,
+        "navigation_buttons": 2,
+        "total_links": 0,
+        "navigation_links": 0,
+        "progress_indicators": 1,
+        "has_navigation": true
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:12:57.503142"
+    },
+    {
+      "test_name": "Help System",
+      "status": "PASSED",
+      "duration": 0.003007,
+      "result": {
+        "help_buttons_count": 0,
+        "tooltips_count": 0,
+        "help_text_sections": 14,
+        "documentation_links": 0,
+        "has_help_system": true,
+        "help_elements_sample": {
+          "help_buttons": [],
+          "tooltips": [],
+          "help_text": [
+            "Quick Overview\n\n\n0\nAvailable Tools\n\n\n8\nCategories\n\n\n0\nConnected Stores\n\n\nReady\nSystem Status",
+            "0\nAvailable Tools\n\n\n8\nCategories\n\n\n0\nConnected Stores\n\n\nReady\nSystem Status",
+            "0\nAvailable Tools"
+          ],
+          "documentation_links": []
+        }
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:12:57.516225"
+    },
+    {
+      "test_name": "Data Validation",
+      "status": "PASSED",
+      "duration": 0.0,
+      "result": {
+        "validation_tests_count": 3,
+        "gracefully_handled": 1,
+        "validation_score": 33.33333333333333,
+        "test_details": [
+          {
+            "test": "invalid_parameters",
+            "response_code": 200,
+            "handled_gracefully": true,
+            "response_preview": "{\"success\":true,\"message\":\"Tool list_stores executed successfully\",\"result\":null}"
+          },
+          {
+            "test": "missing_parameters",
+            "response_code": 200,
+            "handled_gracefully": false,
+            "response_preview": "{\"success\":true,\"message\":\"Tool None executed successfully\",\"result\":null}"
+          },
+          {
+            "test": "malformed_json",
+            "response_code": 500,
+            "handled_gracefully": false,
+            "response_preview": "{\"detail\":\"Expecting value: line 1 column 1 (char 0)\"}"
+          }
+        ]
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:12:57.519232"
+    },
+    {
+      "test_name": "Wizard Responsiveness",
+      "status": "PASSED",
+      "duration": 0.011833,
+      "result": {
+        "responsive_score": 25.0,
+        "responsive_features": {
+          "viewport_meta": false,
+          "responsive_css": false,
+          "mobile_friendly_navigation": false,
+          "touch_friendly_buttons": true
+        },
+        "viewport_content": "",
+        "total_buttons": 3,
+        "navigation_elements": 0
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:12:57.519232"
+    }
+  ]
+}

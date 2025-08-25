@@ -1,0 +1,190 @@
+{
+  "test_execution": {
+    "timestamp": "2025-08-25T22:02:57.748616",
+    "overall_success_rate": 25.0,
+    "passed_suites": 1,
+    "total_suites": 4
+  },
+  "detailed_results": [
+    {
+      "test_name": "System Endpoints",
+      "status": "failed",
+      "start_time": 1756148573.4502661,
+      "endpoints_tested": [
+        {
+          "endpoint": "/",
+          "method": "GET",
+          "description": "Root endpoint",
+          "status_code": 200,
+          "response_time": 0.000993,
+          "success": true
+        },
+        {
+          "endpoint": "/api/stores",
+          "method": "GET",
+          "description": "List stores",
+          "status_code": 200,
+          "response_time": 0.000757,
+          "success": true
+        },
+        {
+          "endpoint": "/api/products",
+          "method": "GET",
+          "description": "List products",
+          "status_code": 200,
+          "response_time": 2.30017,
+          "success": true
+        },
+        {
+          "endpoint": "/api/tool-catalog",
+          "method": "GET",
+          "description": "Tool catalog",
+          "status_code": 404,
+          "response_time": 0.000781,
+          "success": false
+        },
+        {
+          "endpoint": "/api/health",
+          "method": "GET",
+          "description": "Health check",
+          "status_code": 404,
+          "response_time": 0.000675,
+          "success": false
+        }
+      ],
+      "errors": [],
+      "passed_endpoints": 3,
+      "total_endpoints": 5,
+      "success_rate": 60.0,
+      "end_time": 1756148575.7467792,
+      "duration": 2.296513080596924
+    },
+    {
+      "test_name": "MCP Tools Execution",
+      "status": "failed",
+      "start_time": 1756148575.7467792,
+      "tools_tested": [],
+      "errors": [
+        "Failed to get tool catalog"
+      ]
+    },
+    {
+      "test_name": "Complete Workflows",
+      "status": "passed",
+      "start_time": 1756148575.7467792,
+      "workflows_tested": [
+        {
+          "name": "Product Management Workflow",
+          "steps": [
+            {
+              "step_name": "list_products",
+              "params": {
+                "store_id": "store_0",
+                "per_page": 5
+              },
+              "status_code": 200,
+              "success": true,
+              "response_time": 0.000804
+            },
+            {
+              "step_name": "search_products",
+              "params": {
+                "store_id": "store_0",
+                "query": "lynx"
+              },
+              "status_code": 200,
+              "success": true,
+              "response_time": 0.00081
+            },
+            {
+              "step_name": "export_products_csv",
+              "params": {
+                "store_id": "store_0",
+                "limit": 5
+              },
+              "status_code": 200,
+              "success": true,
+              "response_time": 0.000696
+            }
+          ],
+          "success": true,
+          "errors": []
+        },
+        {
+          "name": "Store Analysis Workflow",
+          "steps": [
+            {
+              "step_name": "list_stores",
+              "params": {},
+              "status_code": 200,
+              "success": true,
+              "response_time": 0.000686
+            },
+            {
+              "step_name": "test_store_connection",
+              "params": {
+                "store_id": "store_0"
+              },
+              "status_code": 200,
+              "success": true,
+              "response_time": 0.00103
+            },
+            {
+              "step_name": "product_performance_report",
+              "params": {
+                "store_id": "store_0"
+              },
+              "status_code": 200,
+              "success": true,
+              "response_time": 0.00102
+            }
+          ],
+          "success": true,
+          "errors": []
+        }
+      ],
+      "errors": [],
+      "passed_workflows": 2,
+      "total_workflows": 2,
+      "success_rate": 100.0,
+      "end_time": 1756148575.7626483,
+      "duration": 0.015869140625
+    },
+    {
+      "test_name": "Data Integrity",
+      "status": "failed",
+      "start_time": 1756148575.7626483,
+      "checks": [
+        {
+          "success": true,
+          "stores_count": 1,
+          "name": "Store Configuration"
+        },
+        {
+          "success": true,
+          "products_checked": 27,
+          "name": "Product Data Consistency"
+        },
+        {
+          "success": false,
+          "valid_responses": 2,
+          "total_endpoints": 3,
+          "success_rate": 66.66666666666666,
+          "name": "API Response Formats"
+        },
+        {
+          "success": true,
+          "existing_files": 3,
+          "required_files": 3,
+          "name": "File System Integrity"
+        }
+      ],
+      "errors": [],
+      "passed_checks": 3,
+      "total_checks": 4,
+      "success_rate": 75.0,
+      "end_time": 1756148577.748616,
+      "duration": 1.9859676361083984
+    }
+  ]
+}
