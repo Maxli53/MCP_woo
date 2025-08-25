@@ -2,7 +2,7 @@
 # Python 3.11 Compatible
 
 # Core Dependencies
-mcp==1.0.0
+mcp>=1.13.1
 httpx==0.27.0
 pydantic==2.5.0
 pydantic-settings==2.1.0
