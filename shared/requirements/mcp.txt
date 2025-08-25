@@ -1,0 +1,5 @@
+# Claude Desktop MCP specific requirements
+-r base.txt
+
+# MCP server
+mcp>=0.1.0

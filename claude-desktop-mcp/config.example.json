@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "woocommerce": {
+      "command": "C:\\Users\\[USERNAME]\\PycharmProjects\\PythonProject\\MCP\\venv\\Scripts\\python.exe",
+      "args": ["C:\\Users\\[USERNAME]\\PycharmProjects\\PythonProject\\MCP\\claude-desktop-mcp\\mcp_server_clean.py"],
+      "env": {
+        "STORE_URL": "https://your-store.com",
+        "WOOCOMMERCE_KEY": "ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "WOOCOMMERCE_SECRET": "cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      }
+    }
+  }
+}

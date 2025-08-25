@@ -1,0 +1,11 @@
+{
+  "store_0": {
+    "id": "store_0",
+    "name": "RideBase.fi",
+    "url": "https://ridebase.fi",
+    "consumer_key": "ck_f6ad7b402ad502bcccd39616c94717f282954278",
+    "consumer_secret": "cs_9732d3b1cfe2db9fffd47316e99884efecac4b9c",
+    "status": "connected",
+    "added": "2025-08-26T00:43:16.288154"
+  }
+}
