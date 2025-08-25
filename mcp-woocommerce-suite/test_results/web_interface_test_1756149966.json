@@ -1,0 +1,260 @@
+{
+  "test_summary": {
+    "total_tests": 9,
+    "passed_tests": 9,
+    "success_rate": 100.0,
+    "execution_time": 1.353613
+  },
+  "detailed_results": [
+    {
+      "test_name": "Main Page Loading",
+      "status": "PASSED",
+      "duration": 0.272104,
+      "result": {
+        "status_code": 200,
+        "content_length": 51945,
+        "title": "MCP WooCommerce Suite - Tool Wizard",
+        "has_html_structure": true,
+        "response_time": 0.269238
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:26:05.600616"
+    },
+    {
+      "test_name": "HTML Elements",
+      "status": "PASSED",
+      "duration": 0.003001,
+      "result": {
+        "header": {
+          "count": 1,
+          "present": true,
+          "details": "h1"
+        },
+        "navigation": {
+          "count": 0,
+          "present": false,
+          "details": []
+        },
+        "main_content": {
+          "count": 1,
+          "present": true,
+          "details": "div"
+        },
+        "forms": {
+          "count": 0,
+          "present": false,
+          "details": []
+        },
+        "buttons": {
+          "count": 3,
+          "present": true,
+          "details": [
+            "button",
+            "button",
+            "button"
+          ]
+        },
+        "inputs": {
+          "count": 0,
+          "present": false,
+          "details": []
+        },
+        "scripts": {
+          "count": 1,
+          "present": true,
+          "details": [
+            "script"
+          ]
+        },
+        "stylesheets": {
+          "count": 1,
+          "present": true,
+          "details": [
+            "style"
+          ]
+        }
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:26:05.872720"
+    },
+    {
+      "test_name": "CSS Loading",
+      "status": "PASSED",
+      "duration": 0.002998,
+      "result": {
+        "external_stylesheets": 0,
+        "inline_styles": 1,
+        "css_present": true,
+        "stylesheets": []
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:26:05.875721"
+    },
+    {
+      "test_name": "JavaScript Loading",
+      "status": "PASSED",
+      "duration": 0.004,
+      "result": {
+        "script_tags_count": 1,
+        "inline_scripts": 1,
+        "external_scripts": 0,
+        "scripts": [
+          {
+            "type": "inline",
+            "content_length": 37881,
+            "has_content": true,
+            "preview": "\n            // Tool catalog data\n            const toolCatalog = {\"store_management\": {\"name\": \"Sto..."
+          }
+        ]
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:26:05.878719"
+    },
+    {
+      "test_name": "Form Elements",
+      "status": "PASSED",
+      "duration": 0.002779,
+      "result": {
+        "forms_count": 0,
+        "forms_present": false,
+        "form_details": []
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:26:05.882719"
+    },
+    {
+      "test_name": "Interactive Elements",
+      "status": "PASSED",
+      "duration": 0.010056,
+      "result": {
+        "links": {
+          "count": 0,
+          "details": []
+        },
+        "buttons": {
+          "count": 3,
+          "details": [
+            {
+              "type": "button",
+              "text": "\u00d7",
+              "id": "",
+              "class": [
+                "close-btn"
+              ],
+              "onclick": "closeWizard()",
+              "has_javascript": true
+            },
+            {
+              "type": "button",
+              "text": "Previous",
+              "id": "prevBtn",
+              "class": [
+                "btn",
+                "btn-secondary"
+              ],
+              "onclick": "previousStep()",
+              "has_javascript": true
+            },
+            {
+              "type": "button",
+              "text": "Next",
+              "id": "nextBtn",
+              "class": [
+                "btn",
+                "btn-primary"
+              ],
+              "onclick": "nextStep()",
+              "has_javascript": true
+            }
+          ]
+        },
+        "interactive_inputs": {
+          "count": 0,
+          "details": []
+        }
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:26:05.885498"
+    },
+    {
+      "test_name": "API Endpoints from UI",
+      "status": "PASSED",
+      "duration": 1.041905,
+      "result": {
+        "endpoints_tested": 4,
+        "accessible_endpoints": 4,
+        "endpoint_details": [
+          {
+            "endpoint": "/api/stores",
+            "status_code": 200,
+            "accessible": true,
+            "response_time": 0.000817,
+            "content_type": "application/json",
+            "is_json": true,
+            "data_preview": "{'stores': [{'id': 'store_0', 'name': 'RideBase.fi', 'url': 'https://ridebase.fi', 'consumer_key': 'ck_f6ad7b402ad502bcccd39616c94717f282954278', 'consumer_secret': 'cs_9732d3b1cfe2db9fffd47316e99884e..."
+          },
+          {
+            "endpoint": "/api/products",
+            "status_code": 200,
+            "accessible": true,
+            "response_time": 1.048981,
+            "content_type": "application/json",
+            "is_json": true,
+            "data_preview": "{'products': [{'id': 1092, 'name': 'POLARIS 9R RMK KHAOS 155 SLASH (S24TFG9BE)', 'slug': 'polaris-9r-rmk-khaos-155-slash-s24tfg9be', 'permalink': 'https://ridebase.fi/catalog/snowmobiles/crossovers/po..."
+          },
+          {
+            "endpoint": "/api/stats",
+            "status_code": 200,
+            "accessible": true,
+            "response_time": 0.001152,
+            "content_type": "application/json",
+            "is_json": true,
+            "data_preview": "{'stores': 1, 'products': 0, 'operations': 14, 'status': 'operational'}"
+          },
+          {
+            "endpoint": "/api/tools",
+            "status_code": 200,
+            "accessible": true,
+            "response_time": 0.001447,
+            "content_type": "application/json",
+            "is_json": true,
+            "data_preview": "{'store_management': {'name': 'Store Management', 'icon': '\ud83c\udfea', 'description': 'Connect and manage your WooCommerce stores', 'tools': [{'id': 'list_stores', 'name': 'List Available Stores', 'descriptio..."
+          }
+        ]
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:26:05.895554"
+    },
+    {
+      "test_name": "Tool Execution UI",
+      "status": "PASSED",
+      "duration": 0.015328,
+      "result": {
+        "tool_execution_available": true,
+        "test_tool": "list_stores",
+        "response_status": 200,
+        "result_preview": "{'success': True, 'message': 'Tool list_stores executed successfully', 'result': {'stores': [{'id': 'store_0', 'name': 'RideBase.fi', 'url': 'https://ridebase.fi', 'consumer_key': 'ck_f6ad7b402ad502bc..."
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:26:06.937459"
+    },
+    {
+      "test_name": "Responsive Design",
+      "status": "PASSED",
+      "duration": 0.001442,
+      "result": {
+        "viewport_meta_present": false,
+        "viewport_content": "",
+        "media_queries_count": 0,
+        "bootstrap_classes_count": 2,
+        "responsive_indicators": {
+          "has_viewport": false,
+          "has_media_queries": false,
+          "has_responsive_classes": true
+        }
+      },
+      "error": null,
+      "timestamp": "2025-08-25T22:26:06.952787"
+    }
+  ]
+}
