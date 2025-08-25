@@ -45,4 +45,7 @@ Thumbs.db
 deploy_*.py
 upload_*.py
 fix_*.py
-cleanup_*.py
+cleanup_*.py# Environment files
+.env
+*.env
+!.env.example

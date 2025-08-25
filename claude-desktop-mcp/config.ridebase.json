@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ridebase-woocommerce": {
+      "command": "C:\\Users\\maxli\\PycharmProjects\\PythonProject\\MCP\\venv\\Scripts\\python.exe",
+      "args": ["C:\\Users\\maxli\\PycharmProjects\\PythonProject\\MCP\\claude-desktop-mcp\\mcp_server.py"],
+      "env": {
+        "STORE_URL": "https://ridebase.fi/",
+        "WOOCOMMERCE_KEY": "ck_f6ad7b402ad502bcccd39616c94717f282954278",
+        "WOOCOMMERCE_SECRET": "cs_9732d3b1cfe2db9fffd47316e99884efecac4b9c"
+      }
+    }
+  }
+}
