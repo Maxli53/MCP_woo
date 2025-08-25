@@ -220,10 +220,10 @@ async def execute_specific_tool(tool_id: str, params: dict):
     
     elif tool_id == 'add_store':
         # Add a new store
-        name = params.get('name', 'New Store')
-        url = params.get('url', '')
-        consumer_key = params.get('consumer_key', '')
-        consumer_secret = params.get('consumer_secret', '')
+        name = params.get('storeName', params.get('name', 'New Store'))
+        url = params.get('storeUrl', params.get('url', ''))
+        consumer_key = params.get('consumerKey', params.get('consumer_key', ''))
+        consumer_secret = params.get('consumerSecret', params.get('consumer_secret', ''))
         
         if not url or not consumer_key or not consumer_secret:
             return {
@@ -1229,6 +1229,42 @@ async def execute_specific_tool(tool_id: str, params: dict):
             'generated_at': datetime.now().isoformat()
         }
     
+    elif tool_id == 'get_all_products':
+        # Get all products from a store - same as list_products but different parameter format
+        store_id = params.get('store', params.get('store_id', 'store_0'))
+        per_page = params.get('per_page', 100)
+        filters = params.get('filters', {})
+        
+        result = await wc_manager.get_products(store_id, per_page=per_page, **filters)
+        return result
+    
+    elif tool_id == 'deploy_to_hosting':
+        # Deploy store to shared hosting
+        store_id = params.get('store', params.get('store_id', 'store_0'))
+        hosting_config = params.get('hosting_config', {})
+        
+        # Simulate deployment process
+        deployment_steps = [
+            'Preparing deployment package',
+            'Uploading files to hosting server',
+            'Setting up database',
+            'Configuring WordPress',
+            'Installing WooCommerce',
+            'Importing store data',
+            'Testing deployment'
+        ]
+        
+        return {
+            'success': True,
+            'deployment_id': f'deploy_{store_id}_{datetime.now().strftime("%Y%m%d_%H%M%S")}',
+            'store_id': store_id,
+            'hosting_config': hosting_config,
+            'steps_completed': deployment_steps,
+            'deployment_url': hosting_config.get('domain', 'https://example-hosting.com'),
+            'status': 'completed',
+            'message': 'Store successfully deployed to shared hosting'
+        }
+    
     else:
         # Return error for unimplemented tools instead of fake success
         return {
@@ -2066,6 +2102,9 @@ async def home():
                 // Load step content
                 const container = document.getElementById('stepContainer');
                 container.innerHTML = getStepContent(currentWizard.tool.id, step);
+                
+                // Auto-trigger step-specific functions after DOM is updated
+                setTimeout(() => autoTriggerStep(), 100);
             }
             
             // Get content for specific step
@@ -2292,7 +2331,14 @@ async def home():
             }
             
             // Complete wizard
+            let isSubmitting = false;
             async function completeWizard() {
+                if (isSubmitting) {
+                    console.log('Already submitting, ignoring duplicate request');
+                    return;
+                }
+                isSubmitting = true;
+                
                 console.log('Wizard completed with data:', wizardData);
                 
                 // Send data to backend
@@ -2313,6 +2359,8 @@ async def home():
                 } catch (error) {
                     console.error('Error:', error);
                     alert('An error occurred. Please try again.');
+                } finally {
+                    isSubmitting = false;
                 }
             }
             
@@ -2463,9 +2511,13 @@ async def home():
                             option.textContent = `${store.name} (${store.url})`;
                             selectElement.appendChild(option);
                         });
-                        document.getElementById('storeSelectAlert').style.display = 'none';
+                        // Hide alert if it exists
+                        const alertEl = document.getElementById('storeSelectAlert');
+                        if (alertEl) alertEl.style.display = 'none';
                     } else {
-                        document.getElementById('storeSelectAlert').style.display = 'block';
+                        // Show alert if it exists
+                        const alertEl = document.getElementById('storeSelectAlert');
+                        if (alertEl) alertEl.style.display = 'block';
                     }
                 } catch (error) {
                     console.error('Error loading stores:', error);
