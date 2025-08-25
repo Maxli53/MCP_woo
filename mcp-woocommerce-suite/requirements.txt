@@ -1,0 +1,167 @@
+# Core MCP dependencies
+mcp==1.0.0
+httpx==0.27.0
+pydantic==2.5.0
+python-dotenv==1.0.0
+
+# GUI Framework
+PyQt6==6.6.0
+PyQt6-WebEngine==6.6.0
+pystray==0.19.5
+Pillow==10.2.0
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+websockets==12.0
+jinja2==3.1.3
+python-multipart==0.0.6
+sse-starlette==2.0.0
+
+# LocalTunnel Integration
+pyngrok==7.0.3  # Fallback tunnel option
+subprocess32==3.5.4  # Enhanced subprocess for tunnel management
+asyncssh==2.14.1  # SSH tunnel support
+pyzmq==25.1.2  # Inter-process communication for tunnel health
+watchdog==3.0.0  # Monitor tunnel process
+
+# WooCommerce & API
+woocommerce==3.0.0
+requests==2.31.0
+aiohttp==3.9.1
+httpx[http2]==0.27.0  # HTTP/2 support for better performance
+tenacity==8.2.3  # Retry logic for API calls
+
+# Background Processing & Scheduling
+APScheduler==3.10.4  # Advanced task scheduling
+celery[redis]==5.3.4  # Distributed task queue
+dramatiq[redis,watch]==1.15.0  # Alternative lightweight task queue
+rq==1.15.1  # Simple job queue
+tqdm==4.66.1  # Progress bars for long operations
+alive-progress==3.1.5  # Advanced progress tracking
+
+# Database & Caching
+sqlalchemy==2.0.25
+aiosqlite==0.19.0
+redis==5.0.1
+alembic==1.13.1  # Database migrations
+asyncpg==0.29.0  # PostgreSQL async support
+motor==3.3.2  # MongoDB async support
+
+# Data Processing & Validation
+pandas==2.1.4
+openpyxl==3.1.2
+xlsxwriter==3.1.9
+numpy==1.26.3
+chardet==5.2.0  # Character encoding detection
+python-magic==0.4.27  # File type detection
+jsonschema==4.20.0  # JSON validation
+cerberus==1.3.5  # Data validation
+marshmallow==3.20.1  # Object serialization/validation
+pydantic[email]==2.5.0  # Enhanced validation
+
+# Security
+cryptography==41.0.7
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+argon2-cffi==23.1.0
+secrets==1.0.0
+pyotp==2.9.0  # Two-factor authentication
+python-gnupg==0.5.2  # GPG encryption for sensitive data
+
+# Production Monitoring & Error Tracking
+sentry-sdk[fastapi]==1.39.1  # Error tracking
+prometheus-client==0.19.0  # Metrics collection
+opentelemetry-api==1.22.0  # Distributed tracing
+opentelemetry-sdk==1.22.0
+opentelemetry-instrumentation-fastapi==0.43b0
+elastic-apm==6.20.0  # APM alternative
+newrelic==9.5.0  # APM alternative
+structlog==24.1.0  # Structured logging
+
+# Monitoring & Logging
+psutil==5.9.7
+loguru==0.7.2
+python-json-logger==2.0.7  # JSON formatted logs
+colorlog==6.8.0  # Colored console output
+better-exceptions==0.3.3  # Better error messages
+
+# Health Checks & Monitoring
+healthcheck==1.3.3
+py-healthcheck==1.10.1
+fastapi-health==0.4.0
+
+# Testing & Development
+pytest==7.4.4
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+pytest-benchmark==4.0.0
+pytest-timeout==2.2.0
+hypothesis==6.92.1  # Property-based testing
+faker==22.0.0  # Generate test data
+factory-boy==3.3.0  # Test fixtures
+responses==0.24.1  # Mock HTTP responses
+freezegun==1.4.0  # Mock datetime
+
+# Code Quality
+black==23.12.1  # Code formatting
+isort==5.13.2  # Import sorting
+flake8==7.0.0  # Linting
+mypy==1.8.0  # Type checking
+pylint==3.0.3  # Additional linting
+bandit==1.7.6  # Security linting
+safety==3.0.1  # Dependency security check
+pre-commit==3.6.0  # Git hooks
+
+# Development Utilities
+ipython==8.19.0
+ipdb==0.13.13  # Debugger
+rich==13.7.0  # Rich text output
+click==8.1.7  # CLI framework
+typer==0.9.0  # Modern CLI framework
+python-decouple==3.8  # Config management
+watchfiles==0.21.0  # File watching
+
+# Windows Specific
+pywin32==306  # Windows API
+winshell==0.6  # Windows startup integration
+windows-curses==2.3.2  # Terminal UI on Windows
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3.post1
+humanize==4.9.0  # Human-readable output
+tabulate==0.9.0  # Table formatting
+pyyaml==6.0.1
+toml==0.10.2
+orjson==3.9.10  # Fast JSON
+ujson==5.9.0  # Alternative fast JSON
+msgpack==1.0.7  # Binary serialization
+
+# Async & Concurrency
+anyio==4.2.0
+trio==0.23.2
+asyncio-throttle==1.0.2
+aiocache==0.12.2  # Async caching
+
+# File Storage & Backup
+boto3==1.34.14  # AWS S3 support
+google-cloud-storage==2.10.0  # Google Cloud Storage
+azure-storage-blob==12.19.0  # Azure Blob Storage
+dropbox==11.36.2  # Dropbox integration
+minio==7.2.2  # MinIO/S3 compatible storage
+
+# Notification Services
+plyer==2.1.0  # Desktop notifications
+win10toast==0.9  # Windows 10 notifications
+sendgrid==6.11.0  # Email notifications
+twilio==8.11.0  # SMS notifications
+slack-sdk==3.26.1  # Slack notifications
+
+# Performance
+uvloop==0.19.0  # Fast event loop (Unix only, optional)
+cython==3.0.7  # Performance optimization
+numba==0.58.1  # JIT compilation for performance
+line-profiler==4.1.2  # Line-by-line profiling
+memory-profiler==0.61.0  # Memory profiling
