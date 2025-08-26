@@ -22,7 +22,11 @@
       "Bash(venvScriptspython.exe -c \"import PyQt6; import fastapi; import pandas; import cryptography; print(''Core packages OK'')\")",
       "Bash(venv\\Scripts\\python.exe -c \"import PyQt6; import fastapi; import pandas; import cryptography; print(''Core packages OK'')\")",
       "Bash(venvScripts:*)",
-      "Bash(py:*)"
+      "Bash(py:*)",
+      "Bash(\"C:\\Users\\maxli\\PycharmProjects\\PythonProject\\MCP\\venv\\Scripts\\python.exe\" core.py)",
+      "Bash(git log:*)",
+      "WebFetch(domain:ridebase.fi)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": [],

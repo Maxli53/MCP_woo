@@ -27,7 +27,12 @@ try:
         theme_manager,
         content_manager,
         seo_marketing,
-        monitoring
+        monitoring,
+        document_manager,
+        database_integration,
+        excel_processor,
+        data_consolidator,
+        ai_descriptions
     )
     from .multi_store import MultiStoreManager
     from .store_cloner import StoreCloner
@@ -43,7 +48,12 @@ except ImportError:
         theme_manager,
         content_manager,
         seo_marketing,
-        monitoring
+        monitoring,
+        document_manager,
+        database_integration,
+        excel_processor,
+        data_consolidator,
+        ai_descriptions
     )
     from multi_store import MultiStoreManager
     from store_cloner import StoreCloner
@@ -170,6 +180,9 @@ class EnhancedMCPServer:
         
         # VPS Management & Deployment
         self._register_vps_tools()
+        
+        # Document Management & Product Pipeline
+        self._register_document_management_tools()
     
     def _register_product_tools(self):
         """Register enhanced product management tools"""
@@ -932,6 +945,119 @@ class EnhancedMCPServer:
                 
             except Exception as e:
                 return json.dumps({"success": False, "error": str(e)}, indent=2)
+    
+    def _register_document_management_tools(self):
+        """Register document management and product data pipeline tools"""
+        
+        @self.mcp.tool()
+        def store_document(file_data: str, category: str = "auto", metadata: Dict[str, Any] = None) -> str:
+            """Store uploaded documents in appropriate repository folders
+            
+            Args:
+                file_data: Base64 encoded file content or file path
+                category: Document category (auto-detect if not specified)
+                metadata: Optional document metadata
+            """
+            result = document_manager.store_document(file_data, category, metadata)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def process_catalogue(document_id: str) -> str:
+            """Extract product data from uploaded catalogues by SKU
+            
+            Args:
+                document_id: ID of stored catalogue document
+            """
+            result = document_manager.process_catalogue(document_id)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def review_products(sku_list: List[str], review_mode: str = "individual") -> str:
+            """Simple review interface for manual validation
+            
+            Args:
+                sku_list: List of SKUs to review
+                review_mode: Review mode (individual, batch)
+            """
+            result = document_manager.review_products(sku_list, review_mode)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def query_database(query_type: str, parameters: Dict[str, Any] = None) -> str:
+            """Query the fragmented SQL database for product data
+            
+            Args:
+                query_type: Type of query (get_product, list_skus, incomplete_products, ai_template, custom)
+                parameters: Query parameters (sku, template_type, language, etc.)
+            """
+            result = database_integration.query_database(query_type, parameters or {})
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def import_excel_data(file_path: str, sheet_name: str = None, sku_column: str = "auto") -> str:
+            """Import and process pricing Excel files with automatic SKU detection
+            
+            Args:
+                file_path: Path to Excel file or document ID from stored documents
+                sheet_name: Specific sheet name to process (optional)
+                sku_column: SKU column name or "auto" for automatic detection
+            """
+            result = excel_processor.import_excel_data(file_path, sheet_name, sku_column)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def consolidate_product_data(sku: str, sources: List[str] = None) -> str:
+            """Consolidate product data from multiple sources (database, Excel, catalogues)
+            
+            Args:
+                sku: Product SKU to consolidate data for
+                sources: List of data sources to include ["database", "excel", "catalogue", "all"]
+            """
+            result = data_consolidator.consolidate_product_data(sku, sources)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def generate_descriptions(sku_list: List[str], template_type: str = "auto", language: str = "en") -> str:
+            """Generate AI-powered product descriptions using database templates
+            
+            Args:
+                sku_list: List of SKUs to generate descriptions for
+                template_type: Template type to use ("auto", "technical", "marketing", "basic")
+                language: Language code for descriptions ("en", "no", "se", "dk")
+            """
+            result = ai_descriptions.generate_descriptions(sku_list, template_type, language)
+            return json.dumps(result, indent=2)
+        
+        # Additional helper tools
+        @self.mcp.tool()
+        def get_excel_sheet_names(file_path: str) -> str:
+            """Get available sheet names from Excel file"""
+            result = excel_processor.get_excel_sheet_names(file_path)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def preview_excel_structure(file_path: str, sheet_name: str = None, rows: int = 5) -> str:
+            """Preview Excel file structure and data"""
+            result = excel_processor.preview_excel_structure(file_path, sheet_name, rows)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def batch_consolidate_products(sku_list: List[str], sources: List[str] = None) -> str:
+            """Consolidate data for multiple SKUs in batch"""
+            result = data_consolidator.batch_consolidate_products(sku_list, sources)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def batch_review_descriptions(sku_list: List[str], action: str = "preview") -> str:
+            """Review and manage generated descriptions in batch"""
+            result = ai_descriptions.batch_review_descriptions(sku_list, action)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def list_available_templates() -> str:
+            """List all available description templates"""
+            result = ai_descriptions.list_available_templates()
+            return json.dumps(result, indent=2)
     
     def run(self):
         """Run the enhanced MCP server"""
