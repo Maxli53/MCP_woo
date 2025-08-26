@@ -1,14 +1,14 @@
 # Working Enterprise MCP Configuration
 
-**Status**: ✅ WORKING - 100+ Enterprise Tools Confirmed  
+**Status**: ✅ WORKING - 108+ Enterprise + VPS Tools Confirmed  
 **Date**: August 26, 2025  
-**Commit**: `ccb109e` - feat: Implement Enterprise WooCommerce MCP Suite v2.0.0
+**Commit**: `d362cc7` - feat: Add comprehensive VPS management tools to enterprise MCP suite
 
 ## Git Branches
 
-- `enterprise-7am-working` - **MAIN WORKING VERSION** (current state)
-- `backup-2am-working` - Basic 11-tool fallback version  
-- `main` - Current active branch (same as enterprise-7am-working)
+- `main` - **CURRENT ENHANCED VERSION** (108+ tools with VPS - commit d362cc7) 
+- `enterprise-7am-working` - Enterprise baseline (100+ tools - commit ccb109e) 
+- `backup-2am-working` - Basic 11-tool fallback version (commit a3cf860)
 
 ## Claude Desktop Configuration
 
@@ -21,9 +21,9 @@
       "command": "C:\\Users\\maxli\\PycharmProjects\\PythonProject\\MCP\\venv\\Scripts\\python.exe",
       "args": ["C:\\Users\\maxli\\PycharmProjects\\PythonProject\\MCP\\claude-desktop-mcp\\enhanced\\core.py"],
       "env": {
-        "STORE_URL": "https://ridebase.fi/",
-        "WOOCOMMERCE_KEY": "ck_f6ad7b402ad502bcccd39616c94717f282954278",
-        "WOOCOMMERCE_SECRET": "cs_9732d3b1cfe2db9fffd47316e99884efecac4b9c"
+        "STORE_URL": "https://your-store-url.com/",
+        "WOOCOMMERCE_KEY": "ck_your_consumer_key_here",
+        "WOOCOMMERCE_SECRET": "cs_your_consumer_secret_here"
       }
     }
   }
@@ -79,11 +79,10 @@ claude-desktop-mcp/enhanced/
 
 ## Store Connection Details
 
-- **Store**: RideBase.fi
-- **Location**: Helsinki, Finland (EUR currency)
-- **Platform**: WordPress 6.8.2 + WooCommerce 9.4.2
-- **Products**: 26 items (snowmobiles, ATVs, Sea-Doos)
-- **Status**: Connected and functional
+- **Store**: Your WooCommerce Store  
+- **Location**: Configure in environment variables
+- **Platform**: WordPress + WooCommerce
+- **Status**: Connected and functional with proper API credentials
 
 ## Import Fixes Applied
 
