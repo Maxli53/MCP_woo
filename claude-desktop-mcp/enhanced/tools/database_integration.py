@@ -34,13 +34,13 @@ def query_database(query_type: str, sku: str = None, filters: Dict[str, Any] = N
         if not connection:
             return {"error": "Database connection failed"}
         
-        # Execute query based on type
-        if query_type == "get_product_by_sku":
+        # Execute query based on type (with backward compatibility)
+        if query_type in ["get_product_by_sku", "get_product"]:
             if not sku:
                 return {"error": "SKU required for product query"}
             return get_product_by_sku(connection, sku)
             
-        elif query_type == "list_all_skus":
+        elif query_type in ["list_all_skus", "list_skus"]:
             return list_all_skus(connection, filters or {})
             
         elif query_type == "get_incomplete_products":
@@ -110,7 +110,7 @@ def get_product_by_sku(connection: sqlite3.Connection, sku: str) -> Dict[str, An
     try:
         # Try different possible table structures since database is fragmented
         tables_to_check = [
-            "products", "product_data", "snowmobile_products", 
+            "articles", "products", "product_data", "snowmobile_products", 
             "items", "catalogue_data", "product_info"
         ]
         
@@ -443,11 +443,41 @@ def analyze_database_structure(connection: sqlite3.Connection) -> Dict[str, Any]
 # Helper functions
 
 def get_default_db_path() -> str:
-    """Get default database path"""
-    # Look for database in test_documents folder
-    test_db = Path(__file__).parent.parent.parent.parent / "test_documents" / "test_db.sqlite"
+    """Get default database path with environment variable support and fallbacks"""
+    
+    # First priority: Environment variable
+    env_db_path = os.getenv('DATABASE_PATH')
+    if env_db_path and Path(env_db_path).exists():
+        return env_db_path
+    
+    # Second priority: Document repository temp folder (Snowmobile.db)
+    repo_path = os.getenv('DOCUMENT_REPOSITORY')
+    if repo_path:
+        snowmobile_db = Path(repo_path) / "_temp" / "Snowmobile.db"
+        if snowmobile_db.exists():
+            return str(snowmobile_db)
+    
+    # Third priority: Relative path from current location
+    base_path = Path(__file__).parent.parent.parent.parent
+    snowmobile_paths = [
+        base_path / "document_repository" / "_temp" / "Snowmobile.db",
+        base_path / "_temp" / "Snowmobile.db",
+        base_path / "test_documents" / "Snowmobile.db"
+    ]
+    
+    for path in snowmobile_paths:
+        if path.exists():
+            return str(path)
+    
+    # Fourth priority: Test database
+    test_db = base_path / "test_documents" / "test_db.sqlite"
     if test_db.exists():
         return str(test_db)
+    
+    # Log available paths for debugging
+    logger.info(f"DATABASE_PATH env var: {env_db_path}")
+    logger.info(f"DOCUMENT_REPOSITORY env var: {repo_path}")
+    logger.info(f"Searched paths: {[str(p) for p in snowmobile_paths]}")
     
     # Return placeholder path
     return "database_path_not_configured"
