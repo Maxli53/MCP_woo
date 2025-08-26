@@ -181,16 +181,25 @@ def list_all_skus(connection: sqlite3.Connection, filters: Dict[str, Any]) -> Di
     try:
         all_skus = set()
         
-        # Check all potential tables
+        # Priority tables with actual SKUs (article_code)
+        priority_tables = ["articles", "article_kb_mapping", "articles_complete"]
+        fallback_tables = []
+        
         tables = get_all_tables(connection)
         
+        # Separate priority tables from others
         for table in tables:
+            if any(pt in table for pt in ["articles"]) and "backup" not in table:
+                priority_tables.append(table)
+            else:
+                fallback_tables.append(table)
+        
+        # First, get SKUs from priority tables with article_code
+        for table in priority_tables:
             try:
                 columns = get_table_columns(connection, table)
-                sku_column = find_sku_column(columns)
-                
-                if sku_column:
-                    query = f"SELECT DISTINCT {sku_column} FROM {table} WHERE {sku_column} IS NOT NULL"
+                if "article_code" in columns:
+                    query = f"SELECT DISTINCT article_code FROM {table} WHERE article_code IS NOT NULL"
                     cursor = connection.execute(query)
                     
                     for row in cursor:
@@ -199,8 +208,29 @@ def list_all_skus(connection: sqlite3.Connection, filters: Dict[str, Any]) -> Di
                             all_skus.add(sku)
                             
             except Exception as e:
-                logger.warning(f"Error checking table {table}: {e}")
+                logger.warning(f"Error checking priority table {table}: {e}")
                 continue
+        
+        # Only if we didn't find enough SKUs, check other tables (excluding model_line)
+        if len(all_skus) < 10:
+            for table in fallback_tables:
+                try:
+                    columns = get_table_columns(connection, table)
+                    sku_column = find_sku_column(columns)
+                    
+                    # Skip model_line columns to avoid model names being treated as SKUs
+                    if sku_column and sku_column != "model_line":
+                        query = f"SELECT DISTINCT {sku_column} FROM {table} WHERE {sku_column} IS NOT NULL"
+                        cursor = connection.execute(query)
+                        
+                        for row in cursor:
+                            sku = str(row[0]).strip()
+                            if sku and sku.lower() != "null":
+                                all_skus.add(sku)
+                                
+                except Exception as e:
+                    logger.warning(f"Error checking fallback table {table}: {e}")
+                    continue
         
         sku_list = sorted(list(all_skus))
         
@@ -215,6 +245,7 @@ def list_all_skus(connection: sqlite3.Connection, filters: Dict[str, Any]) -> Di
             "success": True,
             "total_skus": len(sku_list),
             "skus": sku_list,
+            "results": sku_list,  # Add results key for compatibility
             "source_tables": tables
         }
         
@@ -558,12 +589,27 @@ def get_table_columns(connection: sqlite3.Connection, table: str) -> List[str]:
 
 def find_sku_column(columns: List[str]) -> Optional[str]:
     """Find SKU column from list of column names"""
-    sku_patterns = ["sku", "article", "part", "model", "product_id", "item_code"]
+    # Priority order: article_code first (our main SKU field), then others
+    priority_patterns = ["article_code"]  # Highest priority
+    exact_patterns = ["sku", "part_number", "product_code", "item_code"]
+    partial_patterns = ["model_line"]  # Lower priority, only if no better match
     
+    # Check for article_code first (our main SKU field)
     for column in columns:
-        for pattern in sku_patterns:
-            if pattern in column.lower():
-                return column
+        if column.lower() in priority_patterns:
+            return column
+    
+    # Then check for other exact matches
+    for column in columns:
+        if column.lower() in exact_patterns:
+            return column
+    
+    # Finally check partial matches, excluding ID fields
+    for column in columns:
+        if "_id" not in column.lower():  # Exclude ID fields like article_id
+            for pattern in partial_patterns:
+                if pattern in column.lower():
+                    return column
     return None
 
 

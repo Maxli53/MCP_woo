@@ -192,23 +192,38 @@ def import_excel_data(file_path: str, sheet_name: str = None, sku_column: str = 
 def detect_sku_column(df: pd.DataFrame) -> Optional[str]:
     """Auto-detect SKU column based on common naming patterns"""
     
-    sku_patterns = [
-        "sku", "article", "part", "model", "item", "product_code", 
-        "article_number", "part_number", "model_number", "code",
+    # Priority patterns: article_code is our main SKU field
+    priority_patterns = ["article_code", "artikel_code", "sku"]
+    
+    # Secondary patterns (avoid "model" which contains model names, not SKUs)
+    secondary_patterns = [
+        "article", "part", "item", "product_code", 
+        "article_number", "part_number", "code",
         "artikkel", "varenr", "produktkode"  # Nordic variations
     ]
     
-    # Check exact matches first
+    # Check priority patterns first
     for column in df.columns:
         column_lower = str(column).lower().strip()
-        for pattern in sku_patterns:
-            if pattern == column_lower:
+        for pattern in priority_patterns:
+            if pattern in column_lower:
                 return column
     
-    # Check partial matches
+    # For konejatarvike.com.xlsx specifically, Column 2 (index 2) contains article codes
+    # This is a known structure where Column 2 has the actual SKUs
+    if len(df.columns) >= 3:
+        # Check if Column 2 contains short alphanumeric codes (article codes)
+        col2_sample = df.iloc[:, 2].dropna().head(20).astype(str)
+        short_codes = [str(val) for val in col2_sample if len(str(val)) <= 8 and str(val).isalnum()]
+        
+        # If most values in Column 2 are short alphanumeric (article codes), use it
+        if len(short_codes) >= len(col2_sample) * 0.8:  # 80% are article code-like
+            return df.columns[2]
+    
+    # Check secondary patterns
     for column in df.columns:
         column_lower = str(column).lower().strip()
-        for pattern in sku_patterns:
+        for pattern in secondary_patterns:
             if pattern in column_lower:
                 return column
     
