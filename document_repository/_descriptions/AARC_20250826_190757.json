@@ -1,0 +1,29 @@
+{
+  "sku": "AARC",
+  "generated_description": "Create an engaging marketing description for Expedition LE (SKU: AARC).\n\nKey Information:\n- Category: Snowmobile - Touring\n- Manufacturer: SKIDOO\n- Key Features: Engine: 900 ACE; Track: 154in 3900mm 20in, 1.5in 38mm Cobra Silent Track; Starter Type: Electric Start; Color: Black; Model Year: 2024\n- Price: 18 160 \u20ac\n\nWrite a compelling product description that highlights benefits and appeals to customers.",
+  "confidence_score": 1.0,
+  "template_type": "marketing",
+  "language": "en",
+  "generation_date": "2025-08-26T19:07:57.191084",
+  "source_data_quality": 0.6923076923076923,
+  "context_used": {
+    "sku": "AARC",
+    "name": "Expedition LE",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "900 ACE",
+      "Track": "154in 3900mm 20in, 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric Start",
+      "Color": "Black",
+      "Model Year": "2024"
+    },
+    "price": "18 160 \u20ac",
+    "existing_descriptions": [
+      {
+        "source": "database",
+        "text": "SKIDOO Expedition LE (2024). Engine: 900 ACE. Track: 154in 3900mm 20in, 1.5in 38mm Cobra Silent Track. Starter: Electric Start. Color: Black"
+      }
+    ]
+  }
+}

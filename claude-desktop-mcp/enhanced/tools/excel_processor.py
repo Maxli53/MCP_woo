@@ -58,10 +58,28 @@ def import_excel_data(file_path: str, sheet_name: str = None, sku_column: str = 
             if not actual_file_path or not os.path.exists(actual_file_path):
                 return {"error": "Document file not found"}
         else:
-            # Direct file path
-            if not os.path.exists(file_path):
-                return {"error": f"File not found: {file_path}"}
-            actual_file_path = file_path
+            # Direct file path or filename - search in document repository
+            if os.path.exists(file_path):
+                actual_file_path = file_path
+            else:
+                # Search in document repository structure
+                search_paths = [
+                    DOCUMENT_REPOSITORY / "pricing_data" / "margin_calculations" / file_path,
+                    DOCUMENT_REPOSITORY / "pricing_data" / "supplier_pricing" / file_path,
+                    DOCUMENT_REPOSITORY / file_path,
+                    DOCUMENT_REPOSITORY / "_temp" / file_path
+                ]
+                
+                actual_file_path = None
+                for search_path in search_paths:
+                    if search_path.exists():
+                        actual_file_path = str(search_path)
+                        break
+                
+                if not actual_file_path:
+                    return {"error": f"Excel file not found: {file_path}. Searched in document repository structure."}
+                    
+            logger.info(f"Using Excel file path: {actual_file_path}")
         
         # Read Excel file
         if sheet_name:

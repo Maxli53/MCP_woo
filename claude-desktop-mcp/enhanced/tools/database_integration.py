@@ -58,7 +58,9 @@ def query_database(query_type: str, parameters: Dict[str, Any] = None) -> Dict[s
             return search_products(connection, filters or {})
             
         elif query_type == "get_ai_template":
-            return get_ai_template(connection)
+            template_type = parameters.get('template_type', 'basic')
+            language = parameters.get('language', 'en')
+            return get_ai_template(connection, template_type, language)
             
         elif query_type == "get_schema_info":
             return get_schema_info(connection)
@@ -296,52 +298,96 @@ def search_products(connection: sqlite3.Connection, filters: Dict[str, Any]) -> 
         return {"error": str(e)}
 
 
-def get_ai_template(connection: sqlite3.Connection) -> Dict[str, Any]:
+def get_ai_template(connection: sqlite3.Connection, template_type: str = "basic", language: str = "en") -> Dict[str, Any]:
     """Extract AI description template from database"""
     
     try:
-        # Look for template in different possible locations
-        template_queries = [
-            "SELECT * FROM ai_templates",
-            "SELECT * FROM description_templates", 
-            "SELECT * FROM templates WHERE type='description'",
-            "SELECT * FROM settings WHERE key LIKE '%template%'"
+        # Look for specific template first
+        specific_queries = [
+            f"SELECT * FROM ai_templates WHERE template_type='{template_type}' AND language='{language}'",
+            f"SELECT * FROM description_templates WHERE type='{template_type}' AND lang='{language}'",
+            f"SELECT * FROM templates WHERE template_type='{template_type}' AND language='{language}'",
         ]
         
         template_data = {}
         
-        for query in template_queries:
+        # Try specific template queries first
+        for query in specific_queries:
             try:
                 cursor = connection.execute(query)
                 rows = cursor.fetchall()
                 
                 if rows:
-                    for row in rows:
-                        row_dict = dict(row)
-                        template_data.update(row_dict)
+                    row_dict = dict(rows[0])  # Take first match
+                    template_data = row_dict
                     break
                     
             except Exception:
                 continue
         
+        # If no specific template, try general queries
         if not template_data:
-            # Return default template structure
-            return {
-                "success": True,
-                "template_found": False,
-                "default_template": {
-                    "intro": "{product_name} by {manufacturer}",
-                    "specifications": "Technical specifications: {engine_specs}",
-                    "features": "Key features include {key_features}",
-                    "conclusion": "Perfect for {intended_use}"
+            general_queries = [
+                "SELECT * FROM ai_templates LIMIT 1",
+                "SELECT * FROM description_templates LIMIT 1", 
+                "SELECT * FROM templates WHERE type='description' LIMIT 1",
+                "SELECT * FROM settings WHERE key LIKE '%template%' LIMIT 1"
+            ]
+            
+            for query in general_queries:
+                try:
+                    cursor = connection.execute(query)
+                    rows = cursor.fetchall()
+                    
+                    if rows:
+                        row_dict = dict(rows[0])
+                        template_data = row_dict
+                        break
+                        
+                except Exception:
+                    continue
+        
+        if not template_data:
+            # Return built-in template structure based on type
+            builtin_templates = {
+                "technical": {
+                    "template": "Generate a technical product description for {name} (SKU: {sku}).\n\nKey Information:\n- Category: {category}\n- Manufacturer: {manufacturer}\n- Specifications: {specifications}\n- Price: {price}\n\nCreate a detailed technical description focusing on specifications and professional use cases.",
+                    "fields": ["name", "specifications", "manufacturer", "category"]
                 },
-                "message": "No custom template found in database, using default structure"
+                "marketing": {
+                    "template": "Create an engaging marketing description for {name} (SKU: {sku}).\n\nKey Information:\n- Category: {category}\n- Manufacturer: {manufacturer}\n- Key Features: {specifications}\n- Price: {price}\n\nWrite a compelling product description that highlights benefits and appeals to customers.",
+                    "fields": ["name", "category", "manufacturer", "price"]
+                },
+                "basic": {
+                    "template": "Create a basic product description for {name} (SKU: {sku}).\n\nProduct Details:\n- Category: {category}\n- Brand: {manufacturer}\n- Price: {price}\n\nWrite a clear, concise description covering the essential product information.",
+                    "fields": ["name", "category", "manufacturer"]
+                }
+            }
+            
+            selected_template = builtin_templates.get(template_type, builtin_templates["basic"])
+            
+            return {
+                "template_type": template_type,
+                "language": language,
+                "template": selected_template["template"],
+                "required_fields": selected_template["fields"],
+                "template_info": {
+                    "source": "builtin",
+                    "template_id": f"{template_type}_{language}"
+                }
             }
         
+        # Process database template data
         return {
-            "success": True,
-            "template_found": True,
-            "template_data": template_data
+            "template_type": template_type,
+            "language": language,
+            "template": template_data.get("template", template_data.get("content", template_data.get("description", ""))),
+            "required_fields": template_data.get("required_fields", ["name", "category"]),
+            "template_info": {
+                "source": "database",
+                "template_id": template_data.get("id", f"db_{template_type}_{language}"),
+                "raw_data": template_data
+            }
         }
         
     except Exception as e:

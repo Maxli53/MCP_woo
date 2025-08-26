@@ -1,0 +1,42 @@
+{
+  "sku": "AARC",
+  "consolidation_date": "2025-08-26T19:04:45.918541",
+  "sources_checked": [
+    "database"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "AARC",
+      "product_data": {
+        "id": 5397,
+        "article_code": "AARC",
+        "brand": "SKIDOO",
+        "year": 2024,
+        "model": "Expedition LE",
+        "package": "",
+        "engine": "900 ACE",
+        "track": "154in 3900mm 20in, 1.5in 38mm Cobra Silent Track",
+        "starter": "Electric Start",
+        "gauge": "",
+        "spring_options": "",
+        "color": "Black",
+        "price_fi": "18 160 \u20ac",
+        "metadata": "{\"source_pdf\": \"SKIDOO_2024_PRICE_LIST\", \"model_line\": \"Expedition LE\", \"_extraction_metadata\": {\"source_pdf\": \"SKI-DOO_2024-PRICE_LIST.pdf\", \"source_page\": 1, \"extracted_timestamp\": \"2025-08-03T00:06:39.727495\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:20",
+        "updated_at": "2025-08-02 21:12:20"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.13333333333333333,
+  "completeness_score": 0.0,
+  "consolidated_data": {},
+  "ai_description_ready": false,
+  "ai_description_data": null,
+  "recommendation": "LOW_DATA_COVERAGE - Additional data sources needed"
+}

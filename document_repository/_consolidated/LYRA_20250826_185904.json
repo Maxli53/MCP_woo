@@ -1,0 +1,42 @@
+{
+  "sku": "LYRA",
+  "consolidation_date": "2025-08-26T18:59:04.924432",
+  "sources_checked": [
+    "database"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "LYRA",
+      "product_data": {
+        "id": 5029,
+        "article_code": "LYRA",
+        "brand": "LYNX",
+        "year": 2024,
+        "model": "Rave",
+        "package": "120",
+        "engine": "120",
+        "track": "67in 0.75in 19mm Cobra",
+        "starter": "Manual Start",
+        "gauge": "",
+        "spring_options": "",
+        "color": "Viper Red",
+        "price_fi": "5 000 \u20ac",
+        "metadata": "{\"source_pdf\": \"LYNX_2024_PRICE_LIST\", \"model_line\": \"Rave 120\", \"_extraction_metadata\": {\"source_pdf\": \"LYNX_2024-PRICE_LIST.pdf\", \"source_page\": 1, \"extracted_timestamp\": \"2025-08-02T23:44:24.881287\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:18",
+        "updated_at": "2025-08-02 21:12:18"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.13333333333333333,
+  "completeness_score": 0.0,
+  "consolidated_data": {},
+  "ai_description_ready": false,
+  "ai_description_data": null,
+  "recommendation": "LOW_DATA_COVERAGE - Additional data sources needed"
+}

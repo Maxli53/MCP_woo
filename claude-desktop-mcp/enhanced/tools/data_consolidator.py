@@ -201,27 +201,40 @@ def get_catalogue_data(sku: str) -> Optional[Dict[str, Any]]:
 def extract_field_value(source_data: Dict[str, Any], field: str) -> Any:
     """Extract specific field value from source data"""
     
-    # Direct field mapping
+    # Check if this is database integration format (has product_data sub-object)
+    product_data = source_data.get("product_data", {})
+    
+    # Direct field mapping (check both main data and product_data)
     if field in source_data:
         return source_data[field]
+    if field in product_data:
+        return product_data[field]
     
     # Field-specific extraction logic
     if field == "name":
         return (source_data.get("name") or 
                 source_data.get("product_name") or 
-                source_data.get("title"))
+                source_data.get("title") or
+                # Database format fields
+                product_data.get("model") or
+                f"{product_data.get('brand', '')} {product_data.get('model', '')}".strip())
     
     elif field == "description":
         return (source_data.get("description") or 
                 source_data.get("product_description") or 
-                source_data.get("short_description"))
+                source_data.get("short_description") or
+                # Build description from database fields
+                build_description_from_product_data(product_data))
     
     elif field == "price":
         pricing = source_data.get("pricing", {})
         return (pricing.get("retail_price") or 
                 pricing.get("price") or 
                 pricing.get("msrp") or
-                source_data.get("price"))
+                source_data.get("price") or
+                # Database format fields
+                product_data.get("price_fi") or
+                product_data.get("price"))
     
     elif field == "cost":
         pricing = source_data.get("pricing", {})
@@ -239,19 +252,113 @@ def extract_field_value(source_data: Dict[str, Any], field: str) -> Any:
     elif field == "specifications":
         return (source_data.get("specifications") or 
                 source_data.get("specs") or 
-                source_data.get("technical_specs"))
+                source_data.get("technical_specs") or
+                # Build specs from database fields
+                build_specifications_from_product_data(product_data))
     
     elif field == "category":
         return (source_data.get("category") or 
                 source_data.get("product_category") or 
-                source_data.get("type"))
+                source_data.get("type") or
+                # Database format fields
+                determine_category_from_product_data(product_data))
     
     elif field == "manufacturer":
         return (source_data.get("manufacturer") or 
                 source_data.get("brand") or 
-                source_data.get("supplier"))
+                source_data.get("supplier") or
+                # Database format fields
+                product_data.get("brand"))
     
     return None
+
+
+def build_description_from_product_data(product_data: Dict[str, Any]) -> str:
+    """Build description from database product fields"""
+    if not product_data:
+        return ""
+    
+    parts = []
+    
+    # Add basic info
+    brand = product_data.get("brand", "")
+    model = product_data.get("model", "")
+    year = product_data.get("year", "")
+    
+    if brand and model:
+        base = f"{brand} {model}"
+        if year:
+            base += f" ({year})"
+        parts.append(base)
+    
+    # Add technical specs
+    engine = product_data.get("engine", "")
+    if engine:
+        parts.append(f"Engine: {engine}")
+    
+    track = product_data.get("track", "")
+    if track:
+        parts.append(f"Track: {track}")
+    
+    starter = product_data.get("starter", "")
+    if starter:
+        parts.append(f"Starter: {starter}")
+    
+    color = product_data.get("color", "")
+    if color:
+        parts.append(f"Color: {color}")
+    
+    return ". ".join(parts) if parts else ""
+
+
+def build_specifications_from_product_data(product_data: Dict[str, Any]) -> Dict[str, str]:
+    """Build specifications dict from database product fields"""
+    if not product_data:
+        return {}
+    
+    specs = {}
+    
+    # Map database fields to specification fields
+    spec_mapping = {
+        "engine": "Engine",
+        "track": "Track",
+        "starter": "Starter Type",
+        "gauge": "Gauge",
+        "color": "Color",
+        "year": "Model Year",
+        "package": "Package"
+    }
+    
+    for db_field, spec_name in spec_mapping.items():
+        value = product_data.get(db_field)
+        if value and str(value).strip():
+            specs[spec_name] = str(value).strip()
+    
+    return specs
+
+
+def determine_category_from_product_data(product_data: Dict[str, Any]) -> str:
+    """Determine product category from database fields"""
+    if not product_data:
+        return ""
+    
+    brand = product_data.get("brand", "").upper()
+    model = product_data.get("model", "").lower()
+    
+    # Category mapping based on brand/model patterns
+    if brand in ["SKIDOO", "SKI-DOO", "LYNX"]:
+        if "expedition" in model:
+            return "Snowmobile - Touring"
+        elif "summit" in model:
+            return "Snowmobile - Mountain"
+        elif "renegade" in model or "backcountry" in model:
+            return "Snowmobile - Trail"
+        elif "ranger" in model:
+            return "Snowmobile - Utility"
+        else:
+            return "Snowmobile"
+    
+    return "Powersport Vehicle"
 
 
 def resolve_field_conflicts(field: str, values_found: Dict[str, Any], priority_sources: List[str]) -> tuple:

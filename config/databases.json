@@ -1,0 +1,17 @@
+{
+  "db_20250826_092629": {
+    "id": "db_20250826_092629",
+    "name": "External Database",
+    "type": "sqlite",
+    "connection_string": "sqlite:///test_documents\\test_db.sqlite",
+    "schema_name": null,
+    "table_mappings": {},
+    "access_permissions": {
+      "read": true,
+      "write": false
+    },
+    "sync_rules": {},
+    "last_sync": null,
+    "metadata": {}
+  }
+}
