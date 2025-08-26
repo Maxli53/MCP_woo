@@ -457,7 +457,13 @@ def get_default_db_path() -> str:
         if snowmobile_db.exists():
             return str(snowmobile_db)
     
-    # Third priority: Relative path from current location
+    # Third priority: Hardcoded known path (YOUR ACTUAL PATH)
+    hardcoded_path = "C:/Users/maxli/PycharmProjects/PythonProject/MCP/document_repository/_temp/Snowmobile.db"
+    if Path(hardcoded_path).exists():
+        logger.info(f"Using hardcoded Snowmobile.db path: {hardcoded_path}")
+        return hardcoded_path
+    
+    # Fourth priority: Relative path from current location
     base_path = Path(__file__).parent.parent.parent.parent
     snowmobile_paths = [
         base_path / "document_repository" / "_temp" / "Snowmobile.db",
@@ -467,9 +473,10 @@ def get_default_db_path() -> str:
     
     for path in snowmobile_paths:
         if path.exists():
+            logger.info(f"Using relative path: {path}")
             return str(path)
     
-    # Fourth priority: Test database
+    # Fifth priority: Test database
     test_db = base_path / "test_documents" / "test_db.sqlite"
     if test_db.exists():
         return str(test_db)
