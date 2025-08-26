@@ -133,8 +133,8 @@ def consolidate_product_data(sku: str, sources: List[str] = None) -> Dict[str, A
 def get_database_data(sku: str) -> Optional[Dict[str, Any]]:
     """Get product data from SQL database"""
     try:
-        from .database_integration import get_product_by_sku
-        return get_product_by_sku(sku)
+        from .database_integration import query_database
+        return query_database('get_product', {'sku': sku})
     except Exception as e:
         logger.error(f"Error getting database data for {sku}: {e}")
         return {"error": str(e)}

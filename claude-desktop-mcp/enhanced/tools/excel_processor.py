@@ -13,8 +13,22 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-# Document repository base path
-DOCUMENT_REPOSITORY = Path(__file__).parent.parent.parent.parent / "document_repository"
+# Document repository base path with environment variable and fallback support
+def get_document_repository_path():
+    # First: Environment variable
+    env_path = os.getenv('DOCUMENT_REPOSITORY')
+    if env_path and Path(env_path).exists():
+        return Path(env_path)
+    
+    # Second: Hardcoded known path
+    hardcoded_path = "C:/Users/maxli/PycharmProjects/PythonProject/MCP/document_repository"
+    if Path(hardcoded_path).exists():
+        return Path(hardcoded_path)
+    
+    # Third: Relative path
+    return Path(__file__).parent.parent.parent.parent / "document_repository"
+
+DOCUMENT_REPOSITORY = get_document_repository_path()
 
 def import_excel_data(file_path: str, sheet_name: str = None, sku_column: str = "auto") -> Dict[str, Any]:
     """

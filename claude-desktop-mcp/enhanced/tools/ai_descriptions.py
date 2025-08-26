@@ -143,10 +143,13 @@ def generate_single_description(sku: str, consolidated_data: Dict[str, Any], tem
 def get_ai_template(template_type: str, language: str) -> Dict[str, Any]:
     """Get AI description template from database"""
     try:
-        from .database_integration import get_ai_template as db_get_template
+        from .database_integration import query_database
         
         # Try to get specific template from database
-        db_template = db_get_template(template_type, language)
+        db_template = query_database('get_ai_template', {
+            'template_type': template_type, 
+            'language': language
+        })
         
         if db_template and not db_template.get("error"):
             return db_template
