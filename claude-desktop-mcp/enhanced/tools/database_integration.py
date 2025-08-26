@@ -4,6 +4,7 @@ Core tool for connecting to and querying the fragmented SQL database
 """
 
 import logging
+import os
 import sqlite3
 import json
 from datetime import datetime
@@ -16,19 +17,26 @@ logger = logging.getLogger(__name__)
 DEFAULT_DB_PATH = None  # Will be set by user configuration
 CONNECTION_POOL = {}    # Simple connection pooling
 
-def query_database(query_type: str, sku: str = None, filters: Dict[str, Any] = None) -> Dict[str, Any]:
+def query_database(query_type: str, parameters: Dict[str, Any] = None) -> Dict[str, Any]:
     """
     Tool 2: Connect to fragmented SQL database and query product data
     
     Args:
         query_type: Type of query (get_product_by_sku, list_all_skus, get_incomplete_products, etc.)
-        sku: Product SKU for specific queries
-        filters: Additional filters for queries
+        parameters: Dictionary containing query parameters like {'sku': 'ABC123', 'filters': {...}}
     
     Returns:
         Query results with product data
     """
     try:
+        # Handle parameters
+        if parameters is None:
+            parameters = {}
+        
+        # Extract common parameters
+        sku = parameters.get('sku')
+        filters = parameters.get('filters', {})
+        
         # Get database connection
         connection = get_database_connection()
         if not connection:
