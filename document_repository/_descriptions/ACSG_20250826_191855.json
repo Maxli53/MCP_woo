@@ -1,0 +1,30 @@
+{
+  "sku": "ACSG",
+  "generated_description": "Create a basic product description for Expedition (SKU: ACSG).\n\nProduct Details:\n- Category: Snowmobile - Touring\n- Brand: SKIDOO\n- Price: 19 860 \u20ac\n\nWrite a clear, concise description covering the essential product information.",
+  "confidence_score": 1.0,
+  "template_type": "basic",
+  "language": "en",
+  "generation_date": "2025-08-26T19:18:55.506646",
+  "source_data_quality": 0.6923076923076923,
+  "context_used": {
+    "sku": "ACSG",
+    "name": "Expedition",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "900 ACE Turbo",
+      "Track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric",
+      "Color": "Catalyst Grey",
+      "Model Year": "2025",
+      "Package": "LE 20\""
+    },
+    "price": "19 860 \u20ac",
+    "existing_descriptions": [
+      {
+        "source": "database",
+        "text": "SKIDOO Expedition (2025). Engine: 900 ACE Turbo. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Catalyst Grey"
+      }
+    ]
+  }
+}

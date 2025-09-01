@@ -1,0 +1,31 @@
+{
+  "sku": "FETB",
+  "generated_description": "Create a basic product description for 49 Ranger (SKU: FETB).\n\nProduct Details:\n- Category: Snowmobile - Utility\n- Brand: LYNX\n- Price: 14 180,00 \u20ac\n\nWrite a clear, concise description covering the essential product information.",
+  "confidence_score": 1.0,
+  "template_type": "basic",
+  "language": "en",
+  "generation_date": "2025-08-26T20:01:57.180602",
+  "source_data_quality": 0.6923076923076923,
+  "context_used": {
+    "sku": "FETB",
+    "name": "49 Ranger",
+    "category": "Snowmobile - Utility",
+    "manufacturer": "LYNX",
+    "specifications": {
+      "Engine": "600 ACE",
+      "Track": "154in 3900mm 1.5in 38mm Charger",
+      "Starter Type": "Electric",
+      "Gauge": "4.5 in. Digital Display",
+      "Color": "White / Black",
+      "Model Year": "2026",
+      "Package": "Core"
+    },
+    "price": "14 180,00 \u20ac",
+    "existing_descriptions": [
+      {
+        "source": "database",
+        "text": "LYNX 49 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.5in 38mm Charger. Starter: Electric. Color: White / Black"
+      }
+    ]
+  }
+}

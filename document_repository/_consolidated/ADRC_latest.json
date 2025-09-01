@@ -1,0 +1,78 @@
+{
+  "sku": "ADRC",
+  "consolidation_date": "2025-08-26T19:18:54.979803",
+  "sources_checked": [
+    "database"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "ADRC",
+      "product_data": {
+        "id": 5404,
+        "article_code": "ADRC",
+        "brand": "SKIDOO",
+        "year": 2024,
+        "model": "Expedition XTREME",
+        "package": "",
+        "engine": "850 E-TEC",
+        "track": "154in 3900mm 1.8in 46mm Cobra SilentD80",
+        "starter": "Electric Start",
+        "gauge": "",
+        "spring_options": "",
+        "color": "Neo Mint",
+        "price_fi": "20 520 \u20ac",
+        "metadata": "{\"source_pdf\": \"SKIDOO_2024_PRICE_LIST\", \"model_line\": \"Expedition XTREME\", \"_extraction_metadata\": {\"source_pdf\": \"SKI-DOO_2024-PRICE_LIST.pdf\", \"source_page\": 1, \"extracted_timestamp\": \"2025-08-03T00:06:39.727514\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:20",
+        "updated_at": "2025-08-02 21:12:20"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.6613333333333332,
+  "completeness_score": 0.6923076923076923,
+  "consolidated_data": {
+    "name": "Expedition XTREME",
+    "description": "SKIDOO Expedition XTREME (2024). Engine: 850 E-TEC. Track: 154in 3900mm 1.8in 46mm Cobra SilentD80. Starter: Electric Start. Color: Neo Mint",
+    "price": "20 520 \u20ac",
+    "specifications": {
+      "Engine": "850 E-TEC",
+      "Track": "154in 3900mm 1.8in 46mm Cobra SilentD80",
+      "Starter Type": "Electric Start",
+      "Color": "Neo Mint",
+      "Model Year": "2024"
+    },
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO"
+  },
+  "ai_description_ready": true,
+  "ai_description_data": {
+    "sku": null,
+    "name": "Expedition XTREME",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "850 E-TEC",
+      "Track": "154in 3900mm 1.8in 46mm Cobra SilentD80",
+      "Starter Type": "Electric Start",
+      "Color": "Neo Mint",
+      "Model Year": "2024"
+    },
+    "existing_description": "SKIDOO Expedition XTREME (2024). Engine: 850 E-TEC. Track: 154in 3900mm 1.8in 46mm Cobra SilentD80. Starter: Electric Start. Color: Neo Mint",
+    "price_info": {
+      "retail_price": "20 520 \u20ac",
+      "cost_price": null
+    },
+    "source_descriptions": [
+      {
+        "source": "database",
+        "description": "SKIDOO Expedition XTREME (2024). Engine: 850 E-TEC. Track: 154in 3900mm 1.8in 46mm Cobra SilentD80. Starter: Electric Start. Color: Neo Mint"
+      }
+    ]
+  },
+  "recommendation": "MEDIUM_CONFIDENCE - Review recommended before processing"
+}

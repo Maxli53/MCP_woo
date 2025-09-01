@@ -1,0 +1,31 @@
+{
+  "sku": "ACTE",
+  "generated_description": "Create a basic product description for Expedition (SKU: ACTE).\n\nProduct Details:\n- Category: Snowmobile - Touring\n- Brand: SKIDOO\n- Price: 20 090,00 \u20ac\n\nWrite a clear, concise description covering the essential product information.",
+  "confidence_score": 1.0,
+  "template_type": "basic",
+  "language": "en",
+  "generation_date": "2025-08-26T19:18:55.510285",
+  "source_data_quality": 0.6923076923076923,
+  "context_used": {
+    "sku": "ACTE",
+    "name": "Expedition",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "900 ACE Turbo",
+      "Track": "154in 3900mm 1.5in 38mm Crosscut",
+      "Starter Type": "Electric",
+      "Gauge": "4.5 in. Digital Display",
+      "Color": "Neo Yellow",
+      "Model Year": "2026",
+      "Package": "LE 20\""
+    },
+    "price": "20 090,00 \u20ac",
+    "existing_descriptions": [
+      {
+        "source": "database",
+        "text": "SKIDOO Expedition (2026). Engine: 900 ACE Turbo. Track: 154in 3900mm 1.5in 38mm Crosscut. Starter: Electric. Color: Neo Yellow"
+      }
+    ]
+  }
+}

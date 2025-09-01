@@ -1,0 +1,80 @@
+{
+  "sku": "LYRB",
+  "consolidation_date": "2025-08-26T19:38:19.414217",
+  "sources_checked": [
+    "database"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "LYRB",
+      "product_data": {
+        "id": 5030,
+        "article_code": "LYRB",
+        "brand": "LYNX",
+        "year": 2024,
+        "model": "Rave",
+        "package": "200",
+        "engine": "200",
+        "track": "93in 1.0in 25mm Cobra",
+        "starter": "Electric Start",
+        "gauge": "",
+        "spring_options": "",
+        "color": "Viper Red",
+        "price_fi": "6 650 \u20ac",
+        "metadata": "{\"source_pdf\": \"LYNX_2024_PRICE_LIST\", \"model_line\": \"Rave 200\", \"_extraction_metadata\": {\"source_pdf\": \"LYNX_2024-PRICE_LIST.pdf\", \"source_page\": 1, \"extracted_timestamp\": \"2025-08-02T23:44:24.881297\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:18",
+        "updated_at": "2025-08-02 21:12:18"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.6613333333333332,
+  "completeness_score": 0.6923076923076923,
+  "consolidated_data": {
+    "name": "Rave",
+    "description": "LYNX Rave (2024). Engine: 200. Track: 93in 1.0in 25mm Cobra. Starter: Electric Start. Color: Viper Red",
+    "price": "6 650 \u20ac",
+    "specifications": {
+      "Engine": "200",
+      "Track": "93in 1.0in 25mm Cobra",
+      "Starter Type": "Electric Start",
+      "Color": "Viper Red",
+      "Model Year": "2024",
+      "Package": "200"
+    },
+    "category": "Snowmobile",
+    "manufacturer": "LYNX"
+  },
+  "ai_description_ready": true,
+  "ai_description_data": {
+    "sku": null,
+    "name": "Rave",
+    "category": "Snowmobile",
+    "manufacturer": "LYNX",
+    "specifications": {
+      "Engine": "200",
+      "Track": "93in 1.0in 25mm Cobra",
+      "Starter Type": "Electric Start",
+      "Color": "Viper Red",
+      "Model Year": "2024",
+      "Package": "200"
+    },
+    "existing_description": "LYNX Rave (2024). Engine: 200. Track: 93in 1.0in 25mm Cobra. Starter: Electric Start. Color: Viper Red",
+    "price_info": {
+      "retail_price": "6 650 \u20ac",
+      "cost_price": null
+    },
+    "source_descriptions": [
+      {
+        "source": "database",
+        "description": "LYNX Rave (2024). Engine: 200. Track: 93in 1.0in 25mm Cobra. Starter: Electric Start. Color: Viper Red"
+      }
+    ]
+  },
+  "recommendation": "MEDIUM_CONFIDENCE - Review recommended before processing"
+}

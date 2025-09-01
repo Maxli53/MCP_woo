@@ -4,6 +4,7 @@ Full WooCommerce REST API coverage with advanced features
 """
 
 import os
+import sys
 import json
 import logging
 import subprocess
@@ -32,7 +33,8 @@ try:
         database_integration,
         excel_processor,
         data_consolidator,
-        ai_descriptions
+        ai_descriptions,
+        vps_manager  # Real VPS management
     )
     from .multi_store import MultiStoreManager
     from .store_cloner import StoreCloner
@@ -53,7 +55,8 @@ except ImportError:
         database_integration,
         excel_processor,
         data_consolidator,
-        ai_descriptions
+        ai_descriptions,
+        vps_manager  # Real VPS management
     )
     from multi_store import MultiStoreManager
     from store_cloner import StoreCloner
@@ -600,7 +603,46 @@ class EnhancedMCPServer:
         """Register VPS management and deployment tools"""
         
         @self.mcp.tool()
-        def provision_ubuntu_vps(ip_address: str, ssh_key_path: str = None, 
+        def test_vps_environment() -> str:
+            """Test VPS environment configuration and diagnose connection issues"""
+            import os
+            import logging
+            
+            # Setup logging to capture debug info
+            logging.basicConfig(level=logging.INFO)
+            
+            env_info = {
+                "environment_variables": {
+                    "DEFAULT_VPS_IP": os.getenv('DEFAULT_VPS_IP'),
+                    "VPS_SSH_PORT": os.getenv('VPS_SSH_PORT'),
+                    "VPS_SSH_KEY_PATH": os.getenv('VPS_SSH_KEY_PATH'),
+                    "VPS_SSH_PASSWORD": "***" if os.getenv('VPS_SSH_PASSWORD') else None
+                },
+                "path_checks": {
+                    "ssh_key_exists": os.path.exists(os.getenv('VPS_SSH_KEY_PATH', '')),
+                    "ssh_key_path": os.getenv('VPS_SSH_KEY_PATH', 'NOT_SET'),
+                    "working_directory": os.getcwd(),
+                    "python_executable": sys.executable
+                },
+                "test_connection": None
+            }
+            
+            # Try a test connection
+            try:
+                from tools import vps_manager
+                test_result = vps_manager.get_vps_resources()
+                env_info["test_connection"] = {
+                    "success": test_result.get("success", False),
+                    "hostname": test_result.get("hostname") if test_result.get("success") else None,
+                    "error": test_result.get("error") if not test_result.get("success") else None
+                }
+            except Exception as e:
+                env_info["test_connection"] = {"error": str(e)}
+            
+            return json.dumps(env_info, indent=2)
+        
+        @self.mcp.tool()
+        def provision_ubuntu_vps(ip_address: str = None, ssh_key_path: str = None, 
                                 ssh_password: str = None, ubuntu_version: str = "22.04",
                                 hostname: str = None, php_version: str = "8.1") -> str:
             """Provision Ubuntu VPS with LEMP stack for WooCommerce hosting
@@ -613,40 +655,20 @@ class EnhancedMCPServer:
                 hostname: Server hostname
                 php_version: PHP version to install
             """
-            try:
-                # Basic validation
-                if not ip_address:
-                    return json.dumps({"error": "IP address is required"})
-                
-                if not ssh_key_path and not ssh_password:
-                    return json.dumps({"error": "SSH key or password required"})
-                
-                # Environment-based SSH credentials
-                ssh_key_path = ssh_key_path or os.getenv('VPS_SSH_KEY_PATH')
-                ssh_password = ssh_password or os.getenv('VPS_SSH_PASSWORD')
-                
-                # VPS provisioning logic would go here
-                # For now, return a simulated successful provision
-                result = {
-                    "success": True,
-                    "ip_address": ip_address,
-                    "ubuntu_version": ubuntu_version,
-                    "php_version": php_version,
-                    "services": ["nginx", "mysql", "php-fpm", "fail2ban", "ufw"],
-                    "status": "provisioned",
-                    "ssh_port": 22,
-                    "message": "VPS provisioning completed successfully"
-                }
-                
-                return json.dumps(result, indent=2)
-                
-            except Exception as e:
-                logger.error(f"VPS provisioning failed: {e}")
-                return json.dumps({"success": False, "error": str(e)}, indent=2)
+            # Use REAL VPS manager for actual SSH operations
+            result = vps_manager.provision_ubuntu_vps(
+                ip_address=ip_address,
+                ssh_key_path=ssh_key_path,
+                ssh_password=ssh_password,
+                ubuntu_version=ubuntu_version,
+                hostname=hostname,
+                php_version=php_version
+            )
+            return json.dumps(result, indent=2)
         
         @self.mcp.tool()
-        def deploy_store_to_vps(vps_ip: str, domain: str, store_name: str,
-                               admin_email: str, admin_user: str = "admin",
+        def deploy_store_to_vps(vps_ip: str = None, domain: str = None, store_name: str = None,
+                               admin_email: str = None, admin_user: str = "admin",
                                admin_password: str = None, ssl_enabled: bool = True,
                                php_version: str = "8.1", ssh_key_path: str = None) -> str:
             """Deploy new WooCommerce store to VPS
@@ -662,140 +684,52 @@ class EnhancedMCPServer:
                 php_version: PHP version
                 ssh_key_path: SSH key path
             """
-            try:
-                if not all([vps_ip, domain, store_name, admin_email]):
-                    return json.dumps({"error": "VPS IP, domain, store name and admin email are required"})
-                
-                # Use environment SSH key if not provided
-                ssh_key_path = ssh_key_path or os.getenv('VPS_SSH_KEY_PATH')
-                
-                # Generate admin password if not provided
-                if not admin_password:
-                    admin_password = f"wp_{domain.replace('.', '_')}_" + str(int(datetime.now().timestamp()))[-6:]
-                
-                # Deployment logic would go here
-                # For now, return simulated successful deployment
-                result = {
-                    "success": True,
-                    "vps_ip": vps_ip,
-                    "domain": domain,
-                    "store_name": store_name,
-                    "admin_url": f"https://{domain}/wp-admin",
-                    "admin_user": admin_user,
-                    "admin_password": admin_password,
-                    "admin_email": admin_email,
-                    "ssl_enabled": ssl_enabled,
-                    "woocommerce_api_url": f"https://{domain}/wp-json/wc/v3/",
-                    "status": "deployed",
-                    "message": f"WooCommerce store '{store_name}' deployed successfully to {domain}"
-                }
-                
-                return json.dumps(result, indent=2)
-                
-            except Exception as e:
-                logger.error(f"Store deployment failed: {e}")
-                return json.dumps({"success": False, "error": str(e)}, indent=2)
+            # Use REAL VPS manager for actual SSH operations
+            result = vps_manager.deploy_store_to_vps(
+                vps_ip=vps_ip,
+                domain=domain,
+                store_name=store_name,
+                admin_email=admin_email,
+                admin_user=admin_user,
+                admin_password=admin_password,
+                ssl_enabled=ssl_enabled,
+                php_version=php_version,
+                ssh_key_path=ssh_key_path
+            )
+            return json.dumps(result, indent=2)
         
         @self.mcp.tool()
-        def list_stores_on_vps(vps_ip: str, ssh_key_path: str = None) -> str:
+        def list_stores_on_vps(vps_ip: str = None, ssh_key_path: str = None) -> str:
             """List all WooCommerce stores deployed on VPS
             
             Args:
                 vps_ip: VPS IP address
                 ssh_key_path: SSH key path
             """
-            try:
-                if not vps_ip:
-                    return json.dumps({"error": "VPS IP address is required"})
-                
-                ssh_key_path = ssh_key_path or os.getenv('VPS_SSH_KEY_PATH')
-                
-                # Store listing logic would go here
-                # For now, return simulated store list
-                result = {
-                    "success": True,
-                    "vps_ip": vps_ip,
-                    "total_stores": 2,
-                    "stores": [
-                        {
-                            "domain": "store1.example.com",
-                            "name": "Example Store 1",
-                            "status": "active",
-                            "ssl": True,
-                            "php_version": "8.1",
-                            "disk_usage": "1.2GB"
-                        },
-                        {
-                            "domain": "store2.example.com", 
-                            "name": "Example Store 2",
-                            "status": "active",
-                            "ssl": True,
-                            "php_version": "8.1",
-                            "disk_usage": "900MB"
-                        }
-                    ]
-                }
-                
-                return json.dumps(result, indent=2)
-                
-            except Exception as e:
-                return json.dumps({"success": False, "error": str(e)}, indent=2)
+            # Use REAL VPS manager for actual SSH operations
+            result = vps_manager.list_stores_on_vps(
+                vps_ip=vps_ip,
+                ssh_key_path=ssh_key_path
+            )
+            return json.dumps(result, indent=2)
         
         @self.mcp.tool()
-        def get_vps_resources(vps_ip: str, ssh_key_path: str = None) -> str:
+        def get_vps_resources(vps_ip: str = None, ssh_key_path: str = None) -> str:
             """Get VPS resource usage and system information
             
             Args:
                 vps_ip: VPS IP address
                 ssh_key_path: SSH key path
             """
-            try:
-                if not vps_ip:
-                    return json.dumps({"error": "VPS IP address is required"})
-                
-                ssh_key_path = ssh_key_path or os.getenv('VPS_SSH_KEY_PATH')
-                
-                # Resource monitoring logic would go here
-                # For now, return simulated resource data
-                result = {
-                    "success": True,
-                    "vps_ip": vps_ip,
-                    "timestamp": datetime.now().isoformat(),
-                    "system": {
-                        "os": "Ubuntu 22.04 LTS",
-                        "uptime": "15 days, 3:24:18",
-                        "load_average": [0.35, 0.42, 0.38]
-                    },
-                    "cpu": {
-                        "usage_percent": 12.5,
-                        "cores": 2,
-                        "model": "Intel Xeon"
-                    },
-                    "memory": {
-                        "total_gb": 4.0,
-                        "used_gb": 1.8,
-                        "free_gb": 2.2,
-                        "usage_percent": 45.0
-                    },
-                    "disk": {
-                        "total_gb": 80.0,
-                        "used_gb": 25.6,
-                        "free_gb": 54.4,
-                        "usage_percent": 32.0
-                    },
-                    "network": {
-                        "bytes_sent": "2.1GB",
-                        "bytes_received": "8.4GB"
-                    }
-                }
-                
-                return json.dumps(result, indent=2)
-                
-            except Exception as e:
-                return json.dumps({"success": False, "error": str(e)}, indent=2)
+            # Use REAL VPS manager for actual SSH operations
+            result = vps_manager.get_vps_resources(
+                vps_ip=vps_ip,
+                ssh_key_path=ssh_key_path
+            )
+            return json.dumps(result, indent=2)
         
         @self.mcp.tool() 
-        def monitor_store_on_vps(vps_ip: str, domain: str, ssh_key_path: str = None) -> str:
+        def monitor_store_on_vps(vps_ip: str = None, domain: str = None, ssh_key_path: str = None) -> str:
             """Monitor specific store resource usage on VPS
             
             Args:
@@ -803,40 +737,16 @@ class EnhancedMCPServer:
                 domain: Store domain to monitor
                 ssh_key_path: SSH key path
             """
-            try:
-                if not all([vps_ip, domain]):
-                    return json.dumps({"error": "VPS IP and domain are required"})
-                
-                ssh_key_path = ssh_key_path or os.getenv('VPS_SSH_KEY_PATH')
-                
-                # Store monitoring logic would go here
-                result = {
-                    "success": True,
-                    "vps_ip": vps_ip,
-                    "domain": domain,
-                    "timestamp": datetime.now().isoformat(),
-                    "store_status": "active",
-                    "response_time_ms": 245,
-                    "ssl_status": "valid",
-                    "ssl_expiry": "2025-11-15",
-                    "php_processes": 3,
-                    "mysql_connections": 2,
-                    "disk_usage": {
-                        "total_mb": 1200,
-                        "files_mb": 800,
-                        "database_mb": 400
-                    },
-                    "recent_visits": 45,
-                    "recent_orders": 3
-                }
-                
-                return json.dumps(result, indent=2)
-                
-            except Exception as e:
-                return json.dumps({"success": False, "error": str(e)}, indent=2)
+            # Use REAL VPS manager for actual SSH operations
+            result = vps_manager.monitor_store_on_vps(
+                vps_ip=vps_ip,
+                domain=domain,
+                ssh_key_path=ssh_key_path
+            )
+            return json.dumps(result, indent=2)
         
         @self.mcp.tool()
-        def backup_vps_store(vps_ip: str, domain: str, include_database: bool = True,
+        def backup_vps_store(vps_ip: str = None, domain: str = None, include_database: bool = True,
                            ssh_key_path: str = None) -> str:
             """Create backup of WooCommerce store on VPS
             
@@ -846,34 +756,17 @@ class EnhancedMCPServer:
                 include_database: Include database in backup
                 ssh_key_path: SSH key path
             """
-            try:
-                if not all([vps_ip, domain]):
-                    return json.dumps({"error": "VPS IP and domain are required"})
-                
-                ssh_key_path = ssh_key_path or os.getenv('VPS_SSH_KEY_PATH')
-                
-                # Backup logic would go here
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                backup_filename = f"{domain}_backup_{timestamp}.tar.gz"
-                
-                result = {
-                    "success": True,
-                    "vps_ip": vps_ip,
-                    "domain": domain,
-                    "backup_file": f"/var/backups/wordpress/{backup_filename}",
-                    "backup_size": "1.2GB",
-                    "database_included": include_database,
-                    "timestamp": datetime.now().isoformat(),
-                    "message": f"Backup created successfully for {domain}"
-                }
-                
-                return json.dumps(result, indent=2)
-                
-            except Exception as e:
-                return json.dumps({"success": False, "error": str(e)}, indent=2)
+            # Use REAL VPS manager for actual SSH operations
+            result = vps_manager.backup_vps_store(
+                vps_ip=vps_ip,
+                domain=domain,
+                include_database=include_database,
+                ssh_key_path=ssh_key_path
+            )
+            return json.dumps(result, indent=2)
         
         @self.mcp.tool()
-        def execute_vps_command(vps_ip: str, command: str, ssh_key_path: str = None) -> str:
+        def execute_vps_command(vps_ip: str = None, command: str = None, ssh_key_path: str = None) -> str:
             """Execute command on VPS (use with caution)
             
             Args:
@@ -881,70 +774,28 @@ class EnhancedMCPServer:
                 command: Command to execute
                 ssh_key_path: SSH key path
             """
-            try:
-                if not all([vps_ip, command]):
-                    return json.dumps({"error": "VPS IP and command are required"})
-                
-                # Security check - only allow safe commands
-                dangerous_commands = ['rm -rf', 'format', 'mkfs', 'dd if=', 'shutdown', 'reboot']
-                if any(dangerous in command.lower() for dangerous in dangerous_commands):
-                    return json.dumps({"error": "Command rejected for security reasons"})
-                
-                ssh_key_path = ssh_key_path or os.getenv('VPS_SSH_KEY_PATH')
-                
-                # Command execution logic would go here
-                result = {
-                    "success": True,
-                    "vps_ip": vps_ip,
-                    "command": command,
-                    "output": "Command executed successfully",
-                    "exit_code": 0,
-                    "timestamp": datetime.now().isoformat()
-                }
-                
-                return json.dumps(result, indent=2)
-                
-            except Exception as e:
-                return json.dumps({"success": False, "error": str(e)}, indent=2)
+            # Use REAL VPS manager for actual SSH operations
+            result = vps_manager.execute_vps_command(
+                vps_ip=vps_ip,
+                command=command,
+                ssh_key_path=ssh_key_path
+            )
+            return json.dumps(result, indent=2)
         
         @self.mcp.tool()
-        def optimize_vps_performance(vps_ip: str, ssh_key_path: str = None) -> str:
+        def optimize_vps_performance(vps_ip: str = None, ssh_key_path: str = None) -> str:
             """Optimize VPS performance for WooCommerce stores
             
             Args:
                 vps_ip: VPS IP address
                 ssh_key_path: SSH key path
             """
-            try:
-                if not vps_ip:
-                    return json.dumps({"error": "VPS IP address is required"})
-                
-                ssh_key_path = ssh_key_path or os.getenv('VPS_SSH_KEY_PATH')
-                
-                # Optimization logic would go here
-                optimizations = [
-                    "MySQL query cache enabled",
-                    "PHP OPcache configured",
-                    "Nginx gzip compression enabled",
-                    "Database tables optimized",
-                    "WordPress cache cleared",
-                    "Log files rotated",
-                    "Temporary files cleaned"
-                ]
-                
-                result = {
-                    "success": True,
-                    "vps_ip": vps_ip,
-                    "optimizations_applied": optimizations,
-                    "performance_improvement": "15-25%",
-                    "timestamp": datetime.now().isoformat(),
-                    "message": "VPS optimization completed successfully"
-                }
-                
-                return json.dumps(result, indent=2)
-                
-            except Exception as e:
-                return json.dumps({"success": False, "error": str(e)}, indent=2)
+            # Use REAL VPS manager for actual SSH operations
+            result = vps_manager.optimize_vps_performance(
+                vps_ip=vps_ip,
+                ssh_key_path=ssh_key_path
+            )
+            return json.dumps(result, indent=2)
     
     def _register_document_management_tools(self):
         """Register document management and product data pipeline tools"""
@@ -1058,6 +909,313 @@ class EnhancedMCPServer:
             """List all available description templates"""
             result = ai_descriptions.list_available_templates()
             return json.dumps(result, indent=2)
+        
+        # Enhanced Avito Description Tools
+        @self.mcp.tool()
+        def generate_avito_xml_description(sku: str) -> str:
+            """Generate complete Avito XML description using existing database template for a single SKU
+            
+            Args:
+                sku: Product SKU to generate Avito XML description for
+            """
+            avito_template = ai_descriptions.get_avito_template("avito", "en")
+            if avito_template and not avito_template.get("error"):
+                result = ai_descriptions.generate_avito_xml_description(sku, avito_template, {})
+            else:
+                result = avito_template or {"error": "No Avito template available"}
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def regenerate_all_avito_descriptions(sku_filter: List[str] = None) -> str:
+            """Regenerate all Avito descriptions for SKUs in price lists using all available document repository data
+            
+            This is the natural language function the user requested:
+            "Dear Claude, regenerate all product descriptions for SKUs in price lists. Utilize all available data in the document repository."
+            
+            Args:
+                sku_filter: Optional list of specific SKUs to process. If None, processes all SKUs with price data.
+            """
+            result = ai_descriptions.regenerate_all_avito_descriptions(sku_filter)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool() 
+        def get_avito_template_info() -> str:
+            """Get information about available Avito templates in the database"""
+            avito_template = ai_descriptions.get_avito_template("avito", "en")
+            if avito_template and not avito_template.get("error"):
+                template_info = {
+                    "template_found": True,
+                    "template_name": avito_template.get("template_name"),
+                    "template_version": avito_template.get("template_version"),
+                    "template_purpose": avito_template.get("template_purpose"),
+                    "has_gpt_integration": bool(avito_template.get("gpt_system_prompt")),
+                    "has_xml_template": bool(avito_template.get("complete_xml_template")),
+                    "available_sections": list(avito_template.get("sections", {}).keys()),
+                    "template_source": avito_template.get("template_info", {}).get("source")
+                }
+            else:
+                template_info = {
+                    "template_found": False,
+                    "error": avito_template.get("error") if avito_template else "No template data available"
+                }
+            return json.dumps(template_info, indent=2)
+        
+        # NEW: Business Intelligence & Data Sync Tools
+        @self.mcp.tool()
+        def execute_sql_query(sql: str) -> str:
+            """Execute custom SQL query on business database (SELECT only for safety)"""
+            result = database_integration.query_database("execute_sql", {"sql": sql})
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def sync_database_from_documents() -> str:
+            """Sync database with latest document data (price lists, Excel, catalogues)"""
+            result = database_integration.query_database("sync_from_documents", {})
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def update_product_data(sku: str, data: Dict[str, Any]) -> str:
+            """Update product data in database with validation"""
+            result = database_integration.query_database("update_product_data", {"sku": sku, "data": data})
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def detect_data_changes() -> str:
+            """Detect changes between documents and database"""
+            result = database_integration.query_database("detect_data_changes", {})
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def backup_database() -> str:
+            """Create safe backup of business database"""
+            result = database_integration.query_database("backup_database", {})
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def get_sync_status() -> str:
+            """Get current sync status between documents and database"""
+            result = database_integration.query_database("get_sync_status", {})
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def sync_to_woocommerce(sku_list: List[str] = None, update_type: str = "all") -> str:
+            """Sync product data to WooCommerce store
+            
+            Args:
+                sku_list: List of SKUs to sync (all if None)
+                update_type: Type of update (all, pricing, descriptions, inventory)
+            """
+            api = self.get_active_api()
+            if not api:
+                return json.dumps({"error": "No active WooCommerce store"})
+            
+            result = self._sync_to_woocommerce_internal(api, sku_list, update_type)
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def get_woocommerce_sync_status() -> str:
+            """Check sync status between database and WooCommerce"""
+            api = self.get_active_api()
+            if not api:
+                return json.dumps({"error": "No active WooCommerce store"})
+            
+            result = self._get_woocommerce_sync_status_internal(api)
+            return json.dumps(result, indent=2)
+        
+        # NEW: Database Schema Management Tools
+        @self.mcp.tool()
+        def alter_database_schema(operation: str, table: str, changes: Dict[str, Any]) -> str:
+            """Safely modify database schema with automatic backup
+            
+            Args:
+                operation: Schema operation (ADD_COLUMN, RENAME_COLUMN)
+                table: Target table name
+                changes: Dictionary with operation parameters
+            """
+            result = database_integration.query_database("alter_schema", {
+                "operation": operation,
+                "table": table, 
+                "changes": changes
+            })
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def create_new_table(table_name: str, schema: Dict[str, Any]) -> str:
+            """Create new database table with validation
+            
+            Args:
+                table_name: Name for the new table
+                schema: Dictionary mapping column names to data types
+            """
+            result = database_integration.query_database("create_table", {
+                "table_name": table_name,
+                "schema": schema
+            })
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def add_database_column(table: str, column_name: str, data_type: str) -> str:
+            """Add new column to existing table
+            
+            Args:
+                table: Target table name
+                column_name: New column name
+                data_type: SQL data type (TEXT, INTEGER, REAL, BLOB)
+            """
+            result = database_integration.query_database("add_column", {
+                "table": table,
+                "column_name": column_name,
+                "data_type": data_type
+            })
+            return json.dumps(result, indent=2)
+        
+        @self.mcp.tool()
+        def add_database_index(table: str, columns: List[str], index_name: str = None) -> str:
+            """Add database index for performance optimization
+            
+            Args:
+                table: Target table name
+                columns: List of columns to index
+                index_name: Optional custom index name
+            """
+            result = database_integration.query_database("add_index", {
+                "table": table,
+                "columns": columns,
+                "index_name": index_name
+            })
+            return json.dumps(result, indent=2)
+    
+    def _sync_to_woocommerce_internal(self, api, sku_list: List[str] = None, update_type: str = "all") -> Dict[str, Any]:
+        """Internal WooCommerce sync implementation"""
+        
+        try:
+            from datetime import datetime
+            
+            # Get products to sync
+            if sku_list:
+                products_to_sync = sku_list
+            else:
+                # Get all SKUs from database
+                db_result = database_integration.query_database("list_skus", {})
+                if "error" in db_result:
+                    return {"error": "Could not retrieve SKUs from database"}
+                products_to_sync = db_result.get("results", [])[:20]  # Limit to 20 for safety
+            
+            sync_results = {
+                "requested_skus": len(products_to_sync),
+                "processed": 0,
+                "updated": 0,
+                "created": 0,
+                "errors": [],
+                "details": []
+            }
+            
+            for sku in products_to_sync:
+                try:
+                    # Get consolidated product data
+                    product_data = data_consolidator.consolidate_product_data(sku)
+                    if "error" in product_data:
+                        sync_results["errors"].append(f"{sku}: {product_data['error']}")
+                        continue
+                    
+                    # Check if product exists in WooCommerce (by SKU)
+                    wc_products = api.get("products", params={"sku": sku})
+                    
+                    consolidated_data = product_data.get("consolidated_data", {})
+                    
+                    # Prepare WooCommerce product data
+                    wc_product_data = {
+                        "sku": sku,
+                        "name": consolidated_data.get("name", f"Product {sku}"),
+                        "regular_price": str(consolidated_data.get("price", 0)),
+                        "description": consolidated_data.get("description", ""),
+                        "short_description": consolidated_data.get("short_description", ""),
+                        "manage_stock": True,
+                        "stock_quantity": consolidated_data.get("stock_quantity", 0),
+                        "status": "publish"
+                    }
+                    
+                    # Update or create product
+                    if wc_products.json() and len(wc_products.json()) > 0:
+                        # Update existing product
+                        wc_product_id = wc_products.json()[0]["id"]
+                        response = api.put(f"products/{wc_product_id}", wc_product_data)
+                        if response.status_code == 200:
+                            sync_results["updated"] += 1
+                            sync_results["details"].append(f"{sku}: Updated WC product #{wc_product_id}")
+                        else:
+                            sync_results["errors"].append(f"{sku}: Update failed - {response.status_code}")
+                    else:
+                        # Create new product
+                        response = api.post("products", wc_product_data)
+                        if response.status_code == 201:
+                            new_id = response.json().get("id")
+                            sync_results["created"] += 1
+                            sync_results["details"].append(f"{sku}: Created new WC product #{new_id}")
+                        else:
+                            sync_results["errors"].append(f"{sku}: Creation failed - {response.status_code}")
+                    
+                    sync_results["processed"] += 1
+                    
+                except Exception as e:
+                    sync_results["errors"].append(f"{sku}: Exception - {str(e)}")
+            
+            return {
+                "success": True,
+                "sync_results": sync_results,
+                "timestamp": datetime.now().isoformat()
+            }
+            
+        except Exception as e:
+            logger.error(f"WooCommerce sync error: {e}")
+            return {"error": str(e)}
+    
+    def _get_woocommerce_sync_status_internal(self, api) -> Dict[str, Any]:
+        """Internal WooCommerce sync status check"""
+        
+        try:
+            from datetime import datetime
+            
+            # Get database product count
+            db_result = database_integration.query_database("list_skus", {})
+            db_count = len(db_result.get("results", [])) if "error" not in db_result else 0
+            
+            # Get WooCommerce product count
+            wc_response = api.get("products", params={"per_page": 1})
+            if wc_response.status_code == 200:
+                wc_total = int(wc_response.headers.get("X-WP-Total", 0))
+                
+                # Sample check - get a few products with SKUs
+                wc_with_skus = api.get("products", params={"per_page": 10})
+                if wc_with_skus.status_code == 200:
+                    wc_products = wc_with_skus.json()
+                    products_with_skus = [p for p in wc_products if p.get("sku")]
+                    
+                    sync_status = {
+                        "database_products": db_count,
+                        "woocommerce_products": wc_total,
+                        "wc_products_with_skus": len(products_with_skus),
+                        "sync_ratio": f"{len(products_with_skus)}/{db_count}",
+                        "recommendations": []
+                    }
+                    
+                    if len(products_with_skus) < db_count * 0.8:
+                        sync_status["recommendations"].append("Many database products may not be synced to WooCommerce")
+                    
+                    if wc_total > db_count * 1.5:
+                        sync_status["recommendations"].append("WooCommerce has more products than database - manual review needed")
+                    
+                    return {
+                        "success": True,
+                        "sync_status": sync_status,
+                        "timestamp": datetime.now().isoformat()
+                    }
+            
+            return {"error": "Could not retrieve WooCommerce product data"}
+            
+        except Exception as e:
+            logger.error(f"WooCommerce sync status error: {e}")
+            return {"error": str(e)}
     
     def run(self):
         """Run the enhanced MCP server"""

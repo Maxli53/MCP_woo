@@ -1,0 +1,32 @@
+{
+  "timestamp": "2025-08-27T10:11:27.227830",
+  "environment": {
+    "DEFAULT_VPS_IP": "5.61.89.169",
+    "VPS_SSH_PORT": "2222",
+    "VPS_SSH_KEY_PATH": "***",
+    "DATABASE_PATH": "C:/Users/maxli/PycharmProjects/PythonProject/MCP/document_repository/_temp/Snowmobile.db",
+    "DOCUMENT_REPOSITORY": "C:/Users/maxli/PycharmProjects/PythonProject/MCP/document_repository",
+    "STORE_URL": "https://ridebase.fi/"
+  },
+  "vps_tools": {
+    "get_vps_resources": "PASS",
+    "list_stores_on_vps": "PASS",
+    "execute_vps_command": "PASS"
+  },
+  "database_tools": {
+    "list_skus": "PASS",
+    "get_product": "PASS",
+    "get_ai_template": "PASS"
+  },
+  "document_tools": {
+    "import_excel_data": "PASS",
+    "consolidate_product_data": "PASS",
+    "list_templates": "PASS"
+  },
+  "woocommerce_tools": {},
+  "mock_detection": {
+    "mock_patterns_found": [],
+    "simulated_data_found": false,
+    "fake_data_found": false
+  }
+}

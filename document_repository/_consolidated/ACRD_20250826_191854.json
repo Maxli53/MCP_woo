@@ -1,0 +1,78 @@
+{
+  "sku": "ACRD",
+  "consolidation_date": "2025-08-26T19:18:54.704047",
+  "sources_checked": [
+    "database"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "ACRD",
+      "product_data": {
+        "id": 5400,
+        "article_code": "ACRD",
+        "brand": "SKIDOO",
+        "year": 2024,
+        "model": "Expedition LE",
+        "package": "",
+        "engine": "900 ACE Turbo",
+        "track": "154in 3900mm 24in, 1.5in 38mm Cobra Silent Track",
+        "starter": "Electric Start",
+        "gauge": "",
+        "spring_options": "",
+        "color": "Arctic Desert / Black",
+        "price_fi": "20 760 \u20ac",
+        "metadata": "{\"source_pdf\": \"SKIDOO_2024_PRICE_LIST\", \"model_line\": \"Expedition LE\", \"_extraction_metadata\": {\"source_pdf\": \"SKI-DOO_2024-PRICE_LIST.pdf\", \"source_page\": 1, \"extracted_timestamp\": \"2025-08-03T00:06:39.727503\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:20",
+        "updated_at": "2025-08-02 21:12:20"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.6613333333333332,
+  "completeness_score": 0.6923076923076923,
+  "consolidated_data": {
+    "name": "Expedition LE",
+    "description": "SKIDOO Expedition LE (2024). Engine: 900 ACE Turbo. Track: 154in 3900mm 24in, 1.5in 38mm Cobra Silent Track. Starter: Electric Start. Color: Arctic Desert / Black",
+    "price": "20 760 \u20ac",
+    "specifications": {
+      "Engine": "900 ACE Turbo",
+      "Track": "154in 3900mm 24in, 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric Start",
+      "Color": "Arctic Desert / Black",
+      "Model Year": "2024"
+    },
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO"
+  },
+  "ai_description_ready": true,
+  "ai_description_data": {
+    "sku": null,
+    "name": "Expedition LE",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "900 ACE Turbo",
+      "Track": "154in 3900mm 24in, 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric Start",
+      "Color": "Arctic Desert / Black",
+      "Model Year": "2024"
+    },
+    "existing_description": "SKIDOO Expedition LE (2024). Engine: 900 ACE Turbo. Track: 154in 3900mm 24in, 1.5in 38mm Cobra Silent Track. Starter: Electric Start. Color: Arctic Desert / Black",
+    "price_info": {
+      "retail_price": "20 760 \u20ac",
+      "cost_price": null
+    },
+    "source_descriptions": [
+      {
+        "source": "database",
+        "description": "SKIDOO Expedition LE (2024). Engine: 900 ACE Turbo. Track: 154in 3900mm 24in, 1.5in 38mm Cobra Silent Track. Starter: Electric Start. Color: Arctic Desert / Black"
+      }
+    ]
+  },
+  "recommendation": "MEDIUM_CONFIDENCE - Review recommended before processing"
+}

@@ -1,0 +1,43 @@
+{
+  "sku": "Lynx adventure core 600 ace 2026",
+  "consolidation_date": "2025-08-26T19:16:12.625584",
+  "sources_checked": [
+    "excel"
+  ],
+  "data_found": {
+    "excel": {
+      "sku": "Lynx adventure core 600 ace 2026",
+      "excel_data": {
+        "\u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f": "https://imgm-rs.q-parser.site/m/ovtldXBsb2FkLWE5MWZmMThmNGEzOWExMjBiZmVmNGU4NTI3ZDk5YmVlLnBuZw~txbtKtCS0L3QtdGI0L3QuNC5INCy0LjQtCDQvNC-0LbQtdGCINC-0YLQu9C40YfQsNGC0YzRgdGPLiDQo9GC0L7Rh9C90Y_QudGC0LUg0L_QviDQsNGA0YLQuNC60YPQu9GDINC80L7QtNC10LvQuCDRgyDQvNC10L3QtdC00LbQtdGA0LAu:cmdiYSgzNywgNDgsIDU3LCAxLjAwKQ:cmdiYSgyNTEsIDIxMywgMCwgMC43MCk/aHR0cHM6Ly93d3cua29uZWphdGFydmlrZS5jb20vY29udGVudC91cGxvYWRzLzIwMjUvMDIvQURWRU5UVVJFQ09SRV9LT05FSkFUQVJWSUtFMS5wbmc.png",
+        "\u0430\u0440\u0442\u0438\u043a\u0443\u043b": "FVTA",
+        "\u0446\u0435\u043d\u0430": "1928900",
+        "\u0432\u0430\u043b\u044e\u0442\u0430": "RUB",
+        "\u043d\u0430\u043b\u0438\u0447\u0438\u0435": "\u0414\u0430",
+        "\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f": "Verkkokauppa",
+        "\u043f\u043e\u0434\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f": "Moottorikelkat",
+        "\u0440\u0430\u0437\u0434\u0435\u043b": "LYNX \u2013 moottorikelkat",
+        "url": "https://www.konejatarvike.com/tuotevalikoima/moottorikelkat/lynx-moottorikelkat/lynx-2026/lynx-adventure-core-600-ace-2026/",
+        "\u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435": "<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">Huolettomiin talviretkiin. Lynx Adventure Core on moottorikelkka, joka tekee matkanteosta sujuvaa ja mukavaa. Radien\u00b2 -rungon ja PPS\u00b3-takajousituksen ansiosta k\u00e4sitelt\u00e4vyys ja ajomukavuus ovat huippuluokkaa. Hiljainen ja pieniruokainen Rotax\u00ae 600 ACE -moottori viimeistelee ajonautinnon.</div>\n</div>\n</div>\n</div>\n</div>\n<div></div>\n</div>\n</div>\n<ul class=\"list-group list-group-flush\">\n<li class=\"list-group-item\">Rotax\u00ae 600 ACE -moottori</li>\n<li class=\"list-group-item\">PPS\u00b3 -takajousitus</li>\n<li class=\"list-group-item\">KYB 36 -iskunvaimentimet</li>\n<li class=\"list-group-item\">32 mm Ripsaw -telamatto</li>\n<li class=\"list-group-item\">LED-ajovalot</li>\n</ul>\n<p> </p>\n<p>Huom! Hintaan lis\u00e4t\u00e4\u00e4n toimituskulut 500\u20ac</p>\n<p><a class=\"link-button\" href=\"https://www.konejatarvike.com/content/uploads/2025/02/LYNX-MY26-Adventure-Core-SPEC-V-A4-FIFI.pdf\" target=\"_blank\" rel=\"noopener\">Tekniset tiedot</a></p>",
+        "\u0444\u0430\u0439\u043b\u044b": "https://www.konejatarvike.com/content/uploads/2025/02/LYNX-MY26-Adventure-Core-SPEC-V-A4-FIFI.pdf"
+      },
+      "pricing": {},
+      "inventory": {},
+      "source_file": "C:\\Users\\maxli\\PycharmProjects\\PythonProject\\MCP\\document_repository\\pricing_data\\margin_calculations\\konejatarvike.com.xlsx",
+      "source_sheet": "Sheet1",
+      "processed_date": "2025-08-26T19:16:12.498488"
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.13333333333333333,
+  "completeness_score": 0.0,
+  "consolidated_data": {
+    "name": "",
+    "description": "",
+    "inventory": {},
+    "specifications": {},
+    "category": ""
+  },
+  "ai_description_ready": false,
+  "ai_description_data": null,
+  "recommendation": "LOW_DATA_COVERAGE - Additional data sources needed"
+}

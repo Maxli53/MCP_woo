@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "business-data": {
+      "command": "python",
+      "args": [
+        "C:/Users/maxli/PycharmProjects/PythonProject/MCP/claude-desktop-mcp/simple-core.py"
+      ],
+      "env": {
+        "DATABASE_PATH": "C:/Users/maxli/PycharmProjects/PythonProject/MCP/document_repository/_temp/Snowmobile.db",
+        "DOCUMENT_REPOSITORY": "C:/Users/maxli/PycharmProjects/PythonProject/MCP/document_repository"
+      }
+    }
+  }
+}

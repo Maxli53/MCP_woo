@@ -1,0 +1,80 @@
+{
+  "sku": "AHSD",
+  "consolidation_date": "2025-08-26T19:18:55.256429",
+  "sources_checked": [
+    "database"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "AHSD",
+      "product_data": {
+        "id": 5488,
+        "article_code": "AHSD",
+        "brand": "SKIDOO",
+        "year": 2025,
+        "model": "Skandic",
+        "package": "LE",
+        "engine": "900 ACE",
+        "track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+        "starter": "Electric",
+        "gauge": "",
+        "spring_options": "",
+        "color": "Black",
+        "price_fi": "18 760 \u20ac",
+        "metadata": "{\"source_pdf\": \"SKIDOO_2025_PRICE_LIST\", \"model_line\": \"Skandic LE\", \"_extraction_metadata\": {\"source_pdf\": \"SKI-DOO_2025-PRICE_LIST.pdf\", \"source_page\": 2, \"extracted_timestamp\": \"2025-08-03T00:12:16.523601\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:21",
+        "updated_at": "2025-08-02 21:12:21"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.6613333333333332,
+  "completeness_score": 0.6923076923076923,
+  "consolidated_data": {
+    "name": "Skandic",
+    "description": "SKIDOO Skandic (2025). Engine: 900 ACE. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Black",
+    "price": "18 760 \u20ac",
+    "specifications": {
+      "Engine": "900 ACE",
+      "Track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric",
+      "Color": "Black",
+      "Model Year": "2025",
+      "Package": "LE"
+    },
+    "category": "Snowmobile",
+    "manufacturer": "SKIDOO"
+  },
+  "ai_description_ready": true,
+  "ai_description_data": {
+    "sku": null,
+    "name": "Skandic",
+    "category": "Snowmobile",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "900 ACE",
+      "Track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric",
+      "Color": "Black",
+      "Model Year": "2025",
+      "Package": "LE"
+    },
+    "existing_description": "SKIDOO Skandic (2025). Engine: 900 ACE. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Black",
+    "price_info": {
+      "retail_price": "18 760 \u20ac",
+      "cost_price": null
+    },
+    "source_descriptions": [
+      {
+        "source": "database",
+        "description": "SKIDOO Skandic (2025). Engine: 900 ACE. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Black"
+      }
+    ]
+  },
+  "recommendation": "MEDIUM_CONFIDENCE - Review recommended before processing"
+}

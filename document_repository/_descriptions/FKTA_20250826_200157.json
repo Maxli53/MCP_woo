@@ -1,0 +1,31 @@
+{
+  "sku": "FKTA",
+  "generated_description": "Create a basic product description for 59 Ranger (SKU: FKTA).\n\nProduct Details:\n- Category: Snowmobile - Utility\n- Brand: LYNX\n- Price: 16 610,00 \u20ac\n\nWrite a clear, concise description covering the essential product information.",
+  "confidence_score": 1.0,
+  "template_type": "basic",
+  "language": "en",
+  "generation_date": "2025-08-26T20:01:57.187753",
+  "source_data_quality": 0.6923076923076923,
+  "context_used": {
+    "sku": "FKTA",
+    "name": "59 Ranger",
+    "category": "Snowmobile - Utility",
+    "manufacturer": "LYNX",
+    "specifications": {
+      "Engine": "600 ACE",
+      "Track": "154in 3900mm 1.75in 44mm PowderMax",
+      "Starter Type": "Electric",
+      "Gauge": "7.2 in. Digital Display",
+      "Color": "Orange / Fullmoon Silver / Black",
+      "Model Year": "2026",
+      "Package": "PRO"
+    },
+    "price": "16 610,00 \u20ac",
+    "existing_descriptions": [
+      {
+        "source": "database",
+        "text": "LYNX 59 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.75in 44mm PowderMax. Starter: Electric. Color: Orange / Fullmoon Silver / Black"
+      }
+    ]
+  }
+}

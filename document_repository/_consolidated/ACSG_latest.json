@@ -1,0 +1,80 @@
+{
+  "sku": "ACSG",
+  "consolidation_date": "2025-08-26T19:18:54.814507",
+  "sources_checked": [
+    "database"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "ACSG",
+      "product_data": {
+        "id": 5458,
+        "article_code": "ACSG",
+        "brand": "SKIDOO",
+        "year": 2025,
+        "model": "Expedition",
+        "package": "LE 20\"",
+        "engine": "900 ACE Turbo",
+        "track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+        "starter": "Electric",
+        "gauge": "",
+        "spring_options": "",
+        "color": "Catalyst Grey",
+        "price_fi": "19 860 \u20ac",
+        "metadata": "{\"source_pdf\": \"SKIDOO_2025_PRICE_LIST\", \"model_line\": \"Expedition LE 20\\\"\", \"_extraction_metadata\": {\"source_pdf\": \"SKI-DOO_2025-PRICE_LIST.pdf\", \"source_page\": 1, \"extracted_timestamp\": \"2025-08-03T00:11:33.367364\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:21",
+        "updated_at": "2025-08-02 21:12:21"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.6613333333333332,
+  "completeness_score": 0.6923076923076923,
+  "consolidated_data": {
+    "name": "Expedition",
+    "description": "SKIDOO Expedition (2025). Engine: 900 ACE Turbo. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Catalyst Grey",
+    "price": "19 860 \u20ac",
+    "specifications": {
+      "Engine": "900 ACE Turbo",
+      "Track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric",
+      "Color": "Catalyst Grey",
+      "Model Year": "2025",
+      "Package": "LE 20\""
+    },
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO"
+  },
+  "ai_description_ready": true,
+  "ai_description_data": {
+    "sku": null,
+    "name": "Expedition",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "900 ACE Turbo",
+      "Track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric",
+      "Color": "Catalyst Grey",
+      "Model Year": "2025",
+      "Package": "LE 20\""
+    },
+    "existing_description": "SKIDOO Expedition (2025). Engine: 900 ACE Turbo. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Catalyst Grey",
+    "price_info": {
+      "retail_price": "19 860 \u20ac",
+      "cost_price": null
+    },
+    "source_descriptions": [
+      {
+        "source": "database",
+        "description": "SKIDOO Expedition (2025). Engine: 900 ACE Turbo. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Catalyst Grey"
+      }
+    ]
+  },
+  "recommendation": "MEDIUM_CONFIDENCE - Review recommended before processing"
+}

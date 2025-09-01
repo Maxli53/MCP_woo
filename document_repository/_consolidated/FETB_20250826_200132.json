@@ -1,0 +1,146 @@
+{
+  "sku": "FETB",
+  "consolidation_date": "2025-08-26T20:01:31.998625",
+  "sources_checked": [
+    "database",
+    "excel"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "FETB",
+      "product_data": {
+        "id": 5297,
+        "article_code": "FETB",
+        "brand": "LYNX",
+        "year": 2026,
+        "model": "49 Ranger",
+        "package": "Core",
+        "engine": "600 ACE",
+        "track": "154in 3900mm 1.5in 38mm Charger",
+        "starter": "Electric",
+        "gauge": "4.5 in. Digital Display",
+        "spring_options": "",
+        "color": "White / Black",
+        "price_fi": "14 180,00 \u20ac",
+        "metadata": "{\"source_pdf\": \"LYNX_2026_PRICE_LIST\", \"model_line\": \"49 Ranger Core\", \"_extraction_metadata\": {\"source_pdf\": \"LYNX_2026-PRICE_LIST.pdf\", \"source_page\": 3, \"extracted_timestamp\": \"2025-08-02T23:57:41.589762\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:20",
+        "updated_at": "2025-08-02 21:12:20"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    },
+    "excel": {
+      "sku": "FETB",
+      "excel_data": {
+        "\u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f": "https://imgm-rs.q-parser.site/m/ovtldXBsb2FkLWE5MWZmMThmNGEzOWExMjBiZmVmNGU4NTI3ZDk5YmVlLnBuZw~txbtKtCS0L3QtdGI0L3QuNC5INCy0LjQtCDQvNC-0LbQtdGCINC-0YLQu9C40YfQsNGC0YzRgdGPLiDQo9GC0L7Rh9C90Y_QudGC0LUg0L_QviDQsNGA0YLQuNC60YPQu9GDINC80L7QtNC10LvQuCDRgyDQvNC10L3QtdC00LbQtdGA0LAu:cmdiYSgzNywgNDgsIDU3LCAxLjAwKQ:cmdiYSgyNTEsIDIxMywgMCwgMC43MCk/aHR0cHM6Ly93d3cua29uZWphdGFydmlrZS5jb20vY29udGVudC91cGxvYWRzLzIwMjUvMDIvNDlSQU5HRVJfS09ORUpBVEFSVklLRTEucG5n.png",
+        "\u043d\u0430\u0437\u0432\u0430\u043d\u0438\u0435": "Lynx 49 ranger core 600ACE 2026",
+        "\u0446\u0435\u043d\u0430": "1990000",
+        "\u0432\u0430\u043b\u044e\u0442\u0430": "RUB",
+        "\u043d\u0430\u043b\u0438\u0447\u0438\u0435": "\u0414\u0430",
+        "\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f": "Verkkokauppa",
+        "\u043f\u043e\u0434\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f": "Moottorikelkat",
+        "\u0440\u0430\u0437\u0434\u0435\u043b": "LYNX \u2013 moottorikelkat",
+        "url": "https://www.konejatarvike.com/tuotevalikoima/moottorikelkat/lynx-moottorikelkat/lynx-2026/lynx-49-ranger-core-600ace-2026/",
+        "\u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435": "<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">Lynx 49 Ranger Core -moottorikelkka tarjoaa t\u00e4ydet kevyen hy\u00f6tykelkan ominaisuudet edulliseen hintaan. Radien\u00b2-runko yhdess\u00e4 PPS\u00b2 DS+ -takajousituksen ja pitk\u00e4n telamaton kanssa varmistaa sinnikk\u00e4\u00e4n etenemiskyvyn ja kevyen hallittavuuden. Vaihtoehtoina Rotax\u00ae 600 ACE -nelitahtimoottori ja kaksitahtinen 600 EFI.</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div></div>\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<ul class=\"list-group list-group-flush\">\n<li class=\"list-group-item\">Rotax\u00ae 600 ACE ja 600 EFI -moottorit</li>\n<li class=\"list-group-item\">PPS\u00b2 DS+ -takajousitus</li>\n<li class=\"list-group-item\">KYB 36 -iskunvaimentimet</li>\n<li class=\"list-group-item\">38 mm Charger -telamatto</li>\n<li class=\"list-group-item\">LED-ajovalot</li>\n</ul>\n<p> </p>\n<p>Huom! Hintaan lis\u00e4t\u00e4\u00e4n toimituskulut 500\u20ac</p>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<p><a class=\"link-button\" href=\"https://www.konejatarvike.com/content/uploads/2025/02/LYNX-MY26-49-Ranger-Core-SPEC-V-A4-FIFI.pdf\" target=\"_blank\" rel=\"noopener\">tekniset tiedot</a></p>",
+        "\u0444\u0430\u0439\u043b\u044b": "https://www.konejatarvike.com/content/uploads/2025/02/LYNX-MY26-49-Ranger-Core-SPEC-V-A4-FIFI.pdf"
+      },
+      "pricing": {},
+      "inventory": {},
+      "source_file": "C:\\Users\\maxli\\PycharmProjects\\PythonProject\\MCP\\document_repository\\pricing_data\\margin_calculations\\konejatarvike.com.xlsx",
+      "source_sheet": "Sheet1",
+      "processed_date": "2025-08-26T20:01:31.905085"
+    }
+  },
+  "conflicts": [
+    {
+      "field": "name",
+      "chosen_source": "database",
+      "chosen_value": "49 Ranger",
+      "conflicting_values": {
+        "excel": ""
+      }
+    },
+    {
+      "field": "description",
+      "chosen_source": "database",
+      "chosen_value": "LYNX 49 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.5in 38mm Charger. Starter: Electric. Color: White / Black",
+      "conflicting_values": {
+        "excel": ""
+      }
+    },
+    {
+      "field": "specifications",
+      "chosen_source": "database",
+      "chosen_value": {
+        "Engine": "600 ACE",
+        "Track": "154in 3900mm 1.5in 38mm Charger",
+        "Starter Type": "Electric",
+        "Gauge": "4.5 in. Digital Display",
+        "Color": "White / Black",
+        "Model Year": "2026",
+        "Package": "Core"
+      },
+      "conflicting_values": {
+        "excel": {}
+      }
+    },
+    {
+      "field": "category",
+      "chosen_source": "database",
+      "chosen_value": "Snowmobile - Utility",
+      "conflicting_values": {
+        "excel": ""
+      }
+    }
+  ],
+  "confidence_score": 0.7946666666666666,
+  "completeness_score": 0.6923076923076923,
+  "consolidated_data": {
+    "name": "49 Ranger",
+    "description": "LYNX 49 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.5in 38mm Charger. Starter: Electric. Color: White / Black",
+    "price": "14 180,00 \u20ac",
+    "inventory": {},
+    "specifications": {
+      "Engine": "600 ACE",
+      "Track": "154in 3900mm 1.5in 38mm Charger",
+      "Starter Type": "Electric",
+      "Gauge": "4.5 in. Digital Display",
+      "Color": "White / Black",
+      "Model Year": "2026",
+      "Package": "Core"
+    },
+    "category": "Snowmobile - Utility",
+    "manufacturer": "LYNX"
+  },
+  "ai_description_ready": true,
+  "ai_description_data": {
+    "sku": null,
+    "name": "49 Ranger",
+    "category": "Snowmobile - Utility",
+    "manufacturer": "LYNX",
+    "specifications": {
+      "Engine": "600 ACE",
+      "Track": "154in 3900mm 1.5in 38mm Charger",
+      "Starter Type": "Electric",
+      "Gauge": "4.5 in. Digital Display",
+      "Color": "White / Black",
+      "Model Year": "2026",
+      "Package": "Core"
+    },
+    "existing_description": "LYNX 49 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.5in 38mm Charger. Starter: Electric. Color: White / Black",
+    "price_info": {
+      "retail_price": "14 180,00 \u20ac",
+      "cost_price": null
+    },
+    "source_descriptions": [
+      {
+        "source": "database",
+        "description": "LYNX 49 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.5in 38mm Charger. Starter: Electric. Color: White / Black"
+      }
+    ]
+  },
+  "recommendation": "MEDIUM_CONFIDENCE - Review recommended before processing"
+}

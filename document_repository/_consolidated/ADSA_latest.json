@@ -1,0 +1,80 @@
+{
+  "sku": "ADSA",
+  "consolidation_date": "2025-08-26T19:18:55.034207",
+  "sources_checked": [
+    "database"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "ADSA",
+      "product_data": {
+        "id": 5462,
+        "article_code": "ADSA",
+        "brand": "SKIDOO",
+        "year": 2025,
+        "model": "Expedition",
+        "package": "Xtreme",
+        "engine": "850 E-TEC",
+        "track": "154in 3900mm 1.8in 46mm Cobra SilentD80",
+        "starter": "Electric",
+        "gauge": "",
+        "spring_options": "",
+        "color": "Flare Yellow",
+        "price_fi": "20 620 \u20ac",
+        "metadata": "{\"source_pdf\": \"SKIDOO_2025_PRICE_LIST\", \"model_line\": \"Expedition Xtreme\", \"_extraction_metadata\": {\"source_pdf\": \"SKI-DOO_2025-PRICE_LIST.pdf\", \"source_page\": 1, \"extracted_timestamp\": \"2025-08-03T00:11:33.367378\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:21",
+        "updated_at": "2025-08-02 21:12:21"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.6613333333333332,
+  "completeness_score": 0.6923076923076923,
+  "consolidated_data": {
+    "name": "Expedition",
+    "description": "SKIDOO Expedition (2025). Engine: 850 E-TEC. Track: 154in 3900mm 1.8in 46mm Cobra SilentD80. Starter: Electric. Color: Flare Yellow",
+    "price": "20 620 \u20ac",
+    "specifications": {
+      "Engine": "850 E-TEC",
+      "Track": "154in 3900mm 1.8in 46mm Cobra SilentD80",
+      "Starter Type": "Electric",
+      "Color": "Flare Yellow",
+      "Model Year": "2025",
+      "Package": "Xtreme"
+    },
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO"
+  },
+  "ai_description_ready": true,
+  "ai_description_data": {
+    "sku": null,
+    "name": "Expedition",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "850 E-TEC",
+      "Track": "154in 3900mm 1.8in 46mm Cobra SilentD80",
+      "Starter Type": "Electric",
+      "Color": "Flare Yellow",
+      "Model Year": "2025",
+      "Package": "Xtreme"
+    },
+    "existing_description": "SKIDOO Expedition (2025). Engine: 850 E-TEC. Track: 154in 3900mm 1.8in 46mm Cobra SilentD80. Starter: Electric. Color: Flare Yellow",
+    "price_info": {
+      "retail_price": "20 620 \u20ac",
+      "cost_price": null
+    },
+    "source_descriptions": [
+      {
+        "source": "database",
+        "description": "SKIDOO Expedition (2025). Engine: 850 E-TEC. Track: 154in 3900mm 1.8in 46mm Cobra SilentD80. Starter: Electric. Color: Flare Yellow"
+      }
+    ]
+  },
+  "recommendation": "MEDIUM_CONFIDENCE - Review recommended before processing"
+}

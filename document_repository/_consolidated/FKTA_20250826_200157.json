@@ -1,0 +1,146 @@
+{
+  "sku": "FKTA",
+  "consolidation_date": "2025-08-26T20:01:57.160329",
+  "sources_checked": [
+    "database",
+    "excel"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "FKTA",
+      "product_data": {
+        "id": 5302,
+        "article_code": "FKTA",
+        "brand": "LYNX",
+        "year": 2026,
+        "model": "59 Ranger",
+        "package": "PRO",
+        "engine": "600 ACE",
+        "track": "154in 3900mm 1.75in 44mm PowderMax",
+        "starter": "Electric",
+        "gauge": "7.2 in. Digital Display",
+        "spring_options": "",
+        "color": "Orange / Fullmoon Silver / Black",
+        "price_fi": "16 610,00 \u20ac",
+        "metadata": "{\"source_pdf\": \"LYNX_2026_PRICE_LIST\", \"model_line\": \"59 Ranger PRO\", \"_extraction_metadata\": {\"source_pdf\": \"LYNX_2026-PRICE_LIST.pdf\", \"source_page\": 3, \"extracted_timestamp\": \"2025-08-02T23:57:41.589779\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:20",
+        "updated_at": "2025-08-02 21:12:20"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    },
+    "excel": {
+      "sku": "FKTA",
+      "excel_data": {
+        "\u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f": "https://imgm-rs.q-parser.site/m/ovtldXBsb2FkLWE5MWZmMThmNGEzOWExMjBiZmVmNGU4NTI3ZDk5YmVlLnBuZw~txbtKtCS0L3QtdGI0L3QuNC5INCy0LjQtCDQvNC-0LbQtdGCINC-0YLQu9C40YfQsNGC0YzRgdGPLiDQo9GC0L7Rh9C90Y_QudGC0LUg0L_QviDQsNGA0YLQuNC60YPQu9GDINC80L7QtNC10LvQuCDRgyDQvNC10L3QtdC00LbQtdGA0LAu:cmdiYSgzNywgNDgsIDU3LCAxLjAwKQ:cmdiYSgyNTEsIDIxMywgMCwgMC43MCk/aHR0cHM6Ly93d3cua29uZWphdGFydmlrZS5jb20vY29udGVudC91cGxvYWRzLzIwMjUvMDIvNTlSQU5HRVJQUk9fS09ORUpBVEFSVklLRTEucG5n.png",
+        "\u043d\u0430\u0437\u0432\u0430\u043d\u0438\u0435": "Lynx 59 Ranger PRO 600 ACE 2026",
+        "\u0446\u0435\u043d\u0430": "2265100",
+        "\u0432\u0430\u043b\u044e\u0442\u0430": "RUB",
+        "\u043d\u0430\u043b\u0438\u0447\u0438\u0435": "\u0414\u0430",
+        "\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f": "Verkkokauppa",
+        "\u043f\u043e\u0434\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f": "Moottorikelkat",
+        "\u0440\u0430\u0437\u0434\u0435\u043b": "LYNX \u2013 moottorikelkat",
+        "url": "https://www.konejatarvike.com/tuotevalikoima/moottorikelkat/lynx-moottorikelkat/lynx-2026/lynx-59-ranger-pro-600-ace-2026/",
+        "\u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435": "<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">59 Ranger PRO -hy\u00f6tykelkka tarjoaa vahvaa etenemiskyky\u00e4 ja mukavuutta ty\u00f6h\u00f6n ja vapaa-aikaan. Ainutlaatuinen EasyRide+ -takajousitus joustavalla jatkoper\u00e4ll\u00e4, 2F/N/R -vaihdelaatikko ja v\u00e4\u00e4nt\u00e4v\u00e4 sek\u00e4 eritt\u00e4in taloudellinen Rotax\u00ae 600 ACE -moottori ovat esimerkkej\u00e4 t\u00e4m\u00e4n moottorikelkan hy\u00f6tyominaisuuksista.</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div></div>\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<div class=\"model-option\">\n<div class=\"model-option__colors\">\n<div class=\"col-12 col-md-8 col-xl-9 trim-display\">\n<ul class=\"list-group list-group-flush\">\n<li class=\"list-group-item\">Rotax\u00ae 600 ACE -moottori</li>\n<li class=\"list-group-item\">EasyRide+ -takajousitus</li>\n<li class=\"list-group-item\">KYB 36 -iskunvaimentimet</li>\n<li class=\"list-group-item\">44 mm PowderMax -telamatto</li>\n<li class=\"list-group-item\">L\u00e4mmitett\u00e4v\u00e4 istuin, 7.2\u2033 digitaalin\u00e4ytt\u00f6, 2F/N/R -vaihteisto napista kytkett\u00e4v\u00e4ll\u00e4 peruutusvaihteella</li>\n</ul>\n<p> </p>\n<p>Huom! Hintaan lis\u00e4t\u00e4\u00e4n toimituskulut 500\u20ac</p>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<p><a class=\"link-button\" href=\"https://www.konejatarvike.com/content/uploads/2025/02/LYNX-MY26-59-Ranger-PRO-SPEC-V-A4-FIFI.pdf\" target=\"_blank\" rel=\"noopener\">tekniset tiedot</a></p>",
+        "\u0444\u0430\u0439\u043b\u044b": "https://www.konejatarvike.com/content/uploads/2025/02/LYNX-MY26-59-Ranger-PRO-SPEC-V-A4-FIFI.pdf"
+      },
+      "pricing": {},
+      "inventory": {},
+      "source_file": "C:\\Users\\maxli\\PycharmProjects\\PythonProject\\MCP\\document_repository\\pricing_data\\margin_calculations\\konejatarvike.com.xlsx",
+      "source_sheet": "Sheet1",
+      "processed_date": "2025-08-26T20:01:31.905473"
+    }
+  },
+  "conflicts": [
+    {
+      "field": "name",
+      "chosen_source": "database",
+      "chosen_value": "59 Ranger",
+      "conflicting_values": {
+        "excel": ""
+      }
+    },
+    {
+      "field": "description",
+      "chosen_source": "database",
+      "chosen_value": "LYNX 59 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.75in 44mm PowderMax. Starter: Electric. Color: Orange / Fullmoon Silver / Black",
+      "conflicting_values": {
+        "excel": ""
+      }
+    },
+    {
+      "field": "specifications",
+      "chosen_source": "database",
+      "chosen_value": {
+        "Engine": "600 ACE",
+        "Track": "154in 3900mm 1.75in 44mm PowderMax",
+        "Starter Type": "Electric",
+        "Gauge": "7.2 in. Digital Display",
+        "Color": "Orange / Fullmoon Silver / Black",
+        "Model Year": "2026",
+        "Package": "PRO"
+      },
+      "conflicting_values": {
+        "excel": {}
+      }
+    },
+    {
+      "field": "category",
+      "chosen_source": "database",
+      "chosen_value": "Snowmobile - Utility",
+      "conflicting_values": {
+        "excel": ""
+      }
+    }
+  ],
+  "confidence_score": 0.7946666666666666,
+  "completeness_score": 0.6923076923076923,
+  "consolidated_data": {
+    "name": "59 Ranger",
+    "description": "LYNX 59 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.75in 44mm PowderMax. Starter: Electric. Color: Orange / Fullmoon Silver / Black",
+    "price": "16 610,00 \u20ac",
+    "inventory": {},
+    "specifications": {
+      "Engine": "600 ACE",
+      "Track": "154in 3900mm 1.75in 44mm PowderMax",
+      "Starter Type": "Electric",
+      "Gauge": "7.2 in. Digital Display",
+      "Color": "Orange / Fullmoon Silver / Black",
+      "Model Year": "2026",
+      "Package": "PRO"
+    },
+    "category": "Snowmobile - Utility",
+    "manufacturer": "LYNX"
+  },
+  "ai_description_ready": true,
+  "ai_description_data": {
+    "sku": null,
+    "name": "59 Ranger",
+    "category": "Snowmobile - Utility",
+    "manufacturer": "LYNX",
+    "specifications": {
+      "Engine": "600 ACE",
+      "Track": "154in 3900mm 1.75in 44mm PowderMax",
+      "Starter Type": "Electric",
+      "Gauge": "7.2 in. Digital Display",
+      "Color": "Orange / Fullmoon Silver / Black",
+      "Model Year": "2026",
+      "Package": "PRO"
+    },
+    "existing_description": "LYNX 59 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.75in 44mm PowderMax. Starter: Electric. Color: Orange / Fullmoon Silver / Black",
+    "price_info": {
+      "retail_price": "16 610,00 \u20ac",
+      "cost_price": null
+    },
+    "source_descriptions": [
+      {
+        "source": "database",
+        "description": "LYNX 59 Ranger (2026). Engine: 600 ACE. Track: 154in 3900mm 1.75in 44mm PowderMax. Starter: Electric. Color: Orange / Fullmoon Silver / Black"
+      }
+    ]
+  },
+  "recommendation": "MEDIUM_CONFIDENCE - Review recommended before processing"
+}

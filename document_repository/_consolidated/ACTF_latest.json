@@ -1,0 +1,82 @@
+{
+  "sku": "ACTF",
+  "consolidation_date": "2025-08-26T19:18:54.925239",
+  "sources_checked": [
+    "database"
+  ],
+  "data_found": {
+    "database": {
+      "success": true,
+      "sku": "ACTF",
+      "product_data": {
+        "id": 5336,
+        "article_code": "ACTF",
+        "brand": "SKIDOO",
+        "year": 2026,
+        "model": "Expedition",
+        "package": "LE 24\"",
+        "engine": "900 ACE Turbo",
+        "track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+        "starter": "Electric",
+        "gauge": "4.5 in. Digital Display",
+        "spring_options": "",
+        "color": "Neo Yellow",
+        "price_fi": "20 940,00 \u20ac",
+        "metadata": "{\"source_pdf\": \"SKIDOO_2026_PRICE_LIST\", \"model_line\": \"Expedition LE 24\\\"\", \"_extraction_metadata\": {\"source_pdf\": \"SKI-DOO_2026-PRICE_LIST.pdf\", \"source_page\": 2, \"extracted_timestamp\": \"2025-08-03T00:01:54.370292\", \"extraction_method\": \"chunked\"}}",
+        "created_at": "2025-08-02 21:12:20",
+        "updated_at": "2025-08-02 21:12:20"
+      },
+      "data_completeness": 0.0,
+      "source_tables": [
+        "articles"
+      ]
+    }
+  },
+  "conflicts": [],
+  "confidence_score": 0.6613333333333332,
+  "completeness_score": 0.6923076923076923,
+  "consolidated_data": {
+    "name": "Expedition",
+    "description": "SKIDOO Expedition (2026). Engine: 900 ACE Turbo. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Neo Yellow",
+    "price": "20 940,00 \u20ac",
+    "specifications": {
+      "Engine": "900 ACE Turbo",
+      "Track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric",
+      "Gauge": "4.5 in. Digital Display",
+      "Color": "Neo Yellow",
+      "Model Year": "2026",
+      "Package": "LE 24\""
+    },
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO"
+  },
+  "ai_description_ready": true,
+  "ai_description_data": {
+    "sku": null,
+    "name": "Expedition",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "900 ACE Turbo",
+      "Track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric",
+      "Gauge": "4.5 in. Digital Display",
+      "Color": "Neo Yellow",
+      "Model Year": "2026",
+      "Package": "LE 24\""
+    },
+    "existing_description": "SKIDOO Expedition (2026). Engine: 900 ACE Turbo. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Neo Yellow",
+    "price_info": {
+      "retail_price": "20 940,00 \u20ac",
+      "cost_price": null
+    },
+    "source_descriptions": [
+      {
+        "source": "database",
+        "description": "SKIDOO Expedition (2026). Engine: 900 ACE Turbo. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Neo Yellow"
+      }
+    ]
+  },
+  "recommendation": "MEDIUM_CONFIDENCE - Review recommended before processing"
+}

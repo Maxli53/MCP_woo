@@ -1,0 +1,31 @@
+{
+  "sku": "AATD",
+  "generated_description": "Create an engaging marketing description for Expedition (SKU: AATD).\n\nKey Information:\n- Category: Snowmobile - Touring\n- Manufacturer: SKIDOO\n- Key Features: Engine: 900 ACE; Track: 154in 3900mm 1.5in 38mm Crosscut; Starter Type: Electric; Gauge: 4.5 in. Digital Display; Color: Black; Model Year: 2026; Package: LE 20\"\n- Price: 18 690,00 \u20ac\n\nWrite a compelling product description that highlights benefits and appeals to customers.",
+  "confidence_score": 1.0,
+  "template_type": "marketing",
+  "language": "en",
+  "generation_date": "2025-08-26T19:18:55.868255",
+  "source_data_quality": 0.6923076923076923,
+  "context_used": {
+    "sku": "AATD",
+    "name": "Expedition",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "900 ACE",
+      "Track": "154in 3900mm 1.5in 38mm Crosscut",
+      "Starter Type": "Electric",
+      "Gauge": "4.5 in. Digital Display",
+      "Color": "Black",
+      "Model Year": "2026",
+      "Package": "LE 20\""
+    },
+    "price": "18 690,00 \u20ac",
+    "existing_descriptions": [
+      {
+        "source": "database",
+        "text": "SKIDOO Expedition (2026). Engine: 900 ACE. Track: 154in 3900mm 1.5in 38mm Crosscut. Starter: Electric. Color: Black"
+      }
+    ]
+  }
+}

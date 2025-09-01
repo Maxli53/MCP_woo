@@ -1,0 +1,30 @@
+{
+  "sku": "LYRA",
+  "generated_description": "Create a basic product description for Rave (SKU: LYRA).\n\nProduct Details:\n- Category: Snowmobile\n- Brand: LYNX\n- Price: 5 000 \u20ac\n\nWrite a clear, concise description covering the essential product information.",
+  "confidence_score": 1.0,
+  "template_type": "auto",
+  "language": "en",
+  "generation_date": "2025-08-26T19:12:43.693859",
+  "source_data_quality": 0.6923076923076923,
+  "context_used": {
+    "sku": "LYRA",
+    "name": "Rave",
+    "category": "Snowmobile",
+    "manufacturer": "LYNX",
+    "specifications": {
+      "Engine": "120",
+      "Track": "67in 0.75in 19mm Cobra",
+      "Starter Type": "Manual Start",
+      "Color": "Viper Red",
+      "Model Year": "2024",
+      "Package": "120"
+    },
+    "price": "5 000 \u20ac",
+    "existing_descriptions": [
+      {
+        "source": "database",
+        "text": "LYNX Rave (2024). Engine: 120. Track: 67in 0.75in 19mm Cobra. Starter: Manual Start. Color: Viper Red"
+      }
+    ]
+  }
+}

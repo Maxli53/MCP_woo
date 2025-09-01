@@ -1,0 +1,30 @@
+{
+  "sku": "AASA",
+  "generated_description": "Generate a technical product description for Expedition (SKU: AASA).\n\nKey Information:\n- Category: Snowmobile - Touring\n- Manufacturer: SKIDOO\n- Specifications: Engine: 900 ACE; Track: 154in 3900mm 1.5in 38mm Cobra Silent Track; Starter Type: Electric; Color: Black; Model Year: 2025; Package: LE 20\"\n- Price: 18 210 \u20ac\n\nCreate a detailed technical description focusing on specifications and professional use cases.",
+  "confidence_score": 1.0,
+  "template_type": "technical",
+  "language": "en",
+  "generation_date": "2025-08-26T19:18:14.369285",
+  "source_data_quality": 0.6923076923076923,
+  "context_used": {
+    "sku": "AASA",
+    "name": "Expedition",
+    "category": "Snowmobile - Touring",
+    "manufacturer": "SKIDOO",
+    "specifications": {
+      "Engine": "900 ACE",
+      "Track": "154in 3900mm 1.5in 38mm Cobra Silent Track",
+      "Starter Type": "Electric",
+      "Color": "Black",
+      "Model Year": "2025",
+      "Package": "LE 20\""
+    },
+    "price": "18 210 \u20ac",
+    "existing_descriptions": [
+      {
+        "source": "database",
+        "text": "SKIDOO Expedition (2025). Engine: 900 ACE. Track: 154in 3900mm 1.5in 38mm Cobra Silent Track. Starter: Electric. Color: Black"
+      }
+    ]
+  }
+}
